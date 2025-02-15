@@ -8,7 +8,7 @@ payload:
   - DOMAIN-SUFFIX,steamusercontent.com
   - DOMAIN-SUFFIX,steamcontent.com
   - DOMAIN-SUFFIX,steamcontent.com
-  - DOMAIN-SUFFIX,steamstatic.com
+#  - DOMAIN-SUFFIX,steamstatic.com
   - DOMAIN-SUFFIX,cm.steampowered.com
   - DOMAIN-SUFFIX,steam-chat.com
   - DOMAIN-SUFFIX,oss-cn-shanghai.aliyuncs.com
