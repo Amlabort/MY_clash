@@ -1,0 +1,4 @@
+# party\data\work\ruleset
+payload:
+  - DOMAIN-SUFFIX,makima.online
+  - PROCESS-NAME,tsukimi.exe
