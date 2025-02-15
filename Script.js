@@ -23,8 +23,8 @@ const ruleProviders ={
   "Direct":      {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Direct/Direct.yaml" ,                      "path": "./ruleset/Direct.yaml"       },
   "Lan":         {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan.yaml" ,                            "path": "./ruleset/Lan.yaml"          },
   "Download":    {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Download/Download.yaml" ,                  "path": "./ruleset/Download.yaml"   },
-  "Emby":        {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/nzch1999/MY_clash/refs/heads/main/my_emby.yaml"},
-  "steamdl":     {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/nzch1999/MY_clash/refs/heads/main/steamdl.yaml"},
+  "Emby":        {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/my_emby.yaml"},
+  "steamdl":     {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/steamdl.yaml"},
   "ChinaIP":     {"behavior": "ipcidr",    "interval": 86400, "format": "yaml", "type": "http", "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaIPs/ChinaIPs_IP.yaml" ,    "path": "./ruleset/ChinaIP.yaml"      },
 };
 
