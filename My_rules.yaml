@@ -48,7 +48,7 @@ rules:
   - RULE-SET,OpenAi,OpenAi
   - RULE-SET,Emby,Emby节点
   - RULE-SET,BiliBili,哔哩哔哩
-  - RULE-SET,Bahamut,哔哩哔哩
+  - RULE-SET,Bahamut,代理
   - RULE-SET,GlobalMedia,代理
   - RULE-SET,Apple,苹果节点
   - RULE-SET,Github,代理
