@@ -12,7 +12,7 @@ proxy-groups:
   - {name: 兜底分流, type: select, proxies: [代理, DIRECT, 自动选择, 香港节点, 日本节点, 台湾节点, 美国节点, 新加坡节点], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Final.png }
 
 #节点分组
-  - {name: 负载均衡,  type: load-balance, include-all: true, interval: 300, tolerance: 50, icon: https://img.icons8.com/?size=100&id=80435&format=png&color=000000}
+  - {name: 负载均衡,  type: load-balance, include-all: true, interval: 300, tolerance: 50, strategy: round-robin, icon: https://img.icons8.com/?size=100&id=80435&format=png&color=000000}
   - {name: 自动选择, type: url-test, include-all: true, interval: 3600, tolerance: 50,  icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png }
   - {name: 香港节点, type: url-test, include-all: true, interval: 3600, tolerance: 50,  filter: "港|HK|(?i)Hong", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/HK.png }             
   - {name: 日本节点, type: url-test, include-all: true, interval: 3600, tolerance: 50,  filter: "日|东京|JP|(?i)Japan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/JP.png }
