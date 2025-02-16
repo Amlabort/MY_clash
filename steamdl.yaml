@@ -5,11 +5,13 @@ payload:
 #  - DOMAIN-SUFFIX,akamaihd.net
 #  - DOMAIN-SUFFIX,steamcommunity.com
 #  - DOMAIN-SUFFIX,store.steampowered.com
-  - DOMAIN-SUFFIX,cdn.steamstatic.com
-  - DOMAIN-SUFFIX,cdn.cloudflare.steamstatic.com
-  - DOMAIN-SUFFIX,avatars.cloudflare.steamstatic.com
+#  - DOMAIN-SUFFIX,community.cloudflare.steamstatic.com
+#  - DOMAIN-SUFFIX,cdn.cloudflare.steamstatic.com
+#  - DOMAIN-SUFFIX,avatars.cloudflare.steamstatic.com
+#  - DOMAIN-SUFFIX,shared.cloudflare.steamstatic.com
   - DOMAIN-SUFFIX,shared.steamstatic.com
-  - DOMAIN-SUFFIX,shared.cloudflare.steamstatic.com
+  - DOMAIN-SUFFIX,cdn.steamstatic.com
+  - DOMAIN-SUFFIX,cloudflare.steamstatic.com
   - DOMAIN-SUFFIX,steamstat.com
   - DOMAIN-SUFFIX,steamgames.com
   - DOMAIN-SUFFIX,steamstat.us
