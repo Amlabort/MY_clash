@@ -1,9 +1,9 @@
 # use behavior: classical  format: yaml   select: DIRECT
 payload:
-#  - DOMAIN-SUFFIX,steamcontent.com
-#  - DOMAIN-SUFFIX,akamaihd.net
-#  - DOMAIN-SUFFIX,steamcommunity.com
-#  - DOMAIN-SUFFIX,api.steampowered.com
+#  - DOMAIN-SUFFIX,steamcontent.com  直播
+#  - DOMAIN-SUFFIX,akamaihd.net   社区图片
+#  - DOMAIN-SUFFIX,steamcommunity.com  社区
+#  - DOMAIN-SUFFIX,api.steampowered.com  部分页面
   - DOMAIN,steamcdn-a.akamaihd.net
   - DOMAIN-SUFFIX,steamserver.net
   - DOMAIN-SUFFIX,store.steampowered.com
