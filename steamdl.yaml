@@ -1,6 +1,6 @@
 # use behavior: classical  format: yaml   select: DIRECT
 payload:
-  - DOMAIN-SUFFIX,steamcontent.com
+#  - DOMAIN-SUFFIX,steamcontent.com
 #  - DOMAIN-SUFFIX,akamaihd.net
 #  - DOMAIN-SUFFIX,steamcommunity.com
 #  - DOMAIN-SUFFIX,api.steampowered.com
