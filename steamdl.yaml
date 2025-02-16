@@ -1,6 +1,6 @@
 # use behavior: classical  format: yaml 
 payload:
-#  - DOMAIN-SUFFIX,steamcontent.com
+  - DOMAIN-SUFFIX,steamcontent.com
 #  - DOMAIN-SUFFIX,steamstatic.com
 #  - DOMAIN-SUFFIX,akamaihd.net
   - DOMAIN-SUFFIX,tpix.steamcontent.com
