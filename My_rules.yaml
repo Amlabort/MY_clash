@@ -1,9 +1,4 @@
 #  party\data\override
-dns:
-# steam host
-  nameserver-policy:
-    store.steampowered.com: 104.115.209.150
-
 proxy-groups:
 #分流分组
   - {name: 代理, type: select, include-all: true, proxies:[自动选择, 负载均衡, 香港节点, 日本节点, 台湾节点, 美国节点, 新加坡节点],icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Static.png }
