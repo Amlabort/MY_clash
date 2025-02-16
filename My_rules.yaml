@@ -1,5 +1,5 @@
 #  party\data\override
-dns：
+dns:
 # steam host
   nameserver-policy:
     store.steampowered.com: 104.115.209.150
