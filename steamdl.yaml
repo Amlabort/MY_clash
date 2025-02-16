@@ -1,6 +1,6 @@
 # use behavior: classical  format: yaml 
 payload:
-  - DOMAIN-SUFFIX,steamcontent.com
+#  - DOMAIN-SUFFIX,steamcontent.com
 #  - DOMAIN-SUFFIX,steamstatic.com
 #  - DOMAIN-SUFFIX,akamaihd.net
   - DOMAIN-SUFFIX,tpix.steamcontent.com
@@ -10,6 +10,10 @@ payload:
   - DOMAIN-SUFFIX,cdn.steampowered.com
   - DOMAIN-SUFFIX,steamusercontent.com
   - DOMAIN-SUFFIX,cm.steampowered.com
+  - DOMAIN-SUFFIX,api.steampowered.com
+  - DOMAIN-SUFFIX,test.steampowered.com
+  - DOMAIN-SUFFIX,crash.steampowered.com
+  - DOMAIN-SUFFIX,store.steampowered.com
   - DOMAIN-SUFFIX,steam-chat.com
   - DOMAIN-SUFFIX,oss-cn-shanghai.aliyuncs.com
   - DOMAIN-SUFFIX,st.dl.eccdnx.com
@@ -51,7 +55,6 @@ payload:
   - DOMAIN-SUFFIX,steam.cdn.slingshot.co.nz
   - DOMAIN-SUFFIX,steam.cdn.webra.ru
   - DOMAIN,steamcdn-a.akamaihd.net
-  - DOMAIN-SUFFIX,cm.steampowered.com
   - DOMAIN-SUFFIX,steamserver.net
   - IP-CIDR,45.121.184.0/24
   - IP-CIDR,103.10.124.0/23
