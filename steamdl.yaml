@@ -9,6 +9,7 @@ payload:
 #  - DOMAIN-SUFFIX,cdn.cloudflare.steamstatic.com
 #  - DOMAIN-SUFFIX,avatars.cloudflare.steamstatic.com
 #  - DOMAIN-SUFFIX,shared.cloudflare.steamstatic.com
+#  - DOMAIN-SUFFIX,api.steampowered.com
   - DOMAIN-SUFFIX,shared.steamstatic.com
   - DOMAIN-SUFFIX,cdn.steamstatic.com
   - DOMAIN-SUFFIX,cloudflare.steamstatic.com
@@ -18,7 +19,6 @@ payload:
   - DOMAIN-SUFFIX,cdn.steampowered.com
   - DOMAIN-SUFFIX,steamusercontent.com
   - DOMAIN-SUFFIX,cm.steampowered.com
-  - DOMAIN-SUFFIX,api.steampowered.com
   - DOMAIN-SUFFIX,test.steampowered.com
   - DOMAIN-SUFFIX,crash.steampowered.com
   - DOMAIN-SUFFIX,steam-chat.com
