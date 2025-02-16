@@ -1,14 +1,11 @@
 # use behavior: classical  format: yaml   select: DIRECT
 payload:
-#  - DOMAIN-SUFFIX,steamcontent.com
-#  - DOMAIN-SUFFIX,steamstatic.com
+  - DOMAIN-SUFFIX,steamcontent.com
 #  - DOMAIN-SUFFIX,akamaihd.net
 #  - DOMAIN-SUFFIX,steamcommunity.com
-#  - DOMAIN-SUFFIX,community.cloudflare.steamstatic.com
-#  - DOMAIN-SUFFIX,cdn.cloudflare.steamstatic.com
-#  - DOMAIN-SUFFIX,avatars.cloudflare.steamstatic.com
-#  - DOMAIN-SUFFIX,shared.cloudflare.steamstatic.com
 #  - DOMAIN-SUFFIX,api.steampowered.com
+  - DOMAIN,steamcdn-a.akamaihd.net
+  - DOMAIN-SUFFIX,steamserver.net
   - DOMAIN-SUFFIX,store.steampowered.com
   - DOMAIN-SUFFIX,shared.steamstatic.com
   - DOMAIN-SUFFIX,cdn.steamstatic.com
@@ -61,8 +58,6 @@ payload:
   - DOMAIN-SUFFIX,steam.cdn.orcon.net.nz
   - DOMAIN-SUFFIX,steam.cdn.slingshot.co.nz
   - DOMAIN-SUFFIX,steam.cdn.webra.ru
-  - DOMAIN,steamcdn-a.akamaihd.net
-  - DOMAIN-SUFFIX,steamserver.net
   - IP-CIDR,45.121.184.0/24
   - IP-CIDR,103.10.124.0/23
   - IP-CIDR,103.28.54.0/24
