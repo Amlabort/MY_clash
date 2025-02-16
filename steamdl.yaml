@@ -4,7 +4,7 @@ payload:
 #  - DOMAIN-SUFFIX,akamaihd.net   社区图片
 #  - DOMAIN-SUFFIX,steamcommunity.com  社区
 #  - DOMAIN-SUFFIX,api.steampowered.com  部分页面
-  - DOMAIN,store.steampowered.com  #商店主页
+#  - DOMAIN,store.steampowered.com  商店主页
   - DOMAIN,steamcdn-a.akamaihd.net
   - DOMAIN-SUFFIX,steamserver.net
   - DOMAIN-SUFFIX,shared.steamstatic.com
