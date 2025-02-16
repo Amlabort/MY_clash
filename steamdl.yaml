@@ -5,8 +5,8 @@ payload:
 #  - DOMAIN-SUFFIX,steamcommunity.com  社区
 #  - DOMAIN-SUFFIX,api.steampowered.com  部分页面
   - DOMAIN,steamcdn-a.akamaihd.net
+  - DOMAIN,store.steampowered.com
   - DOMAIN-SUFFIX,steamserver.net
-  - DOMAIN-SUFFIX,store.steampowered.com
   - DOMAIN-SUFFIX,shared.steamstatic.com
   - DOMAIN-SUFFIX,cdn.steamstatic.com
   - DOMAIN-SUFFIX,cloudflare.steamstatic.com
