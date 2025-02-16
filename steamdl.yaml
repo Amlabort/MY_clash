@@ -4,6 +4,7 @@ payload:
 #  - DOMAIN-SUFFIX,steamstatic.com
 #  - DOMAIN-SUFFIX,akamaihd.net
 #  - DOMAIN-SUFFIX,steamcommunity.com
+#  - DOMAIN-SUFFIX,store.steampowered.com
   - DOMAIN-SUFFIX,cdn.steamstatic.com
   - DOMAIN-SUFFIX,shared.steamstatic.com
   - DOMAIN-SUFFIX,steamstat.com
@@ -15,7 +16,6 @@ payload:
   - DOMAIN-SUFFIX,api.steampowered.com
   - DOMAIN-SUFFIX,test.steampowered.com
   - DOMAIN-SUFFIX,crash.steampowered.com
-  - DOMAIN-SUFFIX,store.steampowered.com
   - DOMAIN-SUFFIX,steam-chat.com
   - DOMAIN-SUFFIX,oss-cn-shanghai.aliyuncs.com
   - DOMAIN-SUFFIX,st.dl.eccdnx.com
