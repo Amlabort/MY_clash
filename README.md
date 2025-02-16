@@ -7,6 +7,7 @@ steam控制台:
 Steam://nav/console
 ```
 使用方法：
+
 mihomo party: 左侧菜单栏点击【覆写】，然后将下面链接复制粘贴进顶栏，点击导入，完成。
 ```
 https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/My_rules.yaml
