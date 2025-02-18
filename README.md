@@ -4,6 +4,8 @@
 
 小火箭conf说明：https://github.com/Johnshall/Shadowrocket-ADBlock-Rules-Forever/blob/release/lazy.conf
 
+小火箭模块地址：https://github.com/deezertidal/shadowrocket-rules
+
 steam控制台:
 ```
 Steam://nav/console
