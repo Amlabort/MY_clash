@@ -2,7 +2,7 @@
 
 分流规则集：https://github.com/blackmatrix7/ios_rule_script/blob/master/rule/Clash/README.md
 
-小火箭conf说明：https://github.com/GMOogway/shadowrocket-rules/blob/master/docs/01.shadowrocket_configure.md
+小火箭conf说明：https://github.com/Johnshall/Shadowrocket-ADBlock-Rules-Forever/blob/release/lazy.conf
 
 steam控制台:
 ```
