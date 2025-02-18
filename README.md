@@ -18,3 +18,8 @@ https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/My_rules.yam
 ```
 
 clash verge:  左侧菜单栏点击【订阅】，右键【全局扩展脚本】，编辑文件，然后把上面【Script.js】文件中的内容复制粘贴进去，点击保存即可。
+
+小火箭复制以下链接导入配置文件
+```
+https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/MY_rocket.conf
+```
