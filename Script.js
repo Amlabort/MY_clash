@@ -30,8 +30,8 @@ const ruleProviders ={
 };
 
 const rules=[
- "RULE-SET,steamdl,steam下载",
  "RULE-SET,AdBlock,AdBlock",
+ "RULE-SET,steamdl,steam下载",
  "RULE-SET,OpenAi,OpenAi",
  "RULE-SET,Emby,Emby节点",
  "RULE-SET,BiliBili,哔哩哔哩",
