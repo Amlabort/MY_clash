@@ -30,7 +30,7 @@ const ruleProviders ={
 };
 
 const rules=[
- "DOMAIN-SUFFIX,download.nvidia.com,DIRECT"
+ "DOMAIN-SUFFIX,download.nvidia.com,DIRECT",
  "RULE-SET,AdBlock,AdBlock",
  "RULE-SET,steamdl,steam下载",
  "RULE-SET,OpenAi,OpenAi",
