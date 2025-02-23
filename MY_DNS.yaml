@@ -1,7 +1,7 @@
 dns:
   enable: true
   prefer-h3: true
-  listen: 127.0.0.1:53
+  listen: 127.0.0.1:1053
   ipv6: true
   enhanced-mode: fake-ip
   fake-ip-range: 10.123.0.0/16
