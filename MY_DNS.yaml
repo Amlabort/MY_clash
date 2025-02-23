@@ -30,9 +30,10 @@ dns:
   fallback:
     - https://doh.dns.sb/dns-query
     - https://dns.cloudflare.com/dns-query
-    - https://dns.quad9.net/dns-query  # Quad9 DoH
-    - https://doh.opendns.com/dns-query  # OpenDNS DoH
+    - https://dns.twnic.tw/dns-query
+    - https://doh.opendns.com/dns-query
     - https://101.101.101.101/dns-query
+    - tls://8.8.4.4:853
   fallback-filter:
     geoip: true  # 使用 GeoIP 规则过滤 DNS
     geoip-code: CN  # 仅解析中国大陆站点
