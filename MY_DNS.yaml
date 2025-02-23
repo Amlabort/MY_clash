@@ -38,6 +38,7 @@ dns:
     geoip-code: CN  # 仅解析中国大陆站点
     ipcidr:
       - 240.0.0.0/4  # 排除保留地址
+      - 0.0.0.0/32
     domain:
       - '+.google.com'
       - '+.facebook.com'
