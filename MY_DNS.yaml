@@ -2,6 +2,7 @@ dns:
   enable: true
   prefer-h3: true
   ipv6: true
+  listen: 0.0.0.0:53
   enhanced-mode: fake-ip
   fake-ip-range: 10.123.0.0/16
   fake-ip-filter-mode: blacklist
@@ -14,3 +15,30 @@ dns:
   use-system-hosts: true
   direct-nameserver:
     - system
+    
+#域名服务器配置
+  default-nameserver:
+    - 223.5.5.5   # 阿里 DNS
+    - 119.29.29.29  # 腾讯 DNS
+    - 1.1.1.1   # Cloudflare DNS
+    - 8.8.8.8   # Google DNS
+  nameserver:
+    - tls://8.8.8.8:853  # Google DoT
+    - tls://1.1.1.1:853  # Cloudflare DoT
+    - https://1.1.1.1/dns-query  # Cloudflare DoH
+    - https://dns.google/dns-query  # Google DoH
+  fallback:
+    - tls://dot.tiar.app  # DNS over TLS (DoT)
+    - tls://dns.adguard.com  # AdGuard DoT
+    - https://dns.quad9.net/dns-query  # Quad9 DoH
+    - https://doh.opendns.com/dns-query  # OpenDNS DoH
+  fallback-filter:
+    geoip: true  # 使用 GeoIP 规则过滤 DNS
+    geoip-code: CN  # 仅解析中国大陆站点
+    ipcidr:
+      - 240.0.0.0/4  # 排除保留地址
+    domain:
+      - '+.google.com'
+      - '+.facebook.com'
+      - '+.twitter.com'
+      - '+.youtube.com'
