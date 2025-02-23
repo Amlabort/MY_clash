@@ -14,6 +14,9 @@ dns:
   use-hosts: true
   use-system-hosts: true
   respect-rules: true
+  nameserver:
+    - 119.29.29.29
+    - 223.5.5.5
   direct-nameserver:
     - system
   proxy-server-nameserver: 
