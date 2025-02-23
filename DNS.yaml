@@ -1,0 +1,22 @@
+dns:
+  enable: true
+  prefer-h3: true
+  listen: 0.0.0.0:1053
+  ipv6: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 10.123.0.0/16
+  fake-ip-filter-mode: blacklist
+  fake-ip-filter:
+    - '+.local'
+    - '+.lan'
+    - '*'
+  use-hosts: true
+  use-system-hosts: true
+  respect-rules: true
+  direct-nameserver:
+    - system
+  proxy-server-nameserver: 
+    - https://doh.pub/dns-query
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+    - https://223.5.5.5/dns-query
