@@ -10,6 +10,7 @@ dns:
     - '+.local'
     - '+.lan'
     - '*'
+    - '+.battle.net'
   use-hosts: true
   use-system-hosts: true
   respect-rules: true
