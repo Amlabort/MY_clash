@@ -26,7 +26,7 @@ const ruleProviders ={
   "Emby":        {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/my_emby.yaml",                                          "path": "./ruleset/my_emby.yaml"},
   "steamdl":     {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/steamdl.yaml",                                          "path": "./ruleset/steamdl.yaml"},
   "ChinaIP":     {"behavior": "ipcidr",    "interval": 86400, "format": "yaml", "type": "http", "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaIPs/ChinaIPs_IP.yaml" ,    "path": "./ruleset/ChinaIP.yaml"      },
-  "ChinaMAX":    {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml" ,        "path": "./ruleset/ChinaMAX.yaml"      },
+  "chinamax":    {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml" ,        "path": "./ruleset/ChinaMAX.yaml"      },
 };
 
 const rules=[
@@ -50,7 +50,7 @@ const rules=[
  "RULE-SET,Direct,DIRECT",
  "RULE-SET,Lan,DIRECT",
  "RULE-SET,Download,DIRECT",
- "RULE-SET,ChinaMAX,DIRECT",
+ "RULE-SET,chinamax,DIRECT",
  "GEOIP,CN,DIRECT",
  "MATCH,兜底分流",
 ];
