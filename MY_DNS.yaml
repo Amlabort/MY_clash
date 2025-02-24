@@ -9,10 +9,9 @@ dns:
   fake-ip-filter:
     - '+.local'
     - '+.lan'
-    - '*'
     - '+.battle.net'
   use-hosts: true
-  use-system-hosts: true
+  use-system-hosts: false
   direct-nameserver:
     - system
     
@@ -30,7 +29,7 @@ dns:
     - https://0ms.dev/dns-query
     - https://doh.opendns.com/dns-query
     - https://101.101.101.101/dns-query
-    - tls://8.8.4.4:853
+    - https://dns.google/dns-query
   fallback-filter:
     geoip: true  # 使用 GeoIP 规则过滤 DNS
     geoip-code: CN  # 仅解析中国大陆站点
@@ -39,6 +38,7 @@ dns:
     ipcidr:
       - 240.0.0.0/4  # 排除保留地址
       - 0.0.0.0/32
+      - 127.0.0.0/8  # 本机地址
     domain:
       - '+.google.com'
       - '+.facebook.com'
