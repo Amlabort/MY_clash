@@ -8,6 +8,7 @@ dns:
   fake-ip-range: 10.123.0.0/16
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
+    - '*'
     - '+.local'
     - '+.lan'
     - '+.battle.net'
