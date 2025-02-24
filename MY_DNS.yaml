@@ -1,4 +1,5 @@
 # 必须结合本项目的规则一起使用
+# 主要设置了DNS分流相关内容，不保证高可用性，视情况修改及使用
 dns:
   enable: true
   prefer-h3: true
@@ -25,7 +26,6 @@ dns:
   use-system-hosts: true
   direct-nameserver:
     - system
-
   nameserver:
     - https://doh.dns.sb/dns-query
     - https://dns.cloudflare.com/dns-query
