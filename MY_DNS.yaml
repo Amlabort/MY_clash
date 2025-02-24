@@ -4,7 +4,9 @@ dns:
   enable: true
   prefer-h3: true
   ipv6: true
-  listen: '127.0.0.1:53,[::1]:53'
+  listen: 
+    - 127.0.0.1:53
+    - '[::1]:53'
   enhanced-mode: fake-ip
   fake-ip-range: 10.123.0.0/16
   fake-ip-filter-mode: blacklist
