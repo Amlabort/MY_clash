@@ -1,6 +1,6 @@
 name: MY_SToverride
 desc: override dns and rules
-
+#geiwgx
 
 rule-providers:  #!replace
   AdBlock:
