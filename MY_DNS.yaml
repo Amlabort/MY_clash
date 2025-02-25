@@ -6,7 +6,7 @@ dns:
   ipv6: true
   listen: 127.0.0.1:53
   enhanced-mode: fake-ip
-  fake-ip-range: 10.123.0.0/16
+  fake-ip-range: 198.18.0.1/16
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
     - '*'
@@ -22,6 +22,8 @@ dns:
     - '+.apple.com'
     - '+.akamaihd.net'   # 部分 CDN
     - '+.googleapis.com' # 部分 Google 服务
+    - '+.nintendo.net'
+    - '+.nintendo.com'
   use-hosts: true
   use-system-hosts: true
   default-nameserver:
