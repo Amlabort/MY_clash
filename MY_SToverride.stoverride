@@ -4,7 +4,7 @@ desc: override dns and rules
 
 
 #节点代理组      
-proxy-groups:
+proxy-groups:#!replace
   - name: 代理
     type: select
     include-all: true
@@ -134,7 +134,7 @@ proxy-groups:
     tolerance: 50
     filter: 新|坡|SG|(?i)Singapore
     icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png
-rule-providers:
+rule-providers:#!replace
   AdBlock:
     behavior: domain
     interval: 86400
@@ -275,7 +275,7 @@ rule-providers:
     type: http
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml
     path: ./ruleset/chinamax.yaml
-rules:
+rules:#!replace
   - DOMAIN-SUFFIX,download.nvidia.com,DIRECT
   - RULE-SET,AdBlock,AdBlock
   - RULE-SET,steamdl,steam下载
