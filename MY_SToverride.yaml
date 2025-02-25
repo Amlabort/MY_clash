@@ -1,6 +1,51 @@
 name: MY_SToverride
 desc: override dns and rules
 
+dns: #!replace
+  enable: true
+  prefer-h3: true
+  ipv6: true
+  listen: 127.0.0.1:53
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter-mode: blacklist
+  fake-ip-filter:
+    - '*'
+    - '+.local'
+    - '+.lan'
+    - '+.battle.net'
+    - '+.msftncsi.com'   # Windows 网络检测
+    - '+.microsoft.com'
+    - '+.steamcontent.com'
+    - '+.xboxlive.com'
+    - '+.playstation.net'
+    - '+.icloud.com'
+    - '+.apple.com'
+    - '+.akamaihd.net'   # 部分 CDN
+    - '+.googleapis.com' # 部分 Google 服务
+    - '+.nintendo.net'
+    - '+.nintendo.com'
+  use-hosts: true
+  use-system-hosts: true
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  direct-nameserver:
+    - system
+  nameserver:
+    - https://doh.dns.sb/dns-query
+    - https://dns.cloudflare.com/dns-query
+    - https://0ms.dev/dns-query
+    - https://doh.opendns.com/dns-query
+    - https://101.101.101.101/dns-query
+    - https://dns.google/dns-query
+  nameserver-policy:
+    "rule-set:chinamax":
+      - https://223.5.5.5/dns-query#h3=true
+      - https://223.6.6.6/dns-query#h3=true
+      - https://119.29.29.29/dns-query
+      - 180.76.76.76
+
 #节点代理组      
 proxy-groups: #!replace
   - name: 代理
