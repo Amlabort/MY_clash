@@ -347,6 +347,6 @@ rules: #!replace
   - RULE-SET,Download,DIRECT
   - RULE-SET,chinamax,DIRECT
   - RULE-SET,chinamax_d,DIRECT
-  - RULE-SET,chinamax_i,DIRECT
+  - RULE-SET,chinamax_backip,DIRECT
   - GEOIP,CN,DIRECT
   - MATCH,兜底分流
