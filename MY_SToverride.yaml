@@ -42,6 +42,7 @@ dns: #!replace
     geoip: true
     geosite: CN
     ipcidr: { 240.0.0.0/4, 0.0.0.0/32 }
+    
 
 
 
