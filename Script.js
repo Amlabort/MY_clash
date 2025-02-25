@@ -25,8 +25,11 @@ const ruleProviders ={
   "Download":    {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Download/Download.yaml" ,                  "path": "./ruleset/Download.yaml"   },
   "Emby":        {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/my_emby.yaml",                                          "path": "./ruleset/my_emby.yaml"},
   "steamdl":     {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/steamdl.yaml",                                          "path": "./ruleset/steamdl.yaml"},
-  "ChinaIP":     {"behavior": "ipcidr",    "interval": 86400, "format": "yaml", "type": "http", "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaIPs/ChinaIPs_IP.yaml" ,    "path": "./ruleset/ChinaIP.yaml"      },
-  "chinamax":    {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml" ,        "path": "./ruleset/ChinaMAX.yaml"      },
+  "ChinaIP":     {"behavior": "ipcidr",    "interval": 86400, "format": "text", "type": "http", "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaIPs/ChinaIPs_IP.txt" ,    "path": "./ruleset/ChinaIP.txt"      },
+  "chinamax":    {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax.yaml" ,        "path": "./ruleset/ChinaMAX.yaml"      },
+  "chinamax_d":  {"behavior": "domain",    "interval": 86400, "format": "text", "type": "http", "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_Domain.txt" ,        "path": "./ruleset/ChinaMAXd.txt"      },
+  "chinamax_i":  {"behavior": "ipcidr",    "interval": 86400, "format": "text", "type": "http", "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_IP.txt" ,            "path": "./ruleset/ChinaMAXi.txt"      },
+
 };
 
 const rules=[
@@ -51,6 +54,8 @@ const rules=[
  "RULE-SET,Lan,DIRECT",
  "RULE-SET,Download,DIRECT",
  "RULE-SET,chinamax,DIRECT",
+ "RULE-SET,chinamax_d,DIRECT",
+ "RULE-SET,chinamax_i,DIRECT",
  "GEOIP,CN,DIRECT",
  "MATCH,兜底分流",
 ];
