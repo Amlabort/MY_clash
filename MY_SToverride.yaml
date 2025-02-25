@@ -39,11 +39,11 @@ dns: #!replace
     - https://doh.dns.sb/dns-query
     - https://dns.cloudflare.com/dns-query
   fallback-filter:
-    - geoip: true
-    - geosite: CN
-    - ipcidr: 
-      - 240.0.0.0/4
-      - 0.0.0.0/32
+    geoip: true
+    geosite: CN
+    ipcidr: 
+     - 240.0.0.0/4
+     - 0.0.0.0/32
 
 
 
