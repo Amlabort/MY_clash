@@ -24,6 +24,9 @@ dns:
     - '+.googleapis.com' # 部分 Google 服务
   use-hosts: true
   use-system-hosts: true
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
   direct-nameserver:
     - system
   nameserver:
