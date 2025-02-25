@@ -316,13 +316,13 @@ rule-providers: #!replace
     type: http
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_Domain.txt
     path: ./ruleset/chinamaxd.txt
-  chinamax_i:
+  chinamax_backip:
     behavior: ipcidr
     interval: 86400
     format: text
     type: http
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_IP.txt
-    path: ./ruleset/chinamaxi.txt
+    path: ./ruleset/chinamaxbackip.txt
 
 rules: #!replace
   - DOMAIN-SUFFIX,download.nvidia.com,DIRECT
