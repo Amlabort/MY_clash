@@ -34,9 +34,9 @@ dns:
   nameserver:
     - https://doh.dns.sb/dns-query
     - https://dns.cloudflare.com/dns-query
+    - https://101.101.101.101/dns-query
 #    - https://0ms.dev/dns-query
 #    - https://doh.opendns.com/dns-query
-#    - https://101.101.101.101/dns-query
 #    - https://dns.google/dns-query
   nameserver-policy:
     "rule-set:chinamax":
