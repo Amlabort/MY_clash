@@ -26,3 +26,9 @@ https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/MY_rules.yam
 ```
 https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/MY_rocket.conf
 ```
+
+### LOON
+复制以下链接导入【配置】➡【编辑】中的【从URL下载】
+```
+https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/MY_loon.conf
+```
