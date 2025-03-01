@@ -6,6 +6,8 @@
 
 小火箭模块地址：https://github.com/deezertidal/shadowrocket-rules
 
+LOON模块地址：https://github.com/luestr/ProxyResource
+
 steam控制台:
 ```
 Steam://nav/console
