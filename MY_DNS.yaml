@@ -33,7 +33,7 @@ dns:
     - system
   nameserver:
     - https://doh.dns.sb/dns-query
-    - https://dns.cloudflare.com/dns-query
+    - https://8.8.8.8/dns-query
     - https://101.101.101.101/dns-query
   nameserver-policy:
     "rule-set:chinamax_MAX":
