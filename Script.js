@@ -48,7 +48,6 @@ const rules=[
  "RULE-SET,Twitter,代理",
  "RULE-SET,Game,代理",
  "RULE-SET,ProxyLite,代理",
- "RULE-SET,ChinaIP,DIRECT",
  "RULE-SET,Direct,DIRECT",
  "RULE-SET,Lan,DIRECT",
  "RULE-SET,Download,DIRECT",
