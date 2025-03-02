@@ -6,6 +6,58 @@ const ruleProviderCommon = {
   "type":"http"
 };
 
+const dnsConfig = {
+  "enable": true,
+  "prefer-h3": true,
+  "ipv6": true,
+  "listen": "127.0.0.1:53",
+  "enhanced-mode": "fake-ip",
+  "fake-ip-range": "198.18.0.1/16",
+  "fake-ip-filter-mode": "blacklist",
+  "fake-ip-filter": [
+    "*",
+    "+.local",
+    "+.lan",
+    "+.battle.net",
+    "+.msftncsi.com",   // Windows 网络检测
+    "+.microsoft.com",
+    "+.steamcontent.com",
+    "+.xboxlive.com",
+    "+.playstation.net",
+    "+.icloud.com",
+    "+.apple.com",
+    "+.akamaihd.net",   // 部分 CDN
+    "+.googleapis.com", // 部分 Google 服务
+    "+.nintendo.net",
+    "+.nintendo.com"
+  ],
+  "use-hosts": true,
+  "use-system-hosts": true,
+  "default-nameserver": [
+    "223.5.5.5",
+    "119.29.29.29"
+  ],
+  "direct-nameserver": ["system"],
+  "nameserver": [
+    "https://doh.dns.sb/dns-query",
+    "https://dns.google/dns-query",
+    "https://doh.opendns.com/dns-query"
+  ],
+  "nameserver-policy": {
+    "rule-set:chinamax_MAX": [
+      "https://223.5.5.5/dns-query#h3=true",
+      "https://223.6.6.6/dns-query#h3=true"
+    ],
+    "rule-set:Emby": [
+      "https://223.5.5.5/dns-query#h3=true",
+      "https://223.6.6.6/dns-query#h3=true",
+      "https://doh.dns.sb/dns-query",
+      "https://dns.google/dns-query"
+    ]
+  }
+};
+
+
 const ruleProviders ={
   "AdBlock":     { "behavior": "domain","interval": 86400, "format": "text", "type": "http", "url": "https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules_domainset.txt" ,"path": "./ruleset/anti-ad-clash.txt" },
   "OpenAi":      {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml" ,                      "path": "./ruleset/OpenAi.yaml"       },
@@ -90,6 +142,7 @@ function main(params){
     {"name": "新加坡节点", "type": "url-test", "include-all": true,...groupBase,  "filter": "新|坡|SG|(?i)Singapore", "icon": "https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png" },
 
   ]
+  //params['dns']= dnsConfig
   params['proxy-groups'] = groups
   params['rules'] = rules
   params['rule-providers'] = ruleProviders
