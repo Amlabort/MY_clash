@@ -29,11 +29,11 @@ dns:
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
+  direct-nameserver:
+    - system
   proxy-server-nameserver:
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
-  direct-nameserver:
-    - system
   nameserver:
     - https://doh.dns.sb/dns-query
     - https://dns.google/dns-query
