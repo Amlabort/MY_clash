@@ -38,6 +38,10 @@ const dnsConfig = {
     "119.29.29.29"
   ],
   "direct-nameserver": ["system"],
+  "proxy-server-nameserver":[
+    "https://doh.pub/dns-query",
+    "https://dns.alidns.com/dns-query"
+    ],
   "nameserver": [
     "https://doh.dns.sb/dns-query",
     "https://dns.google/dns-query",
