@@ -85,12 +85,13 @@ const ruleProviders ={
   "chinamax_d":  {"behavior": "domain",    "interval": 86400, "format": "text", "type": "http", "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_Domain.txt" ,        "path": "./ruleset/ChinaMAXd.txt"      },
   "chinamax_i":  {"behavior": "ipcidr",    "interval": 86400, "format": "text", "type": "http", "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_IP.txt" ,            "path": "./ruleset/ChinaMAXi.txt"      },
   "chinamax_MAX": {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml" ,        "path": "./ruleset/ChinaMAX_cl.yaml"      },
+  "mydirect":    {"behavior": "domain",    "interval": 86400, "format": "text", "type": "http", "url": "https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/MY_DIRECT.txt", "path": "./ruleset/mydirect.txt" },
 };
 
 const rules=[
- "DOMAIN-SUFFIX,download.nvidia.com,DIRECT",
  "RULE-SET,AdBlock,AdBlock",
  "RULE-SET,steamdl,steam下载",
+ "RULE-SET,mydirect,DIRECT",
  "RULE-SET,OpenAi,OpenAi",
  "RULE-SET,Emby,Emby节点",
  "RULE-SET,BiliBili,哔哩哔哩",
