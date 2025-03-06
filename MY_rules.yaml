@@ -1,6 +1,6 @@
 #  party\data\override
 proxy-groups:
-#分流分组
+#策略组
   - {name: 代理, type: select, include-all: true, proxies:[自动选择, 负载均衡, 香港节点, 日本节点, 台湾节点, 美国节点, 新加坡节点],icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Static.png }
   - {name: 苹果节点, type: select, proxies: [DIRECT, 代理, 香港节点, 日本节点, 台湾节点, 美国节点, 新加坡节点], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple.png }
   - {name: 微软节点, type: select, proxies: [DIRECT, 代理, 香港节点, 日本节点, 台湾节点, 美国节点, 新加坡节点], icon: https://img.icons8.com/?size=100&id=22989&format=png&color=000000}
@@ -11,7 +11,7 @@ proxy-groups:
   - {name: AdBlock,  type: select, proxies: [REJECT, DIRECT], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Adblock.png }
   - {name: 兜底分流, type: select, proxies: [代理, DIRECT, 自动选择, 香港节点, 日本节点, 台湾节点, 美国节点, 新加坡节点], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Final.png }
 
-#节点分组
+#节点组
   - {name: 负载均衡,  type: load-balance, include-all: true, interval: 300, tolerance: 50, strategy: round-robin, icon: https://img.icons8.com/?size=100&id=80435&format=png&color=000000}
   - {name: 自动选择, type: url-test, include-all: true, interval: 3600, tolerance: 50,  icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png }
   - {name: 香港节点, type: url-test, include-all: true, interval: 3600, tolerance: 50,  filter: "港|HK|(?i)Hong", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/HK.png }             
@@ -20,7 +20,7 @@ proxy-groups:
   - {name: 美国节点, type: url-test, include-all: true, interval: 3600, tolerance: 50,  filter: "美|US|(?i)States|American", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png }
   - {name: 新加坡节点, type: url-test, include-all: true, interval: 3600, tolerance: 50,  filter: "新|坡|SG|(?i)Singapore", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png }
 
-# 分流规则 
+# 规则 
 rule-providers:
   AdBlock:     {behavior: domain,    interval: 86400, format: text, type: http, url: https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules_domainset.txt ,                                           path: ./ruleset/anti-ad-clash.txt }
   OpenAi:      {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml ,                      path: ./ruleset/OpenAi.yaml       }
@@ -44,8 +44,8 @@ rule-providers:
   chinamax_d:  {behavior: domain,    interval: 86400, format: text, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_Domain.txt,  path: ./ruleset/chinamaxd.txt      }
   chinamax_i:  {behavior: ipcidr,    interval: 86400, format: text, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_IP.txt,      path: ./ruleset/chinamaxi.txt      }
   chinamax_MAX: {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml, path: ./ruleset/chinamax_cl.yaml }
-  mydirect:    {behavior:domain,     interval: 86400, format: text, type: http, url: https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/MY_DIRECT.txt,                                   path: ./ruleset/mydirect.txt       }
-# 分流Policy 
+  mydirect:    {behavior: domain,     interval: 86400, format: text, type: http, url: https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/MY_DIRECT.txt,                                   path: ./ruleset/mydirect.txt       }
+
 rules:
   - RULE-SET,AdBlock,AdBlock
   - RULE-SET,steamdl,steam下载
