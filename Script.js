@@ -51,7 +51,7 @@ const dnsConfig = {
     "https://doh.opendns.com/dns-query"
   ],
   "nameserver-policy": {
-    "rule-set:chinamax_MAX, mydirect": [
+    "rule-set:chinamax_MAX,mydirect": [
       "https://223.5.5.5/dns-query#h3=true",
       "https://223.6.6.6/dns-query#h3=true"
     ],
