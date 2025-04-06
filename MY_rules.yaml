@@ -44,7 +44,7 @@ rule-providers:
   chinamax_d:  {behavior: domain,    interval: 86400, format: text, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_Domain.txt,  path: ./ruleset/chinamaxd.txt      }
   chinamax_i:  {behavior: ipcidr,    interval: 86400, format: text, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_IP.txt,      path: ./ruleset/chinamaxi.txt      }
   chinamax_MAX: {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml, path: ./ruleset/chinamax_cl.yaml }
-  mydirect:    {behavior: domain,     interval: 86400, format: text, type: http, url: https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/MY_DIRECT.txt,                                   path: ./ruleset/mydirect.txt       }
+  mydirect:    {behavior: classical,  interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/MY_DIRECT.yaml,                                   path: ./ruleset/mydirect.yaml      }
 
 rules:
   - RULE-SET,AdBlock,AdBlock
