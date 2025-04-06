@@ -1,1 +1,2 @@
 +.download.nvidia.com
++.afun.la
