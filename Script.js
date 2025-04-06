@@ -51,7 +51,7 @@ const dnsConfig = {
     "https://doh.opendns.com/dns-query"
   ],
   "nameserver-policy": {
-    "rule-set:chinamax_MAX": [
+    "rule-set:chinamax_MAX, mydirect": [
       "https://223.5.5.5/dns-query#h3=true",
       "https://223.6.6.6/dns-query#h3=true"
     ],
@@ -88,7 +88,7 @@ const ruleProviders ={
   "chinamax_d":  {"behavior": "domain",    "interval": 86400, "format": "text", "type": "http", "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_Domain.txt" ,        "path": "./ruleset/ChinaMAXd.txt"      },
   "chinamax_i":  {"behavior": "ipcidr",    "interval": 86400, "format": "text", "type": "http", "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_IP.txt" ,            "path": "./ruleset/ChinaMAXi.txt"      },
   "chinamax_MAX": {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml" ,        "path": "./ruleset/ChinaMAX_cl.yaml"      },
-  "mydirect":    {"behavior": "domain",    "interval": 86400, "format": "text", "type": "http", "url": "https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/MY_DIRECT.txt", "path": "./ruleset/mydirect.txt" },
+  "mydirect":     {...ruleProviderCommon, "url": "https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/MY_DIRECT.yaml", "path": "./ruleset/mydirect.yaml" },
 };
 
 const rules=[
