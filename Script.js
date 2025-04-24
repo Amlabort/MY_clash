@@ -47,11 +47,11 @@ const dnsConfig = {
     ],
   "nameserver": [
     //"https://doh.dns.sb/dns-query",
-    //"https://dns.google/dns-query#h3=true",
-    //"https://doh.opendns.com/dns-query",
     "https://103.121.210.210/dns-query",
+    //"https://dns.google/dns-query#h3=true",
     "https://8.8.4.4/dns-query",
     "https://8.8.8.8/dns-query",
+    //"https://doh.opendns.com/dns-query",
     "https://146.112.41.2/dns-query",
     //"https://cloudflare-dns.com/dns-query#h3=true",
     "tls://1.1.1.1",
