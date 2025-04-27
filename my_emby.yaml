@@ -3,7 +3,6 @@ payload:
   - DOMAIN-SUFFIX,emby.moe
   - DOMAIN-SUFFIX,jiashule.com
   - DOMAIN-SUFFIX,makima.online
-  - PROCESS-NAME,tsukimi.exe
   - DOMAIN,emby.enjoyit.eu.org
   - DOMAIN,emby.lcloud.wiki
   - DOMAIN,notnetflix.cos.cat
