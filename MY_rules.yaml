@@ -1,12 +1,13 @@
 #  party\data\override
 proxy-groups:
 #策略组
-  - {name: 代理, type: select, include-all: true, proxies:[自动选择, 负载均衡, 香港节点, 日本节点, 台湾节点, 美国节点, 新加坡节点],icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Static.png }
+  - {name: 代理, type: select, include-all: true, proxies: [自动选择, 负载均衡, 香港节点, 日本节点, 台湾节点, 美国节点, 新加坡节点],icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Static.png }
   - {name: 苹果节点, type: select, proxies: [DIRECT, 代理, 香港节点, 日本节点, 台湾节点, 美国节点, 新加坡节点], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple.png }
   - {name: 微软节点, type: select, proxies: [DIRECT, 代理, 香港节点, 日本节点, 台湾节点, 美国节点, 新加坡节点], icon: https://img.icons8.com/?size=100&id=22989&format=png&color=000000}
+  - {name: Emby节点, type: select, proxies: [DIRECT, 代理],  include-all: true, filter: "低|0.[0-9]+", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Emby.png }
+  - {name: Spotify节点, type: select, proxies: [DIRECT, 代理],  icon: https://img.icons8.com/?size=100&id=63316&format=png&color=000000 }
   - {name: steam下载, type: select, proxies: [DIRECT, 代理], icon: https://img.icons8.com/?size=100&id=cMLQ2oh5S3TB&format=png&color=000000 }
   - {name: 哔哩哔哩, type: select, proxies: [DIRECT, 香港节点, 台湾节点], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/bilibili.png }
-  - {name: Emby节点, type: select, proxies: [DIRECT, 代理],  include-all: true, filter: "低|0.[0-9]+", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Emby.png }
   - {name: OpenAi,   type: select, proxies: [代理,香港节点, 日本节点, 台湾节点, 美国节点, 新加坡节点], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/OpenAI.png }
   - {name: AdBlock,  type: select, proxies: [REJECT, DIRECT], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Adblock.png }
   - {name: 兜底分流, type: select, proxies: [代理, DIRECT, 自动选择, 香港节点, 日本节点, 台湾节点, 美国节点, 新加坡节点], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Final.png }
@@ -45,7 +46,8 @@ rule-providers:
   chinamax_MAX: {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml, path: ./ruleset/chinamax_cl.yaml }
   mydirect:    {behavior: classical,  interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/MY_DIRECT.yaml,                                   path: ./ruleset/mydirect.yaml      }
   myreject:    {behavior: classical,  interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/MY_REJECT.yaml,                                   path: ./ruleset/myreject.yaml      }
-
+  spotify:     {behavior: classical,  interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Spotify/Spotify.yaml,           path: ./ruleset/myreject.yaml      }
+  
 rules:
   - RULE-SET,myreject,REJECT
   - RULE-SET,AdBlock,AdBlock
@@ -55,6 +57,7 @@ rules:
   - RULE-SET,Emby,Emby节点
   - RULE-SET,BiliBili,哔哩哔哩
   - RULE-SET,Bahamut,代理
+  - RULE-SET,spotify,Spotify节点
   - RULE-SET,GlobalMedia,代理
   - RULE-SET,Apple,苹果节点
   - RULE-SET,Github,代理
