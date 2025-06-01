@@ -12,6 +12,11 @@ steam控制台:
 ```
 Steam://nav/console
 ```
+windows spotify去广告:
+管理员打开powershell
+```
+iex "& { $(iwr -useb 'https://raw.githubusercontent.com/SpotX-Official/spotx-official.github.io/main/run.ps1') } -new_theme"
+```
 ## 使用方法(需要挂代理)
 
 ### mihomo party
