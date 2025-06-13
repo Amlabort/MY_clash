@@ -61,7 +61,7 @@ const dnsConfig = {
       "https://223.5.5.5/dns-query#h3=true",
       "https://223.6.6.6/dns-query#h3=true"
     ],
-    "rule-set:Emby": [
+    "rule-set:Emby,Apple": [
       "https://223.5.5.5/dns-query#h3=true",
       "https://223.6.6.6/dns-query#h3=true",
       "https://doh.dns.sb/dns-query",
