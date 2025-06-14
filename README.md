@@ -17,7 +17,7 @@ windows spotify去广告:
 ```
 iex "& { $(iwr -useb 'https://raw.githubusercontent.com/SpotX-Official/spotx-official.github.io/main/run.ps1') } -new_theme"
 ```
-mac os spotify去广告:终端输入
+mac os spotify去广告: 终端输入
 ```
 bash <(curl -sSL https://spotx-official.github.io/run.sh)
 ```
