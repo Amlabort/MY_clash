@@ -17,6 +17,11 @@ windows spotify去广告:
 ```
 iex "& { $(iwr -useb 'https://raw.githubusercontent.com/SpotX-Official/spotx-official.github.io/main/run.ps1') } -new_theme"
 ```
+macos:
+```
+bash <(curl -sSL https://spotx-official.github.io/run.sh)
+```
+
 ## 使用方法(需要挂代理)
 
 ### mihomo party
