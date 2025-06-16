@@ -1,2 +1,3 @@
 payload:
-- DOMAIN-KEYWORD,adobe,REJECT
+#- DOMAIN-KEYWORD,adobe,REJECT
+- PROCESS-NAME-REGEX,(?i)cleanmymac
