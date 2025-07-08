@@ -2,3 +2,4 @@ payload:
 #- DOMAIN-KEYWORD,adobe,REJECT
 - PROCESS-NAME-REGEX,(?i)cleanmymac
 - PROCESS-NAME-REGEX,(?i)xmind
+- PROCESS-NAME,CCleaner64.exe
