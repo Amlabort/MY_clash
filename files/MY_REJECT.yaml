@@ -2,5 +2,6 @@ payload:
 #- DOMAIN-KEYWORD,adobe,REJECT
 - PROCESS-NAME-REGEX,(?i)cleanmymac
 - PROCESS-NAME-REGEX,(?i)xmind
-- PROCESS-NAME,CCleaner64.exe
 - PROCESS-NAME-REGEX,(?i)Typora
+- PROCESS-NAME,CCleaner64.exe
+- PROCESS-NAME,Lightroom.exe
