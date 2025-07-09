@@ -5,4 +5,4 @@ payload:
 - PROCESS-NAME-REGEX,(?i)Typora
 - PROCESS-NAME,CCleaner64.exe
 - PROCESS-NAME,Lightroom.exe
-- PROCESS-NAME,Photoshop.exe
+#- PROCESS-NAME,Photoshop.exe
