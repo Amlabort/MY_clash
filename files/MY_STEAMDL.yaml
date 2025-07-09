@@ -1,0 +1,99 @@
+# use behavior: classical  format: yaml   select: DIRECT
+payload:
+#  - DOMAIN-SUFFIX,steamcontent.com  直播
+#  - DOMAIN-SUFFIX,akamaihd.net   社区图片
+#  - DOMAIN-SUFFIX,steamcommunity.com  社区
+#  - DOMAIN-SUFFIX,api.steampowered.com  部分页面
+#  - DOMAIN,store.steampowered.com  商店主页
+  - DOMAIN,steamcdn-a.akamaihd.net
+  - DOMAIN-SUFFIX,steamserver.net
+  - DOMAIN-SUFFIX,steamstat.com
+  - DOMAIN-SUFFIX,steamgames.com
+  - DOMAIN-SUFFIX,steamstat.us
+  - DOMAIN-SUFFIX,gstore.val.manlaxy.com
+  - DOMAIN-SUFFIX,cdn.steampowered.com
+  - DOMAIN-SUFFIX,steamusercontent.com
+  - DOMAIN-SUFFIX,cm.steampowered.com
+  - DOMAIN-SUFFIX,test.steampowered.com
+  - DOMAIN-SUFFIX,crash.steampowered.com
+  - DOMAIN-SUFFIX,steam-chat.com
+  - DOMAIN-SUFFIX,oss-cn-shanghai.aliyuncs.com
+  - DOMAIN-SUFFIX,st.dl.eccdnx.com
+  - DOMAIN-SUFFIX,steampipe.steamcontent.tnkjmec.com
+  - DOMAIN-SUFFIX,st.dl.bscstorage.net
+  - DOMAIN-SUFFIX,st.dl.pinyuncloud.com
+  - DOMAIN-SUFFIX,dl.steam.clngaa.com
+  - DOMAIN-SUFFIX,cdn.mileweb.cs.steampowered.com.8686c.com
+  - DOMAIN-SUFFIX,cdn-ws.content.steamchina.com
+  - DOMAIN-SUFFIX,cdn-qc.content.steamchina.com
+  - DOMAIN-SUFFIX,cdn-ali.content.steamchina.com
+  - DOMAIN-SUFFIX,xz.pphimalayanrt.com
+  - DOMAIN-SUFFIX,edge.steam-dns.top.comcast.net
+  - DOMAIN-SUFFIX,edgecast.cdn.steampipe.steamcontent.com
+  - DOMAIN-SUFFIX,google.cdn.steampipe.steamcontent.com
+  - DOMAIN-SUFFIX,google2.cdn.steampipe.steamcontent.com
+  - DOMAIN-SUFFIX,level3.cdn.steampipe.steamcontent.com
+  - DOMAIN-SUFFIX,steam.eca.qtlglb.com
+  - DOMAIN-SUFFIX,steam.naeu.qtlglb.com
+  - DOMAIN-SUFFIX,steam.ru.qtlglb.com
+  - DOMAIN-SUFFIX,steam.apac.qtlglb.com
+  - DOMAIN-SUFFIX,steampipe-kr.akamaized.net
+  - DOMAIN-SUFFIX,steampipe-partner.akamaized.net
+  - DOMAIN-SUFFIX,steampipe.akamaized.net
+  - DOMAIN-SUFFIX,f3b7q2p3.ssl.hwcdn.net
+  - DOMAIN-SUFFIX,telus.cdn.steampipe.steamcontent.com
+  - DOMAIN-SUFFIX,steam.cdn.on.net
+  - DOMAIN-SUFFIX,steam.cdn.orcon.net.nz
+  - DOMAIN-SUFFIX,steam.cdn.slingshot.co.nz
+  - DOMAIN-SUFFIX,steam.cdn.webra.ru
+  - DOMAIN-SUFFIX,steam.apac.qtlglb.com
+  - DOMAIN-SUFFIX,steampipe-kr.akamaized.net
+  - DOMAIN-SUFFIX,steampipe-partner.akamaized.net
+  - DOMAIN-SUFFIX,steampipe.akamaized.net
+  - DOMAIN-SUFFIX,f3b7q2p3.ssl.hwcdn.net
+  - DOMAIN-SUFFIX,telus.cdn.steampipe.steamcontent.com
+  - DOMAIN-SUFFIX,steam.cdn.on.net
+  - DOMAIN-SUFFIX,steam.cdn.orcon.net.nz
+  - DOMAIN-SUFFIX,steam.cdn.slingshot.co.nz
+  - DOMAIN-SUFFIX,steam.cdn.webra.ru
+  - IP-CIDR,45.121.184.0/24
+  - IP-CIDR,103.10.124.0/23
+  - IP-CIDR,103.28.54.0/24
+  - IP-CIDR,146.66.152.0/24
+  - IP-CIDR,146.66.155.0/24
+  - IP-CIDR,153.254.86.0/24
+  - IP-CIDR,155.133.224.0/22
+  - IP-CIDR,155.133.230.0/24
+  - IP-CIDR,155.133.232.0/23
+  - IP-CIDR,155.133.234.0/24
+  - IP-CIDR,155.133.236.0/22
+  - IP-CIDR,155.133.240.0/23
+  - IP-CIDR,155.133.244.0/23
+  - IP-CIDR,155.133.246.0/24
+  - IP-CIDR,155.133.248.0/21
+  - IP-CIDR,162.254.192.0/21
+  - IP-CIDR,185.25.182.0/23
+  - IP-CIDR,190.217.32.0/22
+  - IP-CIDR,192.69.96.0/22
+  - IP-CIDR,205.196.6.0/24
+  - IP-CIDR,208.64.200.0/22
+  - IP-CIDR,208.78.164.0/22
+  - IP-CIDR,205.185.194.0/24
+
+
+#下面是EPIC
+  - DOMAIN-SUFFIX,battlebreakers.com
+  - DOMAIN-SUFFIX,eac-cdn.com
+  - DOMAIN-SUFFIX,easy.ac
+  - DOMAIN-SUFFIX,easyanticheat.net
+  - DOMAIN-SUFFIX,epicgames.com
+  - DOMAIN-SUFFIX,epicgames.dev
+  - DOMAIN-SUFFIX,fortnite.com
+  - DOMAIN-SUFFIX,helpshift.com
+  - DOMAIN-SUFFIX,paragon.com
+  - DOMAIN-SUFFIX,playparagon.com
+  - DOMAIN-SUFFIX,roborecall.com
+  - DOMAIN-SUFFIX,shadowcomplex.com
+  - DOMAIN-SUFFIX,spyjinx.com
+  - DOMAIN-SUFFIX,unrealengine.com
+  - DOMAIN-SUFFIX,unrealtournament.com
