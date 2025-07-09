@@ -1,4 +1,0 @@
-# party\data\work\ruleset
-payload:
-- PROCESS-NAME-REGEX,(?i)Tsukimi
-- PROCESS-NAME-REGEX,(?i)yybx
