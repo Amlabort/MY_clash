@@ -1,4 +1,5 @@
 payload:
 - DOMAIN-SUFFIX,download.nvidia.com
+- DOMAIN-KEYWORD,touchgal
 #- PROCESS-NAME,EpicGamesLauncher.exe
 - PROCESS-NAME,Ficket.exe
