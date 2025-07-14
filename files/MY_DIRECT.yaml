@@ -1,5 +1,7 @@
 payload:
 - DOMAIN-SUFFIX,download.nvidia.com
+- PROCESS-NAME,Ficket.exe
+#- PROCESS-NAME,EpicGamesLauncher.exe
 
 - DOMAIN-SUFFIX,mdghhsgc4iiy.com #黑木耳
 - DOMAIN-SUFFIX,tyyszywvod5.com #天涯
@@ -12,6 +14,5 @@ payload:
 - DOMAIN-SUFFIX,p.jisuts.com #极速
 
 - DOMAIN-KEYWORD,touchgal
-#- PROCESS-NAME,EpicGamesLauncher.exe
-- PROCESS-NAME,Ficket.exe
-#####
+
+
