@@ -5,7 +5,6 @@ payload:
 - DOMAIN-SUFFIX,tyyszywvod5.com #天涯
 - DOMAIN-SUFFIX,vod.360zyx.vip #360
 - DOMAIN-SUFFIX,c1.rrcdnbf6.com #暴风
-- DOMAIN-SUFFIX,vercel.app
 
 - DOMAIN-KEYWORD,touchgal
 #- PROCESS-NAME,EpicGamesLauncher.exe
