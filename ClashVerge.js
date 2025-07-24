@@ -131,6 +131,7 @@ const rules = [
 const groupBase = {
   "interval": 300,
   "timeout": 3000,
+  "tolerance": 20,
   "lazy": true,
   "max-failed-times": 3,
 };
