@@ -1,4 +1,3 @@
-//   user\AppData\Roaming\io.github.clash-verge-rev.clash-verge-rev\profiles
 const ruleProviderCommon = {
   "behavior": "classical",
   "format": "yaml",
