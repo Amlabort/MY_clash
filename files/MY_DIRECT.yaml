@@ -3,5 +3,5 @@ payload:
 - PROCESS-NAME,Ficket.exe
 #- PROCESS-NAME,EpicGamesLauncher.exe
 - DOMAIN-KEYWORD,touchgal
-
+- DOMAIN-SUFFIX,nullbr.online
 
