@@ -1,4 +1,5 @@
-! TITLE: 番茄小说noAd
-! VERSION: 0.1
+#! TITLE: 番茄小说noAd
+#! VERSION: 0.1
 
+[Rule]
 ||*^$all,app=com.dragon.read,important
