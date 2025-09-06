@@ -3,4 +3,4 @@
 
 
 [rule]
-||*^$all,app=com.dragon.read,important
+DOMAIN-SUFFIX,*,REJECT,[app=com.dragon.read]
