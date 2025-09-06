@@ -1,6 +1,0 @@
-#!name=番茄NoAd
-#!version=0.1
-
-
-[rule]
-DOMAIN-SUFFIX,*,REJECT,[app=com.dragon.read]
