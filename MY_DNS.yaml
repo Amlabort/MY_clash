@@ -34,7 +34,7 @@ dns:
   proxy-server-nameserver:
     - 223.5.5.5
     - 119.29.29.29
-    - 8.8.8.8
+    #- 8.8.8.8
   nameserver:
     #- https://doh.dns.sb/dns-query
     - https://103.121.210.210/dns-query
@@ -49,7 +49,7 @@ dns:
     "rule-set:chinamax_MAX,mydirect":
       - https://223.5.5.5/dns-query#h3=true
       - https://223.6.6.6/dns-query#h3=true
-    "rule-set:Emby":
+    "rule-set:Emby,Apple":
       - https://223.5.5.5/dns-query#h3=true
       - https://223.6.6.6/dns-query#h3=true
       - https://doh.dns.sb/dns-query
