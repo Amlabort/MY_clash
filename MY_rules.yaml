@@ -20,7 +20,7 @@ proxy-groups:
   - {name: 台湾节点, type: url-test, include-all: true, interval: 3600, tolerance: 50,  filter: "台|湾|TW|(?i)Taiwan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/TW.png }
   - {name: 美国节点, type: url-test, include-all: true, interval: 3600, tolerance: 50,  filter: "美|US|(?i)States|American", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png }
   - {name: 新加坡节点, type: url-test, include-all: true, interval: 3600, tolerance: 50,  filter: "新|坡|SG|(?i)Singapore", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png }
-  - {name: 低倍率节点, type: url-test, include-all: true, interval: 3600, tolerance: 50,  filter: '低|0\.[0-9]+', icon: https://img.icons8.com/?size=100&id=14108&format=png&c
+  - {name: 低倍率节点, type: url-test, include-all: true, interval: 3600, tolerance: 50,  filter: '低|0\.[0-9]+', icon: https://img.icons8.com/?size=100&id=14108&format=png&c  }
 
 # 规则 
 rule-providers:
