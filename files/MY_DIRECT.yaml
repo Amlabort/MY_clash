@@ -5,3 +5,6 @@ payload:
 - DOMAIN-KEYWORD,touchgal
 - DOMAIN-SUFFIX,nullbr.online
 
+# LTV播放器域名
+- DOMAIN-SUFFIX,ffzyread1.com
+
