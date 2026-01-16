@@ -7,4 +7,5 @@ payload:
 
 # LTV播放器域名
 - DOMAIN-SUFFIX,ffzyread1.com
+- DOMAIN-SUFFIX,ltv-theta.vercel.app
 
