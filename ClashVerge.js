@@ -147,7 +147,7 @@ function main(params) {
     { "name": "微软节点", "type": "select", "proxies": ["DIRECT", "代理", "香港节点", "日本节点", "台湾节点", "美国节点", "新加坡节点"], "icon": "https://img.icons8.com/?size=100&id=22989&format=png&color=000000" },
     { "name": "steam下载", "type": "select", "proxies": ["DIRECT", "代理", "香港节点", "日本节点", "台湾节点", "美国节点", "新加坡节点"], "icon": "https://img.icons8.com/?size=100&id=cMLQ2oh5S3TB&format=png&color=000000" },
     { "name": "哔哩哔哩", "type": "select", "proxies": ["DIRECT", "香港节点", "台湾节点"], "icon": "https://raw.githubusercontent.com/Orz-3/mini/master/Color/bilibili.png" },
-    { "name": "Emby节点", "type": "select", "proxies": ["DIRECT", "代理", "低倍率节点", "香港节点", "日本节点", "台湾节点", "美国节点", "新加坡节点"], "icon": "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Emby.png" },
+    { "name": "Emby节点", "type": "select", "proxies": ["DIRECT", "代理", "低倍率节点", "香港节点", "日本节点", "台湾节点", "美国节点", "新加坡节点"], "include-all": true, "filter": "低|(^|[^0-9])0\.[0-9]+", "icon": "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Emby.png" },
     { "name": "Spotify节点", "type": "select", "proxies": ["DIRECT", "代理", "香港节点", "日本节点", "台湾节点", "美国节点", "新加坡节点"], "icon": "https://img.icons8.com/?size=100&id=G9XXzb9XaEKX&format=png&color=000000" },
     { "name": "OpenAi", "type": "select", "proxies": ["代理", "香港节点", "日本节点", "台湾节点", "美国节点", "新加坡节点"], "icon": "https://raw.githubusercontent.com/Orz-3/mini/master/Color/OpenAI.png" },
     { "name": "AdBlock", "type": "select", "proxies": ["REJECT", "DIRECT", "代理"], "icon": "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Adblock.png" },
@@ -159,7 +159,7 @@ function main(params) {
     { "name": "台湾节点", "type": "url-test", "include-all": true, ...groupBase, "filter": "台|湾|TW|(?i)Taiwan", "icon": "https://raw.githubusercontent.com/Orz-3/mini/master/Color/TW.png" },
     { "name": "美国节点", "type": "url-test", "include-all": true, ...groupBase, "filter": "美|US|(?i)States|American", "icon": "https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png" },
     { "name": "新加坡节点", "type": "url-test", "include-all": true, ...groupBase, "filter": "新|坡|SG|(?i)Singapore", "icon": "https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png" },
-    { "name": "低倍率节点", "type": "select", "include-all": true, ...groupBase, "filter": "低|0\.[0-9]+", "icon":"https://img.icons8.com/?size=100&id=14108&format=png&color=000000"},
+ //   { "name": "低倍率节点", "type": "select", "include-all": true, ...groupBase, "filter": "低|0\.[0-9]+", "icon":"https://img.icons8.com/?size=100&id=14108&format=png&color=000000"},
   ]
   params['dns'] = dnsConfig
   params['proxy-groups'] = groups
