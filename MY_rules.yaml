@@ -48,7 +48,7 @@ rule-providers:
   chinamax_MAX: {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml, path: ./ruleset/chinamax_cl.yaml }
   mydirect:    {behavior: classical,  interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/MY_DIRECT.yaml,                                   path: ./ruleset/mydirect.yaml      }
   myreject:    {behavior: classical,  interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/MY_REJECT.yaml,                                   path: ./ruleset/myreject.yaml      }
-  spotify:     {behavior: classical,  interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Spotify/Spotify.yaml,           path: ./ruleset/myreject.yaml      }
+  spotify:     {behavior: classical,  interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Spotify/Spotify.yaml,           path: ./ruleset/spotify.yaml      }
   
 rules:
   - RULE-SET,myreject,REJECT
