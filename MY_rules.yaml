@@ -16,7 +16,7 @@ proxy-groups:
   - {name: 负载均衡,  type: load-balance, include-all: true, interval: 300, tolerance: 50, strategy: round-robin, icon: https://img.icons8.com/?size=100&id=80435&format=png&color=000000}
   - {name: 自动选择, type: url-test, include-all: true, interval: 360, tolerance: 30,  icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png }
   - {name: 香港节点, type: url-test, include-all: true, interval: 360, tolerance: 30,  filter: "港|HK|(?i)Hong", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/HK.png }             
-  - {name: 日本节点, type: url-test, include-all: true, interval: 360, tolerance: 30,  filter: "日|东京|JP|(?i)Japan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/JP.png }
+  - {name: 日本节点, type: url-test, include-all: true, interval: 360, tolerance: 30,  filter: "[^尼]日|东京|JP|(?i)Japan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/JP.png }
   - {name: 台湾节点, type: url-test, include-all: true, interval: 360, tolerance: 30,  filter: "台|湾|TW|(?i)Taiwan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/TW.png }
   - {name: 美国节点, type: url-test, include-all: true, interval: 360, tolerance: 30,  filter: "美|US|(?i)States|American", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png }
   - {name: 新加坡节点, type: url-test, include-all: true, interval: 360, tolerance: 30,  filter: "新|坡|SG|(?i)Singapore", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png }
