@@ -4,5 +4,6 @@ payload:
 #- PROCESS-NAME,EpicGamesLauncher.exe
 - DOMAIN-KEYWORD,touchgal
 - DOMAIN-SUFFIX,nullbr.online
+- PROCESS-NAME,Sims4ModManager.exe
 
 # LTV播放器域名
