@@ -47,6 +47,7 @@ rule-providers:
   chinamax_i:  {behavior: ipcidr,    interval: 86400, format: text, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_IP.txt,      path: ./ruleset/chinamaxi.txt      }
   chinamax_MAX: {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml, path: ./ruleset/chinamax_cl.yaml }
   mydirect:    {behavior: classical,  interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/MY_DIRECT.yaml,                                   path: ./ruleset/mydirect.yaml      }
+  myproxy:    {behavior: classical,  interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/MY_PROXY.yaml,                                   path: ./ruleset/myproxy.yaml      }
   myreject:    {behavior: classical,  interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/MY_REJECT.yaml,                                   path: ./ruleset/myreject.yaml      }
   spotify:     {behavior: classical,  interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Spotify/Spotify.yaml,           path: ./ruleset/spotify.yaml      }
   
@@ -55,6 +56,7 @@ rules:
   - RULE-SET,AdBlock,AdBlock
   - RULE-SET,steamdl,steam下载
   - RULE-SET,mydirect,DIRECT
+  - RULE-SET,myproxy,代理
   - RULE-SET,spotify,Spotify节点
   - RULE-SET,OpenAi,OpenAi
   - RULE-SET,Emby,Emby节点
