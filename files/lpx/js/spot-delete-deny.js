@@ -7,7 +7,7 @@ const isLogoutAction = url.includes('logout') || url.includes('revoke') || url.i
 if (isDeleteRequest || isLogoutAction) {
     console.log(`[Spotify拦截] 发现自毁请求: [${method}] ${url}`);
     
-    // 实施“降维打击”：不让请求发出去，直接给 App 返回假成功
+    // 返回假成功
     $done({
         status: 200,
         headers: {
