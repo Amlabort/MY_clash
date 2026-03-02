@@ -8,7 +8,7 @@ if (isDeleteRequest || isLogoutAction) {
     $done({
         url: "https://spclient.wg.spotify.com/blocked"
     });
-    console.log(`发送成功`);
+    
 } else {
     $done({});
 }
