@@ -12,7 +12,7 @@ AND,((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)),REJECT
 ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\/ reject-dict
 ^https:\/\/spclient\.wg\.spotify\.com\/pushka-tokens\/ reject-200
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/gabo-receiver-service\/ reject-200
-^https:\/\/.*-spclient\.spotify\.com(:443)?\/playlist\/v2\/playlist\/37i9d[a-zA-Z0-9]+$ reject-200
+^https:\/\/.*-spclient\.spotify\.com(:443)?\/playlist\/v2\/playlist\/37i9d[a-zA-Z0-9]+\/ reject-200
 
 [Mitm]
 hostname = spclient.wg.spotify.com, *spclient.spotify.com
