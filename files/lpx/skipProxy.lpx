@@ -5,6 +5,7 @@
 
 [General]
 skip-proxy = www.abchina.com.cn,mobilepaas.abchina.com.cn,+.abchina.com.cn
+real-ip = +.abchina.com.cn
 
 
 
