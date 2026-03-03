@@ -1,0 +1,15 @@
+!name=skipProxy
+!desc=用于解决部分app检测代理的情况
+!icon=https://img.icons8.com/?size=100&id=111602&format=png&color=000000
+
+
+[General]
+skip-proxy = 
++.abchina.com.cn, #农行
+
+
+
+
+
+[Rule]
+DOMAIN-SUFFIX,msmp.abchina.com.cn,REJECT
