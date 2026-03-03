@@ -4,8 +4,7 @@
 
 
 [General]
-skip-proxy = 
-+.abchina.com.cn#农行
+skip-proxy = +.abchina.com.cn,
 
 
 
