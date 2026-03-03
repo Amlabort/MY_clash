@@ -4,7 +4,8 @@
 
 
 [General]
-
+bypass-tun = 
+skip-proxy = 
 
 
 
