@@ -4,8 +4,7 @@
 
 
 [General]
-skip-proxy = www.abchina.com.cn,mobilepaas.abchina.com.cn,+.abchina.com.cn
-real-ip = +.abchina.com.cn
+skip-proxy = www.baidu.com,*.abchina.com.cn
 
 
 
