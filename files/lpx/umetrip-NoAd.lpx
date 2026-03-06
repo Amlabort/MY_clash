@@ -17,4 +17,4 @@
 hostname= *.umetrip.com
 
 [script]
-# http-response ^https:\/\/home\.umetrip\.com\/gateway\/api script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/ume-NoAd.js, tag=umeNoAd,binary-body-mode=true
+http-response ^https:\/\/home\.umetrip\.com\/gateway\/api script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/ume-NoAd.js, requires-body=true, binary-body-mode=true, tag=umeNoAd
