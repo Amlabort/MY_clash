@@ -3,4 +3,12 @@
 
 
 [rule]
-DOMAIN-SUFFIX,sns.umetrip.com,REJECT
+# DOMAIN-SUFFIX,sns.umetrip.com,REJECT
+
+
+[rewrite]
+^https:\/\/sns\.umetrip\.com\/weex reject-dict
+
+
+[mitm]
+hostname= sns.umetrip.com
