@@ -1,0 +1,6 @@
+!desc=航旅纵横去广告
+!date=260306
+
+
+[rule]
+DOMAIN-SUFFIX,sns.umetrip.com,REJECT
