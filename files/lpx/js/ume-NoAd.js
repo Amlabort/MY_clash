@@ -7,7 +7,10 @@ if (rawBody) {
     let strData = decoder.decode(rawBody);
 
     // 2. 检查广告特征
-    if (strData.includes("adBannerImg")) {
+    if (
+        strData.includes("adBannerImg")||
+        strData.includes("广告兜底服务")
+       ) {
         console.log("检测到航旅广告，正在进行高速拦截...");
 
         /** * 核心逻辑：
@@ -17,6 +20,8 @@ if (rawBody) {
         
         // 方案 A：精准爆破 JSON 里的关键布局参数（保留长度，防止 Protobuf 校验失败）
         // 匹配整个 JSON 字符串，将其替换为同等长度的空格或简减内容
+        strData = strData.replace(/广告兜底服务/g, "            ");
+        strData = strData.replace(/"adBannerImg":"[^"]+"/g, '"adBannerImg":""');
         strData = strData.replace(/\{"closeClick".*closeExpose":false\}/g, (match) => {
             // 返回一个极简的 JSON，后面用空格补齐，保持字节长度完全一致
             let replacement = '{"autoLayout":false,"effectControl":false}';
