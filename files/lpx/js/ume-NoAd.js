@@ -9,7 +9,7 @@ let body = $response.body;
 if (body && body.length > 0) {
     try {
         // 1. Loon 环境下强制解压 (确保我们处理的是明文二进制)
-        let rawData = $utils.gunzip(body);
+        let rawData = $util.gunzip(body);
         let hex = bytesToHex(rawData);
 
         // 2. 将广告指纹转为 Hex
@@ -29,7 +29,7 @@ if (body && body.length > 0) {
                 let modifiedData = hexToBytes(newHex);
 
                 // 4. 关键：必须重新压回 Gzip，否则 App 会报 -102
-                let finalBody = $utils.gzip(modifiedData);
+                let finalBody = $util.gzip(modifiedData);
                 
                 console.log(`[Loon] 成功切除广告，数据体积从 ${body.length} 优化至 ${finalBody.length}`);
                 $done({ body: finalBody });
