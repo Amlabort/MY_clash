@@ -8,6 +8,12 @@ const AD_FINGERPRINTS = [
     "dutyfreeMall"
 ];
 
+const AD_HEX_PATTERNS = AD_FINGERPRINTS.map(str => 
+    Array.from(new TextEncoder().encode(str))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('')
+);
+
 let body = $response.body;
 
 if (body && body.length > 0) {
@@ -20,41 +26,31 @@ if (body && body.length > 0) {
         for (let i = 0; i < uint8Array.length; i++) {
             hex += uint8Array[i].toString(16).padStart(2, '0');
         }
+        
+        let segments = hex.split(/(?=0a[0-9a-f]{2,4}0a)/g);
 
-        // 2. 将广告指纹转为 Hex
-        const adHex = Array.from(new TextEncoder().encode(AD_KEYWORD))
-            .map(b => b.toString(16).padStart(2, '0'))
-            .join('');
-
-        if (hex.includes(adHex)) {
-            console.log("[Loon] 成功通过二进制搜索定位指纹");
-
-            // 3. 按照 Protobuf 的分段符 0a 切分
-            // 这种方法不依赖 $util，直接操作 Hex 字符串
-            //let segments = hex.split(/(?=0a[0-9a-f]{2,6}0a)/g);
-            let segments = hex.split(/(?=0a)/g); 
-            console.log(`[Loon-UmeTrip] 细粒度解析段数: ${segments.length}`);
-            
-            let cleanSegments = segments.filter(seg => !seg.includes(adHex));
-
-            if (segments.length !== cleanSegments.length) {
-                let newHex = cleanSegments.join("");
-                
-                // 4. 将 Hex 转回 Uint8Array
-                let result = new Uint8Array(newHex.length / 2);
-                for (let i = 0; i < newHex.length; i += 2) {
-                    result[i / 2] = parseInt(newHex.substr(i, 2), 16);
-                }
-
-                console.log(`[Loon] 净化成功：切除了 ${segments.length - cleanSegments.length} 个广告块`);
-                $done({ body: result.buffer }); // 返回 buffer
-            } else {
-                $done({});
+        let cleanSegments = segments.filter(seg => {
+            // 检查当前段落是否包含指纹库里的【任何一个】
+            let isAd = AD_HEX_PATTERNS.some(pattern => seg.includes(pattern));
+            if (isAd) {
+                console.log("[Loon] 命中指纹，整块容器切除");
+                return false;
             }
+            return true;
+        });
+        
+        if (segments.length !== cleanSegments.length) {
+            let newHex = cleanSegments.join("");
+            let result = new Uint8Array(newHex.length / 2);
+            for (let i = 0; i < newHex.length; i += 2) {
+                result[i / 2] = parseInt(newHex.substr(i, 2), 16);
+            }
+            console.log(`[Loon] 净化成功：切除了 ${segments.length - cleanSegments.length} 个完整容器块`);
+            $done({ body: result.buffer });
         } else {
-            console.log("[Loon] 未发现指纹，可能是数据已被压缩或格式变动");
             $done({});
         }
+
     } catch (e) {
         console.log("[Loon] 脚本错误: " + e.message);
         $done({});
