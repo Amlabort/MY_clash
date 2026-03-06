@@ -8,7 +8,7 @@
 
 
 [rewrite]
-^https:\/\/oss\.umetrip\.com\/fs reject-dict
+^https:\/\/oss\.umetrip\.com\/fs\/advert reject   #去开屏广告
 
 
 [mitm]
