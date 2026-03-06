@@ -11,10 +11,10 @@
 ^https:\/\/oss\.umetrip\.com\/fs\/advert\/polite reject   #去开屏广告
 ^https:\/\/oss\.umetrip\.com\/fs\/pos reject
 ^https:\/\/oss\.umetrip\.com\/fs\/mall reject
-^https:\/\/(startup|discardrp)\.umetrip\.com\/gateway reject-dict
+^https:\/\/(startup|discardrp|home)\.umetrip\.com\/gateway reject-dict
 
 [mitm]
 hostname= *.umetrip.com
 
 [script]
-http-response ^https:\/\/home\.umetrip\.com\/gateway\/api script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/ume-NoAd.js, requires-body=true, binary-body-mode=true, tag=umeNoAd
+#http-response ^https:\/\/home\.umetrip\.com\/gateway\/api script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/ume-NoAd.js, requires-body=true, binary-body-mode=true, tag=umeNoAd
