@@ -1,64 +1,58 @@
 /*
- * 航旅纵横首页净化 - Loon 终极无损版
+ * 航旅纵横首页净化 - 零依赖版 (兼容 Loon)
  */
 
-const AD_KEYWORD = "noTripDutyFreeCard"; // 广告指纹
+const AD_KEYWORD = "noTripDutyFreeCard"; 
 
 let body = $response.body;
 
 if (body && body.length > 0) {
     try {
-        // 1. Loon 环境下强制解压 (确保我们处理的是明文二进制)
-        let rawData = $util.gunzip(body);
-        let hex = bytesToHex(rawData);
+        // 直接将 body 处理为 Uint8Array
+        let uint8Array = new Uint8Array(body);
+        
+        // 1. 将二进制转为 Hex 字符串
+        let hex = "";
+        for (let i = 0; i < uint8Array.length; i++) {
+            hex += uint8Array[i].toString(16).padStart(2, '0');
+        }
 
         // 2. 将广告指纹转为 Hex
-        const adHex = stringToHex(AD_KEYWORD);
+        const adHex = Array.from(new TextEncoder().encode(AD_KEYWORD))
+            .map(b => b.toString(16).padStart(2, '0'))
+            .join('');
 
         if (hex.includes(adHex)) {
-            console.log("[Loon] 发现广告指纹，准备执行精准切除...");
+            console.log("[Loon] 成功通过二进制搜索定位指纹");
 
-            // 3. 找到广告卡片的范围
-            // 在 PB 中，卡片通常包裹在 0a 开头的结构里
-            // 我们寻找包含 adHex 的最近一个 0a...0a 区间
-            let parts = hex.split(/(?=0a[0-9a-f]{2}0a)/);
-            let cleanParts = parts.filter(p => !p.includes(adHex));
+            // 3. 按照 Protobuf 的分段符 0a 切分
+            // 这种方法不依赖 $util，直接操作 Hex 字符串
+            let segments = hex.split(/(?=0a[0-9a-f]{2}0a)/g);
+            
+            let cleanSegments = segments.filter(seg => !seg.includes(adHex));
 
-            if (parts.length !== cleanParts.length) {
-                let newHex = cleanParts.join("");
-                let modifiedData = hexToBytes(newHex);
-
-                // 4. 关键：必须重新压回 Gzip，否则 App 会报 -102
-                let finalBody = $util.gzip(modifiedData);
+            if (segments.length !== cleanSegments.length) {
+                let newHex = cleanSegments.join("");
                 
-                console.log(`[Loon] 成功切除广告，数据体积从 ${body.length} 优化至 ${finalBody.length}`);
-                $done({ body: finalBody });
+                // 4. 将 Hex 转回 Uint8Array
+                let result = new Uint8Array(newHex.length / 2);
+                for (let i = 0; i < newHex.length; i += 2) {
+                    result[i / 2] = parseInt(newHex.substr(i, 2), 16);
+                }
+
+                console.log(`[Loon] 净化成功：切除了 ${segments.length - cleanSegments.length} 个广告块`);
+                $done({ body: result.buffer }); // 返回 buffer
             } else {
                 $done({});
             }
         } else {
-            console.log("[Loon] 未发现指定广告指纹");
+            console.log("[Loon] 未发现指纹，可能是数据已被压缩或格式变动");
             $done({});
         }
     } catch (e) {
-        console.log("[Loon] 脚本执行异常: " + e);
+        console.log("[Loon] 脚本错误: " + e.message);
         $done({});
     }
 } else {
     $done({});
-}
-
-// --- 工具函数 ---
-function stringToHex(str) {
-    return Array.from(new TextEncoder().encode(str)).map(b => b.toString(16).padStart(2, '0')).join('');
-}
-function bytesToHex(bytes) {
-    return Array.from(new Uint8Array(bytes), b => b.toString(16).padStart(2, '0')).join('');
-}
-function hexToBytes(hex) {
-    let bytes = new Uint8Array(hex.length / 2);
-    for (let i = 0; i < hex.length; i += 2) {
-        bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
-    }
-    return bytes;
 }
