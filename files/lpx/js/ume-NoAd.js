@@ -1,10 +1,10 @@
 // 1. 定义广告指纹库（在这里增加新的关键字即可）
 const AD_FINGERPRINTS = [
     "noTripDutyFreeCard", // 免税店卡片
-    #"dutyfreeMall",       // 商城入口
-    #"advertisement",      // 通用广告
-    #"icon_index_ad",      // 索引位广告
-    #"bannerAd"            // 横幅广告
+    //"dutyfreeMall",       // 商城入口
+    //"advertisement",      // 通用广告
+    //"icon_index_ad",      // 索引位广告
+    //"bannerAd"            // 横幅广告
 ];
 
 // 2. 预解析为 Hex 特征码
