@@ -1,7 +1,7 @@
-!name=航旅纵横去广告
-!desc=航旅纵横去广告
-!date=260306
-!icon=https://res.cloudinary.com/daznljces/image/upload/v1772763559/gvpcw9kldmhas2rsx5it.png
+#!name=航旅纵横去广告
+#!desc=航旅纵横去广告
+#!date=260306
+#!icon=https://res.cloudinary.com/daznljces/image/upload/v1772763559/gvpcw9kldmhas2rsx5it.png
 
 [rule]
 # DOMAIN-SUFFIX,sns.umetrip.com,REJECT
