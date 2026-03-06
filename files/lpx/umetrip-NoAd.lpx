@@ -11,6 +11,8 @@
 ^https:\/\/oss\.umetrip\.com\/fs\/advert\/polite reject   #去开屏广告
 ^https:\/\/oss\.umetrip\.com\/fs\/pos reject
 ^https:\/\/oss\.umetrip\.com\/fs\/mall reject
+^https:\/\/oss\.umetrip\.com\/fs\/activity\/makeup reject
+^https:\/\/oss\.umetrip\.com\/fs\/activity\/static reject
 ^https:\/\/(startup|discardrp)\.umetrip\.com\/gateway reject-dict
 ^https?:\/\/ossgw\.alicdn\.com\/.*\/fs\/advert\/polite.* reject-dict
 ^https?:\/\/ossgw\.alicdn\.com\/.*\/fs\/advert\/.* reject-dict
