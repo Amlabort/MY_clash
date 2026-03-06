@@ -2,7 +2,11 @@
  * 航旅纵横首页净化 - 零依赖版 (兼容 Loon)
  */
 
-const AD_KEYWORD = "noTripDutyFreeCard"; 
+const AD_FINGERPRINTS = [
+    "noTripDutyFreeCard",
+    "无行程首页商城卡片", 
+    "dutyfreeMall"
+];
 
 let body = $response.body;
 
@@ -27,7 +31,9 @@ if (body && body.length > 0) {
 
             // 3. 按照 Protobuf 的分段符 0a 切分
             // 这种方法不依赖 $util，直接操作 Hex 字符串
-            let segments = hex.split(/(?=0a[0-9a-f]{2}0a)/g);
+            //let segments = hex.split(/(?=0a[0-9a-f]{2,6}0a)/g);
+            let segments = hex.split(/(?=0a)/g); 
+            console.log(`[Loon-UmeTrip] 细粒度解析段数: ${segments.length}`);
             
             let cleanSegments = segments.filter(seg => !seg.includes(adHex));
 
