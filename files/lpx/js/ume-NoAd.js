@@ -8,11 +8,12 @@ const AD_FINGERPRINTS = [
 ];
 
 // 2. 预解析为 Hex 特征码
-const AD_HEX_PATTERNS = AD_FINGERPRINTS.map(str => 
-    Array.from(new TextEncoder().encode(str))
-         .map(b => b.toString(16).padStart(2, '0'))
-         .join('')
-);
+const AD_HEX_PATTERNS = AD_FINGERPRINTS.map(str => {
+    return Array.from(new TextEncoder().encode(str))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+});
+
 
 let body = $response.body;
 
@@ -27,16 +28,17 @@ if (body) {
         let segments = hex.split(/(?=0a[0-9a-f]{2,4}0a)/g); 
         console.log(`[UmeTrip] 原始数据包含 ${segments.length} 个数据段`);
 
-        // 4. 执行多特征扫描过滤
-        let cleanSegments = segments.filter(seg => {
-            // 检查当前段是否包含任何一个广告特征码
-            let isAd = AD_HEX_PATTERNS.some(pattern => seg.includes(pattern));
-            
-            if (isAd) {
-                console.log("核心拦截：发现匹配特征码的广告块，已物理切除以塌陷布局");
-                return false; // 丢弃
-            }
-            return true; // 保留
+
+        let cleanSegments = segments.filter(segHex => {
+    // segHex 已经是十六进制字符串了 (如 "0a12...6e6f54...")
+    // 我们直接用 hex 字符串的 includes 方法
+        let isAd = AD_HEX_PATTERNS.some(pattern => segHex.includes(pattern));
+    
+        if (isAd) {
+            console.log("[UmeTrip] 发现匹配指纹，已物理切除段落");
+            return false; 
+        }
+        return true;
         });
 
         // 5. 重新封包
