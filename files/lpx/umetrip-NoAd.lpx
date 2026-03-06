@@ -8,8 +8,8 @@
 
 
 [rewrite]
-^https:\/\/oss\.umetrip\.com\/fs\/advert reject   #去开屏广告
-
+^https:\/\/oss\.umetrip\.com\/fs\/advert\/polite reject   #去开屏广告
+^https:\/\/oss\.umetrip\.com\/fs\/pos reject
 
 [mitm]
 hostname= oss.umetrip.com
