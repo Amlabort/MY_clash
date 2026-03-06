@@ -1,36 +1,60 @@
-/*
- * 航旅纵横首页去广告 - 消除空白块专用脚本
- * 目标: home.umetrip.com/gateway/api/umetrip/native
- */
+// 1. 定义广告指纹库（在这里增加新的关键字即可）
+const AD_FINGERPRINTS = [
+    "noTripDutyFreeCard", // 免税店卡片
+    #"dutyfreeMall",       // 商城入口
+    #"advertisement",      // 通用广告
+    #"icon_index_ad",      // 索引位广告
+    #"bannerAd"            // 横幅广告
+];
+
+// 2. 预解析为 Hex 特征码
+const AD_HEX_PATTERNS = AD_FINGERPRINTS.map(str => 
+    Array.from(new TextEncoder().encode(str))
+         .map(b => b.toString(16).padStart(2, '0'))
+         .join('')
+);
 
 let body = $response.body;
 
 if (body) {
-    // 航旅纵横的 PB 结构中，广告卡片通常带有特定的 Tag 标识
-    // 脚本通过识别这些标识并将其所在的 Object 置空来消除占位
-    
-    // 1. 将二进制转为 Hex 方便匹配
-    let hex = bytesToHex(body);
+    try {
+        // 解压数据
+        let rawData = $util.gunzip(body);
+        let hex = bytesToHex(rawData);
 
-    // 2. 这里的 '0a' 或特定的十六进制序列代表卡片的开始
-    // 根据 2026 年最新的 PB 结构，广告节点的特征码通常包含特定的业务 ID
-    // 我们通过将广告相关的卡片数据段替换为“空节点”或直接删除
-    
-    // 典型的广告节点特征匹配（示例，需根据实际抓包微调）
-    const adPattern = /0a[a-z0-9]{2}08[a-z0-9]{2}12(07|08)616476657274/g; // 匹配 hex 中的 'advert'
-    
-    if (adPattern.test(hex)) {
-        // 将匹配到的广告数据段替换为无效数据，或者缩小该段长度
-        hex = hex.replace(adPattern, "00000000"); 
-        console.log("航旅纵横：已精准剔除广告布局节点，消除空白块");
+        // 3. 核心切片逻辑：利用 Protobuf 的分段符 0a 进行切分
+        // 0a 是 Tag 1 (Card 列表项) 的起始标识
+        let segments = hex.split(/(?=0a[0-9a-f]{2,4}0a)/g); 
+        console.log(`[UmeTrip] 原始数据包含 ${segments.length} 个数据段`);
+
+        // 4. 执行多特征扫描过滤
+        let cleanSegments = segments.filter(seg => {
+            // 检查当前段是否包含任何一个广告特征码
+            let isAd = AD_HEX_PATTERNS.some(pattern => seg.includes(pattern));
+            
+            if (isAd) {
+                console.log("核心拦截：发现匹配特征码的广告块，已物理切除以塌陷布局");
+                return false; // 丢弃
+            }
+            return true; // 保留
+        });
+
+        // 5. 重新封包
+        let newHex = cleanSegments.join("");
+        let newRawData = hexToBytes(newHex);
+
+        console.log(`[UmeTrip] 净化完毕，剩余数据段: ${cleanSegments.length}`);
+        $done({ body: $util.gzip(newRawData) });
+
+    } catch (e) {
+        console.log("[UmeTrip] 脚本执行出错: " + e);
+        $done({});
     }
-
-    body = hexToBytes(hex);
+} else {
+    $done({});
 }
 
-$done({ body });
-
-// 辅助工具函数
+// --- 工具函数 ---
 function bytesToHex(bytes) {
     return Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
 }
