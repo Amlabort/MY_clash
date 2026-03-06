@@ -11,6 +11,7 @@
 ^https:\/\/oss\.umetrip\.com\/fs\/advert\/polite reject   #去开屏广告
 ^https:\/\/oss\.umetrip\.com\/fs\/pos reject
 ^https:\/\/oss\.umetrip\.com\/fs\/mall reject
+^https:\/\/(startup|discardrp)\.umetrip\.com\/gateway reject-dict
 
 [mitm]
 hostname= *.umetrip.com
