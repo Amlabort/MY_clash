@@ -3,7 +3,11 @@ let body = $response.body;
 if (body) {
     // 将二进制转为字符串进行操作
     let uint8Array = new Uint8Array(body);
-    let strData = String.fromCharCode.apply(null, uint8Array);
+    let strData = "";
+    let chunk = 8192; // 每次处理 8KB
+    for (let i = 0; i < uint8Array.length; i += chunk) {
+        strData += String.fromCharCode.apply(null, uint8Array.subarray(i, i + chunk));
+    }
     
     if (strData.indexOf("adBannerImg") !== -1) {
         console.log("检测到广告配置字段，正在执行消除...");
