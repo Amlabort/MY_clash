@@ -4,8 +4,9 @@
 #!date=260304
 
 [Rule]
+DOMAIN,i.scdn.co,REJECT
 AND,((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)),REJECT
-DOMAIN-SUFFIX,i.scdn.co,REJECT
+
 
 [Rewrite]
 ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del if-none-match
