@@ -4,7 +4,7 @@
 #!date=260304
 
 [Rule]
-DOMAIN,i.scdn.co,REJECT
+#DOMAIN,i.scdn.co,REJECT
 AND,((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)),REJECT
 
 
