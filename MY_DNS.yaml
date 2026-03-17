@@ -29,22 +29,22 @@ dns!:
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
-  direct-nameserver:
-    - system
   proxy-server-nameserver:
     - 223.5.5.5
     - 119.29.29.29
-    #- 8.8.8.8
+    - 8.8.8.8
   nameserver:
     #- https://doh.dns.sb/dns-query
     - https://dns.sb/dns-query
     #- https://dns.google/dns-query#h3=true
-    - https://8.8.4.4/dns-query
+    #- https://8.8.4.4/dns-query
     - https://8.8.8.8/dns-query
     - https://doh.opendns.com/dns-query
+    - https://cloudflare-dns.com/dns-query
+    - https://mozilla.cloudflare-dns.com/dns-query
     #- https://146.112.41.2/dns-query
     #- https://cloudflare-dns.com/dns-query#h3=true
-    - tls://1.1.1.1
+    #- tls://1.1.1.1
   nameserver-policy:
     "rule-set:chinamax_MAX,mydirect":
       - https://223.5.5.5/dns-query#h3=true
