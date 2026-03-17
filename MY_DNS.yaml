@@ -10,11 +10,11 @@ dns!:
   fake-ip-range: 198.18.0.1/16
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
-    - '*'
     - '+.local'
     - '+.lan'
+    - '+.arpa'
     - '+.battle.net'
-    #- '+.msftncsi.com'   # Windows 网络检测
+    - '+.msftncsi.com'   # Windows 网络检测
     #- '+.microsoft.com'
     #- '+.steamcontent.com'
     #- '+.xboxlive.com'
