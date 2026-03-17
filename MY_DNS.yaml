@@ -14,17 +14,15 @@ dns!:
     - '+.local'
     - '+.lan'
     - '+.battle.net'
-    - '+.msftncsi.com'   # Windows 网络检测
-    - '+.microsoft.com'
-    - '+.steamcontent.com'
-    - '+.xboxlive.com'
-    - '+.playstation.net'
-    - '+.icloud.com'
-    - '+.apple.com'
-    - '+.akamaihd.net'   # 部分 CDN
-    #- '+.googleapis.com' # 部分 Google 服务
-    - '+.nintendo.net'
-    - '+.nintendo.com'
+    #- '+.msftncsi.com'   # Windows 网络检测
+    #- '+.microsoft.com'
+    #- '+.steamcontent.com'
+    #- '+.xboxlive.com'
+    #- '+.playstation.net'
+    #- '+.icloud.com'
+    #- '+.apple.com'
+    #- '+.nintendo.net'
+    #- '+.nintendo.com'
   use-hosts: true
   use-system-hosts: true
   default-nameserver:
