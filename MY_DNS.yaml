@@ -22,7 +22,7 @@ dns!:
     - '+.icloud.com'
     - '+.apple.com'
     - '+.akamaihd.net'   # 部分 CDN
-    - '+.googleapis.com' # 部分 Google 服务
+    #- '+.googleapis.com' # 部分 Google 服务
     - '+.nintendo.net'
     - '+.nintendo.com'
   use-hosts: true
