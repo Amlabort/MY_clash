@@ -1,11 +1,10 @@
 # 必须结合本项目的规则一起使用
-# 主要设置了DNS分流相关内容，不保证高可用性，视情况修改及使用
 #dns:
 dns!:
   enable: true
   prefer-h3: true
   ipv6: true
-  listen: 127.0.0.1:53
+  respect-rules: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   fake-ip-filter-mode: blacklist
@@ -15,38 +14,17 @@ dns!:
     - '+.lan'
     - '+.arpa'
     - '+.battle.net'
-    - '+.msftncsi.com'   # Windows 网络检测
-    #- '+.microsoft.com'
-    #- '+.steamcontent.com'
-    #- '+.xboxlive.com'
-    #- '+.playstation.net'
-    #- '+.icloud.com'
-    #- '+.apple.com'
-    #- '+.nintendo.net'
-    #- '+.nintendo.com'
-  use-hosts: true
-  use-system-hosts: true
-  default-nameserver:
+    - '+.msftncsi.com'   
+    - '+.services.googleapis.cn'
+    - 'time.*.com'
+  default-nameserver:  #用于解析下面的域名服务器的地址
     - 223.5.5.5
     - 119.29.29.29
-  proxy-server-nameserver:
+  proxy-server-nameserver:  #代理节点的域名解析
     - 223.5.5.5
     - 119.29.29.29
-    - 8.8.8.8
-  nameserver:
-    #- https://doh.dns.sb/dns-query
-    - https://dns.sb/dns-query
-    - https://dns.google/dns-query#h3=true
-    #- https://8.8.4.4/dns-query
-    #- https://8.8.8.8/dns-query
-    - https://doh.opendns.com/dns-query
-    - https://cloudflare-dns.com/dns-query
-    - https://mozilla.cloudflare-dns.com/dns-query
-    #- https://146.112.41.2/dns-query
-    #- https://cloudflare-dns.com/dns-query#h3=true
-    - tls://1.1.1.1
   nameserver-policy:
-    "rule-set:chinamax_MAX,mydirect,Gemini":
+    "rule-set:chinamaxNR,mydirect":
       - https://223.5.5.5/dns-query#h3=true
       - https://223.6.6.6/dns-query#h3=true
     "rule-set:Emby,Apple":
@@ -54,4 +32,10 @@ dns!:
       - https://223.6.6.6/dns-query#h3=true
       - https://doh.dns.sb/dns-query
       - https://dns.google/dns-query
+  nameserver:
+    - https://mozilla.cloudflare-dns.com/dns-query
+    - https://dns.google/dns-query
+    - https://dns.quad9.net/dns-query
+    
+  
 
