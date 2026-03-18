@@ -1,9 +1,8 @@
 payload:
-- DOMAIN-SUFFIX,download.nvidia.com
 - PROCESS-NAME,Ficket.exe
-#- PROCESS-NAME,EpicGamesLauncher.exe
 - DOMAIN-KEYWORD,touchgal
+- DOMAIN-SUFFIX,download.nvidia.com
 - DOMAIN-SUFFIX,nullbr.online
-- PROCESS-NAME,Sims4ModManager.exe
 
+#- PROCESS-NAME,EpicGamesLauncher.exe
 # LTV播放器域名
