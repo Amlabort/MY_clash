@@ -5,6 +5,8 @@
 
 [Rule]
 #DOMAIN,i.scdn.co,REJECT
+Domain,gae2-dealer.g2.spotify.com,reject
+
 AND,((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)),REJECT
 
 
