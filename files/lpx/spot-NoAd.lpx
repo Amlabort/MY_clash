@@ -1,7 +1,7 @@
 #!name=Spotify去广告
 #!desc=Spotify去广告加部分解锁会员功能,音质不能设置为超高,初期可能会登出二到三次,重新登录即可。
 #!icon=https://img.icons8.com/?size=100&id=ZuQiaFCa1vXe&format=png&color=000000
-#!date=260304
+#!date=260323
 
 [Rule]
 #DOMAIN,i.scdn.co,REJECT
@@ -15,11 +15,13 @@ AND,((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)),REJECT
 ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del if-none-match
 ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\/ reject-dict
 ^https:\/\/spclient\.wg\.spotify\.com\/pushka-tokens\/ reject-200
+^https:\/\/.*-spclient\.spotify\.com(:443)?\/pushka reject-dict
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/gabo-receiver-service\/ reject-200
 ^https:\/\/spclient\.wg\.spotify\.com(:443)?\/gabo-receiver-service\/ reject-dict
 ^https:\/\/spclient\.wg\.spotify\.com(:443)?\/ad reject-dict
 ^https:\/\/spclient\.wg\.spotify\.com(:443)?\/offline reject-dict
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/offline reject-dict
+
 # ^https:\/\/.*-spclient\.spotify\.com(:443)?\/playlist\/v2\/playlist\/37i9d[a-zA-Z0-9]+\/ reject-200
 
 [Mitm]
