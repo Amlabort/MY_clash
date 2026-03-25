@@ -87,6 +87,8 @@ IP-CIDR,180.96.2.114/32,REJECT,no-resolve
 ^http:\/\/.+\.byteimg\.com\/web\.business\.image _ reject
 # .+web\.business\.image _ reject
 
+^http:\/\/.+reading-video\.fqnovelvod\.com\/ _ reject
+
 # 下面两条来自他人,暂不知是哪个app
 ^https?:\/\/.+?\.snssdk\.com\/motor\/operation\/activity\/display\/config\/V2\/ _ reject
 
@@ -94,4 +96,4 @@ IP-CIDR,180.96.2.114/32,REJECT,no-resolve
 
 [MITM]
 
-hostname =*.pangolin-sdk-toutiao,*.pangolin-sdk-toutiao.*,*.pstatp.com,*.pstatp.com.*,*.pglstatp-toutiao.com.*,*.pglstatp-toutiao.com,gurd.snssdk.com,gurd.snssdk.com.*,*default.ixigua.com
+hostname =*.pangolin-sdk-toutiao,*.pangolin-sdk-toutiao.*,*.pstatp.com,*.pstatp.com.*,*.pglstatp-toutiao.com.*,*.pglstatp-toutiao.com,gurd.snssdk.com,gurd.snssdk.com.*,*default.ixigua.com,*.fqnovelvod.com
