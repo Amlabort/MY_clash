@@ -61,6 +61,8 @@ DOMAIN,vas.snssdk.com,REJECT
 DOMAIN,mon.toutiaocloud.com,REJECT
 DOMAIN-KEYWORD,novelapp.ixigua.com,REJECT
 DOMAIN-KEYWORD,default.ixigua.com,REJECT
+#后续添加
+DOMAIN,ecomuser.snssdk.com
 
 IP-CIDR,49.71.37.101/32,REJECT,no-resolve
 IP-CIDR,117.71.105.23/32,REJECT,no-resolve
@@ -87,6 +89,7 @@ IP-CIDR,180.96.2.114/32,REJECT,no-resolve
 ^http:\/\/.+\.byteimg\.com\/web\.business\.image _ reject
 # .+web\.business\.image _ reject
 
+#后续添加
 ^https?:\/\/.+reading-video\.fqnovelvod\.com\/ _ reject
 
 # 下面两条来自他人,暂不知是哪个app
