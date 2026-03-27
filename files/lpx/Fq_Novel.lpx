@@ -5,6 +5,10 @@
 
 [Rule]
 # 番茄小说
+
+#test
+DOMAIN-SUFFIX,snssdk.com
+
 DOMAIN,p6-ad-sign.byteimg.com,REJECT
 DOMAIN,p9-ad-sign.byteimg.com,REJECT
 DOMAIN-SUFFIX,byteimg.com,DIRECT
