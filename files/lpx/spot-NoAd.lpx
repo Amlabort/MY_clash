@@ -21,7 +21,7 @@ AND,((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)),REJECT
 ^https:\/\/spclient\.wg\.spotify\.com(:443)?\/ad reject-dict
 ^https:\/\/spclient\.wg\.spotify\.com(:443)?\/offline reject-dict
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/offline reject-dict
-^https:\/\/spclient\.wg\.spotify\.com(:443)?\/reachability\/check reject-dict
+# ^https:\/\/spclient\.wg\.spotify\.com(:443)?\/reachability\/check reject-dict
 # ^https:\/\/.*-spclient\.spotify\.com(:443)?\/playlist\/v2\/playlist\/37i9d[a-zA-Z0-9]+\/ reject-200
 
 [Mitm]
