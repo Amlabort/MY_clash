@@ -7,7 +7,7 @@
 #DOMAIN,i.scdn.co,REJECT
 #Domain,gae2-dealer.g2.spotify.com,REJECT
 DOMAIN,apresolve.spotify.com,REJECT
-Domain,links.tospotify.com,REJECT
+#Domain,links.tospotify.com,REJECT
 
 AND,((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)),REJECT
 
