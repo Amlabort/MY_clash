@@ -4,27 +4,13 @@
 #!date=260331
 
 [Rule]
-#DOMAIN,i.scdn.co,REJECT
-#Domain,gae2-dealer.g2.spotify.com,REJECT
-DOMAIN,apresolve.spotify.com,REJECT
-#Domain,links.tospotify.com,REJECT
-
-AND,((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)),REJECT
-
 
 [Rewrite]
 ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del if-none-match
 ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\/ reject-dict
 ^https:\/\/spclient\.wg\.spotify\.com\/pushka-tokens\/ reject-200
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/pushka reject-dict
-# ^https:\/\/.*-spclient\.spotify\.com(:443)?\/gabo-receiver-service\/ reject-200
-# ^https:\/\/spclient\.wg\.spotify\.com(:443)?\/gabo-receiver-service\/ reject-dict
-^https:\/\/spclient\.wg\.spotify\.com(:443)?\/ad reject-dict
-^https:\/\/spclient\.wg\.spotify\.com(:443)?\/offline reject-dict
-^https:\/\/.*-spclient\.spotify\.com(:443)?\/offline reject-dict
-^https:\/\/spclient\.wg\.spotify\.com(:443)?\/remote-config-resolver\/v3\/unauth\/configuration reject-dict
-# ^https:\/\/spclient\.wg\.spotify\.com(:443)?\/reachability\/check reject-dict
-# ^https:\/\/.*-spclient\.spotify\.com(:443)?\/playlist\/v2\/playlist\/37i9d[a-zA-Z0-9]+ reject-200
+
 
 [Mitm]
 hostname = spclient.wg.spotify.com, *spclient.spotify.com
