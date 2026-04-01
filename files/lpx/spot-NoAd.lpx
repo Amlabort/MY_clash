@@ -8,11 +8,14 @@
 [Rewrite]
 ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del if-none-match
 ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\/ reject-dict
+^https:\/\/spclient\.wg\.spotify\.com\/gabo-receiver-service reject-dict
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/capping-api\/spotify.cappingapi.v1.CappingApi\/PutConsumption reject-dict
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/connect-state\/ reject-dict
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/social-connect\/ reject-dict
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/presence.\/publish\/ reject-dict
-^https:\/\/.*-spclient\.spotify\.com(:443)?\/gabo-receiver-service\/v./events reject-dict
+^https:\/\/.*-spclient\.spotify\.com(:443)?\/gabo-receiver-service reject-dict
+^https:\/\/.*-spclient\.spotify\.com(:443)?\/offline reject-dict
+
 
 
 [Mitm]
