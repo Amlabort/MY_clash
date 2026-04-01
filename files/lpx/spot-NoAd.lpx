@@ -8,8 +8,7 @@
 [Rewrite]
 ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del if-none-match
 ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\/ reject-dict
-^https:\/\/spclient\.wg\.spotify\.com\/pushka-tokens\/ reject-200
-^https:\/\/.*-spclient\.spotify\.com(:443)?\/pushka reject-dict
+
 
 
 [Mitm]
