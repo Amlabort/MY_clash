@@ -8,6 +8,7 @@
 [Rewrite]
 ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del if-none-match
 ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\/ reject-dict
+^https:\/\/gae2-spclient.spotify.com(:443)?\/extended-metadata\/v0\/extended-metadata reject-200
 
 
 
