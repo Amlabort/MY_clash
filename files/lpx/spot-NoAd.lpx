@@ -12,6 +12,8 @@
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/connect-state\/ reject-dict
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/social-connect\/ reject-dict
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/presence.\/publish\/ reject-dict
+^https:\/\/.*-spclient\.spotify\.com(:443)?\/gabo-receiver-service\/v./events reject-dict
+
 
 [Mitm]
 hostname = spclient.wg.spotify.com, *spclient.spotify.com
