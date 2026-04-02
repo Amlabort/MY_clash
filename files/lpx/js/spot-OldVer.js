@@ -1,12 +1,12 @@
-let headers = $request.headers;
-if(headers["spotify-app-version"]) { headers["spotify-app-version"] = "9.1.12.224"; }
-if(headers["user-agent"]) { headers["user-agent"] = "Spotify/9.1.12.224 iOS/Version 26.4 (Build 23E246)"; } 
-[
-    "spotify-dsa-mode-enabled",
-    "spotify-apply-lenses",
-    "x-accept-list-items",
-    "priority"
-].forEach(key => {
-    delete headers[key];
+
+$done((response) => {
+    // 判断状态码是否是 404 或 403
+    if (response.statusCode === 404 || response.statusCode === 403) {
+        // 改为 200
+        response.statusCode = 200;
+        response.body = JSON.stringify({});
+    }
+
+    // 其他状态码保持原样
+    $done(response);
 });
-$done({headers});
