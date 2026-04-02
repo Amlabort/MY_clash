@@ -94,7 +94,7 @@ IP-CIDR,180.96.2.114/32,REJECT,no-resolve
 # .+web\.business\.image _ reject
 
 #后续添加
-^https?:\/\/.+reading-video\.fqnovelvod\.com\/ _ reject
+^https?:\/\/.+reading-video\.fqnovelvod\.com\/ reject-200
 
 # 下面两条来自他人,暂不知是哪个app
 ^https?:\/\/.+?\.snssdk\.com\/motor\/operation\/activity\/display\/config\/V2\/ _ reject
