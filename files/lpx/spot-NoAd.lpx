@@ -23,6 +23,7 @@
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/partner- reject-dict
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/pam-view-service\/ reject-dict
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/accountsettings\/ reject-dict
+^https:\/\/.*-spclient\.spotify\.com(:443)?\/playlist/v./playlist/[a-zA-Z0-9]+$ reject-dict
 
 
 
