@@ -20,6 +20,9 @@
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/offline reject-dict
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/gabo-receiver-service reject-dict
 
+^https:\/\/.*-spclient\.spotify\.com(:443)?\/partner- reject-dict
+^https:\/\/.*-spclient\.spotify\.com(:443)?\/pam-view-service\/ reject-dict
+
 
 
 [Mitm]
