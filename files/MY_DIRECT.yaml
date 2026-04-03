@@ -3,8 +3,15 @@ payload:
 - DOMAIN-KEYWORD,touchgal
 - DOMAIN-SUFFIX,download.nvidia.com
 - DOMAIN-SUFFIX,nullbr.online
+
 # spotify登录
 - DOMAIN-REGEX,ap-\w+\.spotify\.com
+
+# 国服星际2
+- DOMAIN-SUFFIX,necdn.leihuo.netease.com
+- DOMAIN-SUFFIX,battlenet.com.cn
+- DOMAIN-SUFFIX,blzstatic.cn
+
 - IP-CIDR,127.0.0.0/8,no-resolve
 - IP-CIDR,10.0.0.0/8,no-resolve
 - IP-CIDR,172.16.0.0/12,no-resolve
