@@ -17,7 +17,7 @@
 #^https:\/\/.*-spclient\.spotify\.com(:443)?\/presence.\/publish\/ reject-dict
 
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/device-capabilities reject-dict
-#^https:\/\/.*-spclient\.spotify\.com(:443)?\/offline reject-dict
+^https:\/\/.*-spclient\.spotify\.com(:443)?\/offline reject-dict
 #^https:\/\/.*-spclient\.spotify\.com(:443)?\/gabo-receiver-service reject-dict
 
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/partner- reject-dict
