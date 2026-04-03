@@ -3,17 +3,19 @@
 dns!:
   enable: true
   prefer-h3: true
-  ipv6: false
+  ipv6: true
   respect-rules: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
-    - '+.spotify.com'
+    - '*'
     - '+.local'
     - '+.lan'
     - '+.arpa'
     - '+.battle.net'
+    - '+.battlenet.com.cn'
+    - '+.netease.com'
     - '+.msftncsi.com'   
     - '+.services.googleapis.cn'
     - 'time.*.com'
