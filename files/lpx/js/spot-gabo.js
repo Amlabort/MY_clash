@@ -1,6 +1,8 @@
-let response = {
-  status: 200,
-  headers: {
+console.log("自动生成gabo响应");
+$done({
+  response: {
+    status: 200,
+    headers: {
     "cache-control": "no-cache",
     "content-length": "0",
     "server-timing": "edge;dur=666",
@@ -10,8 +12,8 @@ let response = {
     "date": new Date().toUTCString(),
     "server": "envoy",
     "via": "HTTP/2 edgeproxy, 1.1 google"
-  },
-  body: ""
-};
-console.log("自动生成gabo响应");
-$done(response);
+    },
+    body: ""
+  }
+});
+
