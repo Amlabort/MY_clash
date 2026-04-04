@@ -25,6 +25,8 @@
 #屏蔽AI DJ的url
 37i9dQZF1EYkqdzj48dyYq reject-dict
 
+#未知用途的404链接
+#^https:\/\/.*-spclient\.spotify\.com(:443)?\/social-connect\/v.\/sessions\/ reject-dict
 
 
 #脚本化下列域名
