@@ -10,7 +10,7 @@
 ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\/ reject-dict
 
 #客户端上报用户消耗行为
-^https:\/\/.*-spclient\.spotify\.com(:443)?\/capping-api\/spotify.cappingapi.v1.CappingApi\/PutConsumption reject-dict
+^https:\/\/.*-spclient\.spotify\.com(:443)?\/capping-api\/ reject-dict
 
 #播放状态和进度上报，无需屏蔽
 #^https:\/\/.*-spclient\.spotify\.com(:443)?\/connect-state\/ reject-dict
