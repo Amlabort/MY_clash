@@ -33,14 +33,15 @@ https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/MY_rules.yam
 ### clash verge
 左侧菜单栏点击【订阅】，右键【全局扩展脚本】，编辑文件，然后把[【这个】](https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/ClashVerge.js)文件中的内容复制粘贴进去，点击保存即可。
 
-### 小火箭
-复制以下链接导入配置文件
-```
-https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/MY_rocket.conf
-```
-
 ### LOON
 复制以下链接导入【配置】➡【编辑】中的【从URL下载】
 ```
 https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/MY_loon.conf
 ```
+
+### 小火箭 （已弃用）
+复制以下链接导入配置文件
+```
+https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/MY_rocket.conf
+```
+
