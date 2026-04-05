@@ -82,11 +82,11 @@ const ruleProviders = {
 };
 
 const rules = [
+  "RULE-SET,myproxy,代理",
   "RULE-SET,myreject,REJECT",
   "RULE-SET,AdBlock,AdBlock",
   "RULE-SET,steamdl,steam下载",
   "RULE-SET,mydirect,DIRECT",
-  "RULE-SET,myproxy,代理",
   "RULE-SET,Spotify,Spotify节点",
   "RULE-SET,OpenAi,AI节点",
   "RULE-SET,Gemini,AI节点",
