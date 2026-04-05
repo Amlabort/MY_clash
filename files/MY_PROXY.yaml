@@ -7,7 +7,7 @@ payload:
 
 #特定广告
 - DOMAIN-SUFFIX,googleads.g.doubleclick.net
-- DOMAIN-SUFFIX,pagead2.googlesyndication.com
+- DOMAIN-SUFFIX,googlesyndication.com
 - DOMAIN-SUFFIX,cloudflareinsights.com
 - DOMAIN-SUFFIX,fundingchoicesmessages.google.com
 - DOMAIN-SUFFIX,clarity.ms
