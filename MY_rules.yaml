@@ -52,11 +52,11 @@ rule-providers!:
   spotify:     {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Spotify/Spotify_No_Resolve.yaml,                    path: ./ruleset/spotify.yaml      }
   
 rules:
+  - RULE-SET,myproxy,代理
   - RULE-SET,myreject,REJECT
   - RULE-SET,AdBlock,AdBlock
   - RULE-SET,steamdl,steam下载
   - RULE-SET,mydirect,DIRECT
-  - RULE-SET,myproxy,代理
   - RULE-SET,spotify,Spotify节点
   - RULE-SET,OpenAi,AI节点
   - RULE-SET,Gemini,AI节点
