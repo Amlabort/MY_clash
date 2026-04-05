@@ -3,3 +3,7 @@ payload:
 - DOMAIN-SUFFIX,ipfs.dweb.link
 - DOMAIN-SUFFIX,ieee.org
 - DOMAIN-KEYWORD,razer
+
+
+#特定广告
+- DOMAIN-SUFFIX,googleads.g.doubleclick.net
