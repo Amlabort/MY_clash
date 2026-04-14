@@ -19,7 +19,7 @@ if(resStatus !== 200) {
         let bootstrapResponseType = protobuf.Root.fromJSON(spotifyJson).lookupType("BootstrapResponse");
         let bootstrapResponseObj = bootstrapResponseType.decode(binaryBody);
         accountAttributesMapObj = bootstrapResponseObj.ucsResponseV0.success.customization.success.accountAttributesSuccess.accountAttributes;
-        assignedValuesMapObj = bootstrapResponseObj.ucsResponseV0.success.customization.success.assignedValuesSuccess.assignedValues;
+        assignedValuesMapObj = bootstrapResponseObj.ucsResponseV0.success.customization.success.resolveSuccess.assignedValues;
         processMapObj(accountAttributesMapObj);
         body = bootstrapResponseType.encode(bootstrapResponseObj).finish();
         console.log('bootstrap');
@@ -27,7 +27,7 @@ if(resStatus !== 200) {
         let ucsResponseWrapperType = protobuf.Root.fromJSON(spotifyJson).lookupType("UcsResponseWrapper");
         let ucsResponseWrapperMessage = ucsResponseWrapperType.decode(binaryBody);
         accountAttributesMapObj = ucsResponseWrapperMessage.success.accountAttributesSuccess.accountAttributes;
-        assignedValuesMapObj = ucsResponseWrapperMessage.success.assignedValuesSuccess.assignedValues;
+        assignedValuesMapObj = ucsResponseWrapperMessage.success.resolveSuccess.configuration.assignedValues;
         processMapObj(accountAttributesMapObj,assignedValuesMapObj);
         body = ucsResponseWrapperType.encode(ucsResponseWrapperMessage).finish();
         console.log('customize');
