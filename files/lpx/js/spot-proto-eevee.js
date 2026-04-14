@@ -1095,7 +1095,6 @@ const rules = [
     }
 ]
 
-console.log(`eevee-spot`);
 const resStatus = $response.status ? $response.status : $response.statusCode;
 if(resStatus !== 200) {
     console.log(`$response.status不为200:${resStatus}`);
@@ -1132,6 +1131,7 @@ if(resStatus !== 200) {
     if(isQuanX){
         $done({bodyBytes: body.buffer.slice(body.byteOffset, body.byteLength + body.byteOffset)});
     } else {
+        console.log(`eevee-spot-done`);
         $done({body});
     }
 }
