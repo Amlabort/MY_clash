@@ -1154,7 +1154,7 @@ function modifyAssignedValues(values) {
       });
 
     for (const index of matchingIndices.sort((a, b) => b - a)) {
-      switch (rule.modification.type) {
+      switch (rule.action) {
         case "remove":
           values.splice(index, 1);
           break;
