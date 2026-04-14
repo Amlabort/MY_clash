@@ -1144,11 +1144,11 @@ function modifyAssignedValues(values) {
         const value = values[index];
         const nameMatches =
           rule.name != null
-            ? value.propertyID.name === rule.name
+            ? value.propertyId.name === rule.name
             : true;
         const scopeMatches =
           rule.scope != null
-            ? value.propertyID.scope === rule.scope
+            ? value.propertyId.scope === rule.scope
             : true;
         return nameMatches && scopeMatches;
       });
@@ -1160,11 +1160,11 @@ function modifyAssignedValues(values) {
           break;
 
         case "setBool":
-          values[index].boolValue = { value: rule.modification.value };
+          values[index].boolValue = { value: rule.value };
           break;
 
         case "setEnum":
-          values[index].enumValue = { value: rule.modification.value };
+          values[index].enumValue = { value: rule.value };
           break;
       }
     }
