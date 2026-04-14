@@ -20,7 +20,7 @@ if(resStatus !== 200) {
         let bootstrapResponseObj = bootstrapResponseType.decode(binaryBody);
         accountAttributesMapObj = bootstrapResponseObj.ucsResponseV0.success.customization.success.accountAttributesSuccess.accountAttributes;
         assignedValuesMapObj = bootstrapResponseObj.ucsResponseV0.success.customization.success.resolveSuccess.assignedValues;
-        processMapObj(accountAttributesMapObj);
+        processMapObj(accountAttributesMapObj,assignedValuesMapObj);
         body = bootstrapResponseType.encode(bootstrapResponseObj).finish();
         console.log('bootstrap');
     } else if(url.includes("user-customization-service/v1/customize") && method === postMethod){
