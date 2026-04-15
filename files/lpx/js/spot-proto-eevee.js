@@ -1113,6 +1113,10 @@ if(resStatus !== 200) {
         let bootstrapResponseObj = bootstrapResponseType.decode(binaryBody);
         accountAttributesMapObj = bootstrapResponseObj.ucsResponseV0.success.customization.success.accountAttributesSuccess.accountAttributes;
         assignedValuesMapObj = bootstrapResponseObj.ucsResponseV0.success.customization.success.resolveSuccess.configuration.assignedValues;
+        if (bootstrapResponseObj.trialsFacadeResponseV1) {
+            console.log('删除 trialsFacadeResponseV1');
+            delete bootstrapResponseObj.trialsFacadeResponseV1;
+        }
         processMapObj(accountAttributesMapObj,assignedValuesMapObj);
         body = bootstrapResponseType.encode(bootstrapResponseObj).finish();
         console.log('bootstrap');
@@ -1217,6 +1221,23 @@ function modifyAttributes(attributes) {
   attributes["type"] = { stringValue: "premium" };
   attributes["unrestricted"] = { boolValue: true };
 
+    //添加
+attributes["high-bitrate"] = { boolValue: true };
+attributes["audio-quality"] = { stringValue: "1" };
+attributes["mobile"] = { boolValue: true };
+attributes["mobile-login"] = { boolValue: true };
+attributes["libspotify"] = { boolValue: true };
+attributes["pause-after"] = { longValue: 0 };
+attributes["license-acceptance-grace-days"] = { longValue: 30 };
+attributes["com.spotify.madprops.use.ucs.product.state"] = { boolValue: true };
+    delete accountAttributesMapObj['ad-use-adlogic'];
+    delete accountAttributesMapObj['ad-catalogues'];
+    delete accountAttributesMapObj['payment-state'];
+    delete accountAttributesMapObj['last-premium-activation-date'];
+    delete accountAttributesMapObj['shuffle']; // 移除 shuffle 属性，由 shuffle-eligible 控制
+
+//
+    
   delete attributes["payment-state"];
   delete attributes["last-premium-activation-date"];
 
