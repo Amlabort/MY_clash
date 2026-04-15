@@ -1112,7 +1112,7 @@ if(resStatus !== 200) {
         let bootstrapResponseType = protobuf.Root.fromJSON(spotifyJson).lookupType("BootstrapResponse");
         let bootstrapResponseObj = bootstrapResponseType.decode(binaryBody);
         accountAttributesMapObj = bootstrapResponseObj.ucsResponseV0.success.customization.success.accountAttributesSuccess.accountAttributes;
-        assignedValuesMapObj = bootstrapResponseObj.ucsResponseV0.success.customization.success.resolveSuccess.assignedValues;
+        assignedValuesMapObj = bootstrapResponseObj.ucsResponseV0.success.customization.success.resolveSuccess.configuration.assignedValues;
         processMapObj(accountAttributesMapObj,assignedValuesMapObj);
         body = bootstrapResponseType.encode(bootstrapResponseObj).finish();
         console.log('bootstrap');
