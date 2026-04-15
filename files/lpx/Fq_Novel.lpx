@@ -8,6 +8,8 @@
 
 #test
 DOMAIN-SUFFIX,snssdk.com,REJECT
+DOMAIN-SUFFIX,fqnovelvod.com,REJECT
+
 
 DOMAIN,p6-ad-sign.byteimg.com,REJECT
 DOMAIN,p9-ad-sign.byteimg.com,REJECT
