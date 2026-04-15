@@ -10,7 +10,7 @@ AND,((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)),REJECT
 ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del if-none-match
 
 #屏蔽设置界面会员信息，仅改变显示，可以删去
-^https:\/\/.*-spclient\.spotify\.com(:443)?\/pam-view-service\/ reject-dict
+#^https:\/\/.*-spclient\.spotify\.com(:443)?\/pam-view-service\/ reject-dict
 
 #屏蔽AI DJ的url
 37i9dQZF1EYkqdzj48dyYq reject-dict
