@@ -1199,17 +1199,17 @@ function modifyAssignedValues(values) {
       switch (rule.action) {
         case "remove":
           values.splice(index, 1);
-          console.log('删除索引${index}');
+          console.log(`删除索引${index}`);
           break;
 
         case "setBool":
           values[index].boolValue = { value: rule.value };
-              console.log('在${index}位置重设bool值');
+              console.log(`在${index}位置重设bool值`);
           break;
 
         case "setEnum":
           values[index].enumValue = { value: rule.value };
-              console.log('在${index}位置重设enum值');
+              console.log(`在${index}位置重设enum值`);
           break;
       }
     }
