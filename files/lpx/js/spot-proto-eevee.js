@@ -1172,6 +1172,7 @@ function modifyAssignedValues(values) {
            break;
        }
      }
+     console.log("==========");  
   }
 
   console.log("assignedValuesMapObj processed");
