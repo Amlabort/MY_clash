@@ -1237,17 +1237,6 @@ function modifyAttributes(attributes) {
   console.log("accountAttributesMapObj processed");
 }
 
-
-// function modifyRemoteConfiguration(configuration) {
-//   modifyAttributes(configuration.attributes.accountAttributes);
-
-//   if (UserDefaults.overwriteConfiguration) {
-//     configuration.resolve.configuration = BundleHelper.shared.resolveConfiguration();
-//   } else {
-//     modifyAssignedValues(configuration.assignedValues);
-//   }
-// }
-
 function processMapObj(accountAttributesMapObj,assignedValuesMapObj) {
     modifyAssignedValues(assignedValuesMapObj);
     modifyAttributes(accountAttributesMapObj);
