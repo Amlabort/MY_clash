@@ -28,7 +28,7 @@ const rules = [
         action: "remove"
     },
 
-
+    //capping+
     {
         name: "enable_free_on_demand_experiment",
         action: "remove"
@@ -1198,14 +1198,17 @@ function modifyAssignedValues(values) {
       switch (rule.action) {
         case "remove":
           values.splice(index, 1);
+          console.log("删除索引",index);
           break;
 
         case "setBool":
           values[index].boolValue = { value: rule.value };
+              console.log("在",index,"位置重设bool值");
           break;
 
         case "setEnum":
           values[index].enumValue = { value: rule.value };
+              console.log("在",index,"位置重设enum值");
           break;
       }
     }
@@ -1284,6 +1287,6 @@ function modifyAttributes(attributes) {
 // }
 
 function processMapObj(accountAttributesMapObj,assignedValuesMapObj) {
-    modifyAttributes(accountAttributesMapObj);
     modifyAssignedValues(assignedValuesMapObj);
+    modifyAttributes(accountAttributesMapObj);
 }
