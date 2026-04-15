@@ -1230,11 +1230,11 @@ attributes["libspotify"] = { boolValue: true };
 attributes["pause-after"] = { longValue: 0 };
 attributes["license-acceptance-grace-days"] = { longValue: 30 };
 attributes["com.spotify.madprops.use.ucs.product.state"] = { boolValue: true };
-    delete accountAttributesMapObj['ad-use-adlogic'];
-    delete accountAttributesMapObj['ad-catalogues'];
-    delete accountAttributesMapObj['payment-state'];
-    delete accountAttributesMapObj['last-premium-activation-date'];
-    delete accountAttributesMapObj['shuffle']; // 移除 shuffle 属性，由 shuffle-eligible 控制
+    delete attributes['ad-use-adlogic'];
+    delete attributes['ad-catalogues'];
+    delete attributes['payment-state'];
+    delete attributes['last-premium-activation-date'];
+    delete attributes['shuffle']; // 移除 shuffle 属性，由 shuffle-eligible 控制
 
 
     
