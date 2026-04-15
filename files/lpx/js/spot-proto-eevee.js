@@ -1221,7 +1221,7 @@ function modifyAttributes(attributes) {
   attributes["type"] = { stringValue: "premium" };
   attributes["unrestricted"] = { boolValue: true };
 
-    //添加
+
 attributes["high-bitrate"] = { boolValue: true };
 attributes["audio-quality"] = { stringValue: "1" };
 attributes["mobile"] = { boolValue: true };
@@ -1236,7 +1236,7 @@ attributes["com.spotify.madprops.use.ucs.product.state"] = { boolValue: true };
     delete accountAttributesMapObj['last-premium-activation-date'];
     delete accountAttributesMapObj['shuffle']; // 移除 shuffle 属性，由 shuffle-eligible 控制
 
-//
+
     
   delete attributes["payment-state"];
   delete attributes["last-premium-activation-date"];
