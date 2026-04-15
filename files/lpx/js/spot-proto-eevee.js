@@ -1158,7 +1158,7 @@ function modifyAssignedValues(values) {
        switch (rule.action) {
          case "remove":
            values.splice(index, 1);
-            console.log(`删除索引${index}`);
+            console.log(`删除${index}号字段`);
           break;
 
          case "setBool":
@@ -1172,7 +1172,7 @@ function modifyAssignedValues(values) {
            break;
        }
      }
-     console.log("==========");  
+     //console.log("==========");  
   }
 
   console.log("assignedValuesMapObj processed");
