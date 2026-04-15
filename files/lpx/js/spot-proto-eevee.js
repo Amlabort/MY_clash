@@ -1158,17 +1158,23 @@ function modifyAssignedValues(values) {
        switch (rule.action) {
          case "remove":
            values.splice(index, 1);
-            console.log(`删除${index}号字段`);
+            //console.log(`删除${index}号字段`);
+               if(rule.name) console.log(`删除${rule.name}`);
+               if(rule.scope) console.log(`删除${rule.scope}`);
           break;
 
          case "setBool":
            values[index].boolValue = { value: rule.value };
-             console.log(`在${index}位置重设bool值`);
+             //console.log(`在${index}位置重设bool值`);
+               if(rule.name) console.log(`修改${rule.name}的Bool值`);
+               if(rule.scope) console.log(`修改${rule.scope}的Bool值`);
            break;
 
          case "setEnum":
            values[index].enumValue = { value: rule.value };
-            console.log(`在${index}位置重设enum值`);
+            //console.log(`在${index}位置重设enum值`);
+               if(rule.name) console.log(`修改${rule.name}的Enum值`);
+               if(rule.scope) console.log(`修改${rule.scope}的Enum值`);
            break;
        }
      }
