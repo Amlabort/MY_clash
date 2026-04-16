@@ -1222,19 +1222,17 @@ function modifyAttributes(attributes) {
   attributes["unrestricted"] = { boolValue: true };
 
 
-attributes["high-bitrate"] = { boolValue: true };
-attributes["audio-quality"] = { stringValue: "1" };
-attributes["mobile"] = { boolValue: true };
-attributes["mobile-login"] = { boolValue: true };
-attributes["libspotify"] = { boolValue: true };
-attributes["pause-after"] = { longValue: 0 };
-attributes["license-acceptance-grace-days"] = { longValue: 30 };
-attributes["com.spotify.madprops.use.ucs.product.state"] = { boolValue: true };
-    delete attributes['ad-use-adlogic'];
-    delete attributes['ad-catalogues'];
-    delete attributes['payment-state'];
-    delete attributes['last-premium-activation-date'];
-    delete attributes['shuffle']; // 移除 shuffle 属性，由 shuffle-eligible 控制
+  attributes["high-bitrate"] = { boolValue: true };
+  attributes["audio-quality"] = { stringValue: "1" };
+  attributes["mobile"] = { boolValue: true };
+  attributes["mobile-login"] = { boolValue: true };
+  attributes["libspotify"] = { boolValue: true };
+  attributes["pause-after"] = { longValue: 0 };
+  attributes["license-acceptance-grace-days"] = { longValue: 30 };
+  attributes["com.spotify.madprops.use.ucs.product.state"] = { boolValue: true };
+  delete attributes['ad-use-adlogic'];
+  delete attributes['ad-catalogues'];
+  delete attributes['shuffle']; // 移除 shuffle 属性，由 shuffle-eligible 控制
 
 
     
