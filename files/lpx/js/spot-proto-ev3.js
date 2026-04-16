@@ -13367,7 +13367,20 @@ function overrideAssignedValues(target) {
     if (map.has(key)) {
       // ✅ 替换
       const index = map.get(key);
-      target[index] = item;
+      //target[index] = item;
+      delete targetItem.boolValue;
+      delete targetItem.intValue;
+      delete targetItem.enumValue;
+      if (item.boolValue) {
+        targetItem.boolValue = { ...item.boolValue };
+      }
+      if (item.intValue) {
+        targetItem.intValue = { ...item.intValue };
+      }
+      if (item.enumValue) {
+        targetItem.enumValue = { ...item.enumValue };
+      }
+
       replaceCount++;
     } else {
       // ✅ 新增
