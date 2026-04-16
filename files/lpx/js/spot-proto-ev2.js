@@ -830,20 +830,20 @@ const OVERRIDE_ASSIGNED_VALUES = [
         "value": true
       }
     },
-    {
-      "propertyId": {
-        "scope": "ios-feature-marquee",
-        "name": "enable_marquee_swift"
-      },
-      "metadata": {
-        "policyID": "51711",
-        "externalRealm": "exp-planner",
-        "externalRealmID": "1119792"
-      },
-      "boolValue": {
-        "value": true
-      }
-    },
+    // {
+    //   "propertyId": {
+    //     "scope": "ios-feature-marquee",
+    //     "name": "enable_marquee_swift"
+    //   },
+    //   "metadata": {
+    //     "policyID": "51711",
+    //     "externalRealm": "exp-planner",
+    //     "externalRealmID": "1119792"
+    //   },
+    //   "boolValue": {
+    //     "value": true
+    //   }
+    // },
     {
       "propertyId": {
         "scope": "core-show-cosmos",
@@ -6730,20 +6730,20 @@ const OVERRIDE_ASSIGNED_VALUES = [
         "value": true
       }
     },
-    {
-      "propertyId": {
-        "scope": "ios-adsembedded-embeddedctaelements-impl",
-        "name": "show_page_carousel_enabled"
-      },
-      "metadata": {
-        "policyID": "231797",
-        "externalRealm": "exp-planner",
-        "externalRealmID": "1191855"
-      },
-      "boolValue": {
-        "value": true
-      }
-    },
+    // {
+    //   "propertyId": {
+    //     "scope": "ios-adsembedded-embeddedctaelements-impl",
+    //     "name": "show_page_carousel_enabled"
+    //   },
+    //   "metadata": {
+    //     "policyID": "231797",
+    //     "externalRealm": "exp-planner",
+    //     "externalRealmID": "1191855"
+    //   },
+    //   "boolValue": {
+    //     "value": true
+    //   }
+    // },
     {
       "propertyId": {
         "scope": "ios-feature-yourlibrarypodcast",
@@ -7477,7 +7477,7 @@ const OVERRIDE_ASSIGNED_VALUES = [
         "externalRealmID": "1214654"
       },
       "boolValue": {
-        "value": true
+        "value": false
       }
     },
     {
@@ -9447,7 +9447,7 @@ const OVERRIDE_ASSIGNED_VALUES = [
         "externalRealmID": "1249156"
       },
       "boolValue": {
-        "value": true
+        "value": false
       }
     },
     {
