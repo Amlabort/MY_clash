@@ -4,7 +4,7 @@
 #!date=260416
 
 [Argument]
-spot-ev2-enable = switch,true,false,tag= 本地配置覆盖
+spot-ev3-enable = switch,true,false,tag= 本地配置覆盖
 spot-ev1-enable = switch,false,true,tag= 远程配置修改
 
 [Rule]
@@ -25,5 +25,5 @@ hostname = spclient.wg.spotify.com, *spclient.spotify.com
 [Script]
 http-request ^https:\/\/(.*-spclient\.spotify\.com(:443)?|spclient\.wg\.spotify\.com)\/gabo-receiver-service script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/spot-gabo.js, timeout=10, tag=spotify-gabo
 http-response ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$ script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/spot-proto-eevee.js, requires-body=true, binary-body-mode=true, timeout=10, tag=Ev_spotifyProto,enable={spot-ev1-enable}
-http-response ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$ script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/spot-proto-ev2.js, requires-body=true, binary-body-mode=true, timeout=10, tag=Ev2_spotifyProto,,enable={spot-ev2-enable}
+http-response ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$ script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/spot-proto-ev3.js, requires-body=true, binary-body-mode=true, timeout=10, tag=Ev3_spotifyProto,,enable={spot-ev3-enable}
 
