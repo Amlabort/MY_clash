@@ -13359,6 +13359,7 @@ function overrideAssignedValues(target) {
 
   let replaceCount = 0;
   let addCount = 0;
+  let ncount = 0;
 
   // 2️⃣ 精确覆盖
   for (const item of OVERRIDE_ASSIGNED_VALUES) {
@@ -13368,28 +13369,28 @@ function overrideAssignedValues(target) {
       // ✅ 替换
       const index = map.get(key);
       //target[index] = item;
-      delete target[index].boolValue;
-      delete target[index].intValue;
-      delete target[index].enumValue;
-      if (item.boolValue) {
-        target[index].boolValue = { ...item.boolValue };
-      }
-      if (item.intValue) {
-        target[index].intValue = { ...item.intValue };
-      }
-      if (item.enumValue) {
-        target[index].enumValue = { ...item.enumValue };
-      }
-
-      replaceCount++;
+      // delete target[index].boolValue;
+      // delete target[index].intValue;
+      // delete target[index].enumValue;
+      // if (item.boolValue) {
+      //   target[index].boolValue = { ...item.boolValue };
+      // }
+      // if (item.intValue) {
+      //   target[index].intValue = { ...item.intValue };
+      // }
+      // if (item.enumValue) {
+      //   target[index].enumValue = { ...item.enumValue };
+      // }
+        ncount++;
+      // replaceCount++;
     } else {
       // ✅ 新增
-      // target.push(item);
-      // addCount++;
+        target.push(item);
+        addCount++;
     }
   }
 
-  console.log(`替换 ${replaceCount} 条，新增 ${addCount} 条`);
+  console.log(`替换 ${replaceCount} 条，新增 ${addCount} 条，${ncount}条保留原样`);
 }
 
 function processMapObj(accountAttributesMapObj,assignedValuesMapObj) {
