@@ -13368,7 +13368,7 @@ function overrideAssignedValues(target) {
     if (map.has(key)) {
       // ✅ 替换
       const index = map.get(key);
-      //target[index] = item;
+      target[index] = item;
       // delete target[index].boolValue;
       // delete target[index].intValue;
       // delete target[index].enumValue;
@@ -13381,8 +13381,8 @@ function overrideAssignedValues(target) {
       // if (item.enumValue) {
       //   target[index].enumValue = { ...item.enumValue };
       // }
-        ncount++;
-      // replaceCount++;
+        // ncount++;
+      replaceCount++;
     } else {
       // ✅ 新增
         target.push(item);
