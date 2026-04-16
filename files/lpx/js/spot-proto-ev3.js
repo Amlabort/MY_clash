@@ -13368,17 +13368,17 @@ function overrideAssignedValues(target) {
       // ✅ 替换
       const index = map.get(key);
       //target[index] = item;
-      delete targetItem.boolValue;
-      delete targetItem.intValue;
-      delete targetItem.enumValue;
+      delete target[index].boolValue;
+      delete target[index].intValue;
+      delete target[index].enumValue;
       if (item.boolValue) {
-        targetItem.boolValue = { ...item.boolValue };
+        target[index].boolValue = { ...item.boolValue };
       }
       if (item.intValue) {
-        targetItem.intValue = { ...item.intValue };
+        target[index].intValue = { ...item.intValue };
       }
       if (item.enumValue) {
-        targetItem.enumValue = { ...item.enumValue };
+        target[index].enumValue = { ...item.enumValue };
       }
 
       replaceCount++;
