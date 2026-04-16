@@ -12129,55 +12129,6 @@ if(resStatus !== 200) {
     }
 }
 
-function modifyAssignedValues(values) {
-  
-   for (const rule of rules) {
-     const matchingIndices = values
-       .map((_, index) => index)
-      .filter((index) => {
-      const value = values[index];
-        const nameMatches =
-          rule.name != null
-             ? value.propertyId.name === rule.name
-             : true;
-         const scopeMatches =
-           rule.scope != null
-             ? value.propertyId.scope === rule.scope
-             : true;
-         return nameMatches && scopeMatches;
-       });
-
-    for (const index of matchingIndices.sort((a, b) => b - a)) {
-       switch (rule.action) {
-         case "remove":
-           values.splice(index, 1);
-            //console.log(`删除${index}号字段`);
-               if(rule.name) console.log(`删除${rule.name}`);
-               if(rule.scope) console.log(`删除${rule.scope}`);
-          break;
-
-         case "setBool":
-           values[index].boolValue = { value: rule.value };
-             //console.log(`在${index}位置重设bool值`);
-               if(rule.name) console.log(`修改${rule.name}的Bool值`);
-               if(rule.scope) console.log(`修改${rule.scope}的Bool值`);
-           break;
-
-         case "setEnum":
-           values[index].enumValue = { value: rule.value };
-            //console.log(`在${index}位置重设enum值`);
-               if(rule.name) console.log(`修改${rule.name}的Enum值`);
-               if(rule.scope) console.log(`修改${rule.scope}的Enum值`);
-           break;
-       }
-     }
-     //console.log("==========");  
-  }
-
-  console.log("assignedValuesMapObj processed");
-}
-
-
 function modifyAttributes(attributes) {
   // 1 year from now
   const oneYearFromNow = new Date();
@@ -12211,22 +12162,12 @@ function modifyAttributes(attributes) {
   attributes["unrestricted"] = { boolValue: true };
 
 
-attributes["high-bitrate"] = { boolValue: true };
-attributes["audio-quality"] = { stringValue: "1" };
-attributes["mobile"] = { boolValue: true };
-attributes["mobile-login"] = { boolValue: true };
-attributes["libspotify"] = { boolValue: true };
-attributes["pause-after"] = { longValue: 0 };
-attributes["license-acceptance-grace-days"] = { longValue: 30 };
-attributes["com.spotify.madprops.use.ucs.product.state"] = { boolValue: true };
-    delete attributes['ad-use-adlogic'];
-    delete attributes['ad-catalogues'];
-    delete attributes['payment-state'];
-    delete attributes['last-premium-activation-date'];
-    delete attributes['shuffle']; // 移除 shuffle 属性，由 shuffle-eligible 控制
+  delete attributes['ad-use-adlogic'];
+  delete attributes['ad-catalogues'];
+  delete attributes['payment-state'];
+  delete attributes['last-premium-activation-date'];
+  delete attributes['shuffle']; // 移除 shuffle 属性，由 shuffle-eligible 控制
 
-
-    
   delete attributes["payment-state"];
   delete attributes["last-premium-activation-date"];
 
