@@ -3457,7 +3457,7 @@ const OVERRIDE_ASSIGNED_VALUES = [
         "externalRealmID": "1265417"
       },
       "boolValue": {
-        "value": true
+        "value": false
       }
     },
     {
@@ -3499,7 +3499,7 @@ const OVERRIDE_ASSIGNED_VALUES = [
         "externalRealmID": "1265417"
       },
       "boolValue": {
-        "value": true
+        "value": false
       }
     },
     {
@@ -7213,7 +7213,7 @@ const OVERRIDE_ASSIGNED_VALUES = [
         "externalRealmID": "1208275"
       },
       "boolValue": {
-        "value": true
+        "value": false
       }
     },
     {
@@ -7255,7 +7255,7 @@ const OVERRIDE_ASSIGNED_VALUES = [
         "externalRealmID": "1208278"
       },
       "boolValue": {
-        "value": true
+        "value": false
       }
     },
     {
