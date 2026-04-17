@@ -93,7 +93,6 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "externalRealmId": "1259958"
     },
     "boolValue": {
-      "value": true
     }
   },
   {
@@ -1821,6 +1820,7 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "externalRealmId": "1216413"
     },
     "boolValue": {
+      "value": true
     }
   },
   {
@@ -1946,7 +1946,6 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "externalRealmId": "1215215"
     },
     "boolValue": {
-      "value": true
     }
   },
   {
@@ -2476,6 +2475,7 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "externalRealmId": "1244680"
     },
     "boolValue": {
+      "value": true
     }
   },
   {
@@ -3225,7 +3225,6 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "externalRealmId": "1254348"
     },
     "boolValue": {
-      "value": true
     }
   },
   {
@@ -3797,7 +3796,7 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "externalRealmId": "1268265"
     },
     "enumValue": {
-      "value": "Disabled"
+      "value": "Error"
     }
   },
   {
@@ -10513,7 +10512,7 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "externalRealmId": "1265694"
     },
     "intValue": {
-      "value": 4
+      "value": 3
     }
   },
   {
