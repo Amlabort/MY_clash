@@ -1,5 +1,5 @@
 #!name=Spotify去广告
-#!desc=Spotify去广告加部分解锁会员功能,音质不能设置为超高,【二选一启用 EV1 / EV3】
+#!desc=Spotify去广告加部分解锁会员功能,音质不能设置为超高,【二选一启用】
 #!icon=https://img.icons8.com/?size=100&id=ZuQiaFCa1vXe&format=png&color=000000
 #!date=260416
 
@@ -20,7 +20,7 @@ AND,((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)),REJECT
 ^https:\/\/.*37i9dQZF1EYkqdzj48dyYq - reject
 
 [MITM]
-hostname = spclient.wg.spotify.com, *.spclient.spotify.com
+hostname = %APPEND% spclient.wg.spotify.com, *spclient.spotify.com
 
 [Script]
 http-request ^https:\/\/(.*-spclient\.spotify\.com(:443)?|spclient\.wg\.spotify\.com)\/gabo-receiver-service \
