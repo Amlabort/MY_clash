@@ -92,7 +92,9 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "externalRealm": "exp-planner",
       "externalRealmId": "1259958"
     },
-    "boolValue": {}
+    "boolValue": {
+      "value": true
+    }
   },
   {
     "propertyId": {
@@ -1819,7 +1821,6 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "externalRealmId": "1216413"
     },
     "boolValue": {
-      "value": true
     }
   },
   {
@@ -1944,7 +1945,9 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "externalRealm": "exp-planner",
       "externalRealmId": "1215215"
     },
-    "boolValue": {}
+    "boolValue": {
+      "value": true
+    }
   },
   {
     "propertyId": {
@@ -2123,7 +2126,7 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "externalRealmId": "1230403"
     },
     "enumValue": {
-      "value": "small"
+      "value": "none"
     }
   },
   {
@@ -2473,7 +2476,6 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "externalRealmId": "1244680"
     },
     "boolValue": {
-      "value": true
     }
   },
   {
@@ -3222,7 +3224,9 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "externalRealm": "exp-planner",
       "externalRealmId": "1254348"
     },
-    "boolValue": {}
+    "boolValue": {
+      "value": true
+    }
   },
   {
     "propertyId": {
@@ -3793,7 +3797,7 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "externalRealmId": "1268265"
     },
     "enumValue": {
-      "value": "Error"
+      "value": "Disabled"
     }
   },
   {
@@ -7545,7 +7549,7 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "externalRealmId": "1216800"
     },
     "boolValue": {
-      "value": false
+      "value": true
     }
   },
   {
@@ -10509,7 +10513,7 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "externalRealmId": "1265694"
     },
     "intValue": {
-      "value": 3
+      "value": 4
     }
   },
   {
@@ -13278,8 +13282,6 @@ function modifyAttributes(attributes) {
   // ISO8601 UTC string (equivalent to ISO8601DateFormatter + UTC)
   const isoDate = oneYearFromNow.toISOString();
 
-  attributes["is-eligible-premium-unboxing"] = { boolValue: false };
-
   attributes["ads"] = { boolValue: false };
   attributes["ab-ad-player-targeting"] = { stringValue: "0" };
   attributes["allow-advertising-id-transmission"] = { boolValue: false };
@@ -13287,7 +13289,7 @@ function modifyAttributes(attributes) {
   attributes["can_use_superbird"] = { boolValue: true };
   attributes["catalogue"] = { stringValue: "premium" };
   attributes["financial-product"] = { stringValue: "pr:premium,tc:0" };
-  attributes["is-eligible-premium-unboxing"] = { boolValue: true };
+  attributes["is-eligible-premium-unboxing"] = { boolValue: false };
   attributes["name"] = { stringValue: "Spotify Premium" };
   attributes["nft-disabled"] = { stringValue: "1" };
   attributes["offline"] = { boolValue: true }; // allow downloading
