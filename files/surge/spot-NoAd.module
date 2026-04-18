@@ -7,9 +7,10 @@
 [Rule]
 AND,((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)),REJECT
 
-[URL Rewrite]
-^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del If-None-Match
+[Header Rewrite]
+http-request ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize$ header-del if-none-match
 
+[URL Rewrite]
 # 屏蔽设置界面会员信息（仅影响展示）
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/pam-view-service\/ - reject
 
