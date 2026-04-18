@@ -7517,7 +7517,7 @@ const OVERRIDE_ASSIGNED_VALUES = [
         "externalRealmId": "1216800"
       },
       "boolValue": {
-        "value": false
+        "value": true
       }
     },
     {
@@ -12053,7 +12053,93 @@ const OVERRIDE_ASSIGNED_VALUES = [
       "boolValue": {
         "value": true
       }
-    }
+    },
+
+    //以下是增加的部分
+    {
+            "propertyId": {
+              "scope": "ios-feature-contextualshuffle",
+              "name": "is_enabled_for_on_demand_trial"
+            },
+            "metadata": {
+              "policyId": "194505",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1226379"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "ios-reinventfree-contextualupsellpremiumpromo-impl",
+              "name": "is_promo_cta_enabled"
+            },
+            "metadata": {
+              "policyId": "537443",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1288256"
+            },
+            "boolValue": {
+              "value": false
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "ios-reinventfree-timecappivot-impl",
+              "name": "music_video_upsell_enabled"
+            },
+            "metadata": {
+              "policyId": "499774",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "10000216"
+            },
+            "boolValue": {
+              "value": false
+            }
+          },
+     {
+            "propertyId": {
+              "scope": "ios-reinventfree-contextualupsellpremiumpromo-impl",
+              "name": "show_time_cap_upsell_with_premium_badge"
+            },
+            "metadata": {
+              "policyId": "537443",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1288256"
+            },
+            "boolValue": {
+              "value": false
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "ios-reinventfree-controllerui-impl",
+              "name": "enable_video_time_cap_upsell"
+            },
+            "metadata": {
+              "policyId": "499774",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "10000216"
+            },
+            "boolValue": {
+              "value": false
+            }
+          },
+     {
+            "propertyId": {
+              "scope": "ios-reinventfree-controllerui-impl",
+              "name": "enable_video_time_cap_upsell_on_search"
+            },
+            "metadata": {
+              "policyId": "515362",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1276915"
+            },
+            "boolValue": {
+              "value": false
+            }
+          },
   ];
 const resStatus = $response.status ? $response.status : $response.statusCode;
 if (resStatus !== 200) {
@@ -12163,7 +12249,7 @@ function modifyAttributes(attributes) {
   attributes["can_use_superbird"] = { boolValue: true };
   attributes["catalogue"] = { stringValue: "premium" };
   attributes["financial-product"] = { stringValue: "pr:premium,tc:0" };
-  attributes["is-eligible-premium-unboxing"] = { boolValue: false };
+  attributes["is-eligible-premium-unboxing"] = { boolValue: true };
   attributes["name"] = { stringValue: "Spotify Premium" };
   attributes["nft-disabled"] = { stringValue: "1" };
   attributes["offline"] = { boolValue: true }; // allow downloading
