@@ -12180,19 +12180,19 @@ const blacklist = [
             "boolValue": {
             }
           },
-    {
-            "propertyId": {
-              "scope": "core-restrictions",
-              "name": "enable_can_play_content_extended_verdict"
-            },
-            "metadata": {
-              "policyId": "520265",
-              "externalRealm": "exp-planner",
-              "externalRealmId": "10000874"
-            },
-            "enumValue": {
-            }
-          },
+    // {
+    //         "propertyId": {
+    //           "scope": "core-restrictions",
+    //           "name": "enable_can_play_content_extended_verdict"
+    //         },
+    //         "metadata": {
+    //           "policyId": "520265",
+    //           "externalRealm": "exp-planner",
+    //           "externalRealmId": "10000874"
+    //         },
+    //         "enumValue": {
+    //         }
+    //       },
     {
             "propertyId": {
               "scope": "ios-learning-homeonboardingpage-impl",
