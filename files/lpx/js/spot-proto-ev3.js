@@ -12387,7 +12387,7 @@ function overrideAssignedValues(target) {
     const key = `${item.propertyId.scope}::${item.propertyId.name}`;
 
     // blacklist 直接跳过
-    if (blacklistSet.has(key)) {continue; n++; }
+    if (blacklistSet.has(key)) { n++; continue;  }
 
     result.push(item); f++;
     map.set(key, true);
@@ -12397,7 +12397,7 @@ function overrideAssignedValues(target) {
   for (const item of target) {
     const key = `${item.propertyId.scope}::${item.propertyId.name}`;
 
-    if (blacklistSet.has(key)) {continue; n++; } // blacklist 过滤
+    if (blacklistSet.has(key)) { n++; continue;  } // blacklist 过滤
     if (!map.has(key)) {
       result.push(item);
       map.set(key, true);
