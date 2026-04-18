@@ -12298,17 +12298,55 @@ function modifyAttributes(attributes) {
   console.log("accountAttributesMapObj processed");
 }
 
-function overrideAssignedValues(target) {
-  console.log("正在进行覆盖......");
+// function overrideAssignedValues(target) {
+//   console.log("正在进行覆盖......");
 
-  target.length = 0; // 清空原数据
-  let num=0;
+//   target.length = 0; // 清空原数据
+//   let num=0;
+//   for (const item of OVERRIDE_ASSIGNED_VALUES) {
+//     target.push(item);
+//     num++;
+//   }
+
+//   console.log(`成功覆盖${num}个字段`);
+// }
+
+function overrideAssignedValues(target) {
+  console.log("正在进行合并覆盖......");
+
+  let numAdded = 0;
+
+  // 用 OVERRIDE 作为结果起点
+  const result = [];
+
+  // 建索引（记录 OVERRIDE 里已有的 key）
+  const map = new Map();
+
+  // ① 先放 OVERRIDE（优先）
   for (const item of OVERRIDE_ASSIGNED_VALUES) {
-    target.push(item);
-    num++;
+    const key = `${item.propertyId.scope}::${item.propertyId.name}`;
+    result.push(item);
+    map.set(key, true);
   }
 
-  console.log(`成功覆盖${num}个字段`);
+  // ② 再补 target 里没有的
+  for (const item of target) {
+    const key = `${item.propertyId.scope}::${item.propertyId.name}`;
+
+    if (!map.has(key)) {
+      result.push(item);
+      map.set(key, true);
+      numAdded++;
+    }
+  }
+
+  // ③ 用结果覆盖原 target
+  target.length = 0;
+  for (const item of result) {
+    target.push(item);
+  }
+
+  console.log(`完成：新增 ${numAdded} 个字段，覆盖 ${OVERRIDE_ASSIGNED_VALUES.length} 个字段`);
 }
 
 
