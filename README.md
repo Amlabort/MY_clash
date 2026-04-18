@@ -24,7 +24,7 @@ bash <(curl -sSL https://raw.githubusercontent.com/SpotX-Official/SpotX-Bash/mai
 
 ## 使用方法(需要挂代理)
 
-### mihomo party
+### clash party
 左侧菜单栏点击【覆写】，然后将下面链接复制粘贴进顶栏，点击导入，导入后点击导入内容右侧的三个点，点击编辑信息，打开全局启用，完成。
 ```
 https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/MY_rules.yaml
