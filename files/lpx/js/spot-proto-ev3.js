@@ -12249,6 +12249,60 @@ const blacklist = [
               "value": true
             }
           },
+    {
+            "propertyId": {
+              "scope": "ios-feature-contextualshuffle",
+              "name": "is_enabled_for_on_demand_trial"
+            },
+            "metadata": {
+              "policyId": "194505",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1226379"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "ios-remoteconfiguration-bootstrap-impl",
+              "name": "login_trials_enabled"
+            },
+            "metadata": {
+              "policyId": "306423",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1216800"
+            },
+            "boolValue": {}
+          },
+    {
+            "propertyId": {
+              "scope": "ios-feature-ondemandtrial",
+              "name": "enable_call_trials_facade"
+            },
+            "metadata": {
+              "policyId": "306423",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1216800"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "ios-feature-contextualshuffle",
+              "name": "is_enabled_for_on_demand_trial"
+            },
+            "metadata": {
+              "policyId": "194505",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1226379"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
     
 ];
 const resStatus = $response.status ? $response.status : $response.statusCode;
