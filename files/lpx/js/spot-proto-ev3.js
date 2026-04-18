@@ -17,6 +17,22 @@ const OVERRIDE_ASSIGNED_VALUES = [
       }
     },
     {
+            "propertyId": {
+              "scope": "ios-feature-settings-platform",
+              "name": "is_playback_page_enabled"
+            },
+            "metadata": {
+              "policyId": "519343",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "10000765"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
+
+    ////---------
+    {
       "propertyId": {
         "scope": "core-player",
         "name": "enable_age_assurance_restrictions_mv_integration"
