@@ -12193,6 +12193,62 @@ const blacklist = [
             "enumValue": {
             }
           },
+    {
+            "propertyId": {
+              "scope": "ios-learning-homeonboardingpage-impl",
+              "name": "onboarding_page_enabled"
+            },
+            "metadata": {
+              "policyId": "249059",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1197166"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "core-ads",
+              "name": "restrict_swipe_to_skip"
+            },
+            "metadata": {
+              "policyId": "575147",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1292365"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "core-scrobble",
+              "name": "global_private_session_enabled"
+            },
+            "metadata": {
+              "policyId": "498992",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "10000202"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "ios-listening-activity",
+              "name": "listening_activity_enabled"
+            },
+            "metadata": {
+              "policyId": "522819",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "10001086"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
     
 ];
 const resStatus = $response.status ? $response.status : $response.statusCode;
@@ -12398,11 +12454,11 @@ function overrideAssignedValues(target) {
     const key = `${item.propertyId.scope}::${item.propertyId.name}`;
 
     if (blacklistSet.has(key)) { n++; continue;  } // blacklist 过滤
-    if (!map.has(key)) {
-      result.push(item);
-      map.set(key, true);
-      numAdded++;
-    }
+    // if (!map.has(key)) {
+    //   result.push(item);
+    //   map.set(key, true);
+    //   numAdded++;
+    // }
   }
 
   // ③ 覆盖回 target
