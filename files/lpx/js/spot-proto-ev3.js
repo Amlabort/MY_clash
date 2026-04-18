@@ -12377,7 +12377,9 @@ function overrideAssignedValues(target) {
 
   // 把 blacklist 转成 Set（加速查询）
   const blacklistSet = new Set(
-    blacklist.map(item => `${item.scope}::${item.name}`)
+    blacklist.map(item =>
+    `${item.propertyId.scope}::${item.propertyId.name}`
+      )
   );
 
   // ① 先放 OVERRIDE（优先）
