@@ -12054,8 +12054,9 @@ const OVERRIDE_ASSIGNED_VALUES = [
         "value": true
       }
     },
-
-    //以下是增加的部分
+  ];
+const blacklist = [
+        //以下是增加的部分
     {
             "propertyId": {
               "scope": "ios-feature-contextualshuffle",
@@ -12151,7 +12152,6 @@ const OVERRIDE_ASSIGNED_VALUES = [
               "externalRealmId": "1276915"
             },
             "boolValue": {
-                "value": false
             }
           },
     {
@@ -12165,10 +12165,36 @@ const OVERRIDE_ASSIGNED_VALUES = [
               "externalRealmId": "1276915"
             },
             "boolValue": {
-              "value": false
             }
           },
-  ];
+    {
+            "propertyId": {
+              "scope": "ios-system-available-plans-page",
+              "name": "experiment_first_card_disable"
+            },
+            "metadata": {
+              "policyId": "574308",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1282020"
+            },
+            "boolValue": {
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "core-restrictions",
+              "name": "enable_can_play_content_extended_verdict"
+            },
+            "metadata": {
+              "policyId": "520265",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "10000874"
+            },
+            "enumValue": {
+            }
+          },
+    
+];
 const resStatus = $response.status ? $response.status : $response.statusCode;
 if (resStatus !== 200) {
   console.log(`$response.status不为200:${resStatus}`);
@@ -12344,16 +12370,24 @@ function overrideAssignedValues(target) {
 
   let numAdded = 0;
 
-  // 用 OVERRIDE 作为结果起点
   const result = [];
-
-  // 建索引（记录 OVERRIDE 里已有的 key）
   const map = new Map();
+  let n=0;
+  let f=0;
+
+  // 把 blacklist 转成 Set（加速查询）
+  const blacklistSet = new Set(
+    blacklist.map(item => `${item.scope}::${item.name}`)
+  );
 
   // ① 先放 OVERRIDE（优先）
   for (const item of OVERRIDE_ASSIGNED_VALUES) {
     const key = `${item.propertyId.scope}::${item.propertyId.name}`;
-    result.push(item);
+
+    // blacklist 直接跳过
+    if (blacklistSet.has(key)) {continue; n++; }
+
+    result.push(item); f++;
     map.set(key, true);
   }
 
@@ -12361,6 +12395,7 @@ function overrideAssignedValues(target) {
   for (const item of target) {
     const key = `${item.propertyId.scope}::${item.propertyId.name}`;
 
+    if (blacklistSet.has(key)) {continue; n++; } // blacklist 过滤
     if (!map.has(key)) {
       result.push(item);
       map.set(key, true);
@@ -12368,15 +12403,14 @@ function overrideAssignedValues(target) {
     }
   }
 
-  // ③ 用结果覆盖原 target
+  // ③ 覆盖回 target
   target.length = 0;
   for (const item of result) {
     target.push(item);
   }
 
-  console.log(`完成：新增 ${numAdded} 个字段，覆盖 ${OVERRIDE_ASSIGNED_VALUES.length} 个字段`);
+  console.log(`完成：新增 ${numAdded} 个字段，覆盖字段 ${f}个，删去字段${n}个`);
 }
-
 
 function processMapObj(accountAttributesMapObj, assignedValuesMapObj) {
   //modifyAssignedValues(assignedValuesMapObj);
