@@ -12140,6 +12140,34 @@ const OVERRIDE_ASSIGNED_VALUES = [
               "value": false
             }
           },
+    {
+            "propertyId": {
+              "scope": "core-player",
+              "name": "enable_music_video_premium_check"
+            },
+            "metadata": {
+              "policyId": "515362",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1276915"
+            },
+            "boolValue": {
+                "value": false
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "ios-feature-freetierplaylist",
+              "name": "hide_video_badge_for_tracks"
+            },
+            "metadata": {
+              "policyId": "515362",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1276915"
+            },
+            "boolValue": {
+              "value": false
+            }
+          },
   ];
 const resStatus = $response.status ? $response.status : $response.statusCode;
 if (resStatus !== 200) {
