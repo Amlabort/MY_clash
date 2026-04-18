@@ -12,6 +12,7 @@ AND,((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)),REJECT
 
 [Rewrite]
 ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del if-none-match
+^https:\/\/(spclient\.wg|.*-spclient)\.spotify\.com(:443)?\/pendragon reject-dict
 
 #屏蔽设置界面会员信息，仅改变显示，可以删去
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/pam-view-service\/ reject-dict
