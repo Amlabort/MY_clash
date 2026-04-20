@@ -9,6 +9,7 @@ spot-ev1-enable = switch,false,true,tag= 远程配置修改
 
 [Rule]
 AND,((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)),REJECT
+DOMAIN,aet.spotify.com,REJECT
 
 [Rewrite]
 ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del if-none-match
