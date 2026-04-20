@@ -42,6 +42,7 @@ function parseField6(buffer) {
       if(value>12000) {
 
         buffer[i] = 0x7A;
+        console.log(" recovered tag");
         return {
         offset: i,
         dataLength: value,
