@@ -4,6 +4,8 @@ let body = $response.body;
 let MAX=300;
 let flag=0;
 
+body[5]=0x09;
+
 for (let i = 0; i < MAX; i++) {
     if (body[i] === 0xF2 && body[i + 1] === 0x01) {
 
