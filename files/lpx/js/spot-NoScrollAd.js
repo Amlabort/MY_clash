@@ -12,12 +12,21 @@ function matchAt(buf, i) {
   }
   return true;
 }
-for (let i = 0; i < body.length; i++) {
-    if (matchAt(body,i)) {
+for (let i = 0; i < body.length - targetBytes.length; i++) {
 
-        for(n=0; n<targetBytes.length+1; n++) body[i+n]=0x00;
-        console.log(`改变 ${i} 处值`);
-    }
+  if (matchAt(body, i)) {
+
+    let start = i;
+    let end = i + targetBytes.length;
+
+    // ❗真正删除，而不是清零
+    body = new Uint8Array([
+      ...body.slice(0, start),
+      ...body.slice(end)
+    ]);
+
+    console.log("已删除 section string block");
+  }
 }
 
 for (let i = 0; i < MAX; i++) {
