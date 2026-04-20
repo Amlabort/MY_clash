@@ -9,6 +9,7 @@ spot-ev1-enable = switch,false,true,tag= 远程配置修改
 
 [Rule]
 AND,((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)),REJECT
+
 DOMAIN,aet.spotify.com,REJECT
 
 [Rewrite]
