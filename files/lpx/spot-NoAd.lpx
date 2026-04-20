@@ -16,6 +16,9 @@ DOMAIN,aet.spotify.com,REJECT
 ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del if-none-match
 ^https:\/\/(spclient\.wg|.*-spclient)\.spotify\.com(:443)?\/pendragon reject-dict
 
+#屏蔽播放界面的探索内容显示，凭个人喜好开关
+^https:\/\/(spclient\.wg|.*-spclient)\.spotify\.com(:443)?\/watch-feed-entrypoints\/v.\/discovery-from-seed reject-dict
+
 #屏蔽设置界面会员信息，仅改变显示，可以删去
 ^https:\/\/.*-spclient\.spotify\.com(:443)?\/pam-view-service\/ reject-dict
 
