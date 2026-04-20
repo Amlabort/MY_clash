@@ -4,6 +4,15 @@ let body = $response.body;
 let MAX=300;
 let flag=0;
 
+for (let i = 0; i < body.length; i++) {
+    if (body[i] === 0xBA && body[i + 1] === 0x01) {
+
+        body[i] = 0xF7;
+        body[i + 1] = 0x07;
+        console.log(`移除 ${i} 处的值`);
+    }
+}
+
 
 for (let i = 0; i < MAX; i++) {
     if (body[i] === 0xF2 && body[i + 1] === 0x01) {
