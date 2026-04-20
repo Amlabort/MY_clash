@@ -2,11 +2,9 @@
 
 分流规则集：https://github.com/blackmatrix7/ios_rule_script/blob/master/rule/Clash/README.md
 
-小火箭conf说明：https://github.com/Johnshall/Shadowrocket-ADBlock-Rules-Forever/blob/release/lazy.conf
-
-小火箭模块地址：https://github.com/deezertidal/shadowrocket-rules
-
 LOON模块地址：https://github.com/luestr/ProxyResource
+
+Spotify Loon插件：https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/spot-NoAd.lpx
 
 steam控制台:
 ```
