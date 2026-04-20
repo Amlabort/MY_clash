@@ -35,9 +35,9 @@ function parseField6(buffer) {
       const { value, length } = readVarint(buffer, i + 1);
 
       console.log("找到 field 6:");
-      console.log("位置:", i);
-      console.log("长度:", value);
-      console.log("varint字节数:", length);
+      console.log(`位置: ${i}`);
+      console.log(`长度: ${value}`);
+      console.log(`varint字节数: ${length}`);
 
       if(value>12000) {
 
