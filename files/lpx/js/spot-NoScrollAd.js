@@ -4,15 +4,22 @@ let body = $response.body;
 let MAX=300;
 let flag=0;
 
+const targetBytes = new TextEncoder().encode("spotify:section:0JQ5DB6s3cssW5Bo6cGq");
+
+function matchAt(buf, i) {
+  for (let j = 0; j < targetBytes.length; j++) {
+    if (buf[i + j] !== targetBytes[j]) return false;
+  }
+  return true;
+}
 for (let i = 0; i < body.length; i++) {
-    if (body[i] === 0xBA && body[i + 1] === 0x01) {
+    if (matchAt(body,i)) {
 
         body[i] = 0xF7;
         body[i + 1] = 0x07;
-        console.log(`移除 ${i} 处的值`);
+        console.log(`改变 ${i} 处值`);
     }
 }
-
 
 for (let i = 0; i < MAX; i++) {
     if (body[i] === 0xF2 && body[i + 1] === 0x01) {
