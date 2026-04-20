@@ -17,6 +17,7 @@ for (let i = 0; i < MAX; i++) {
 }
 
 if(!flag) console.log(`未检测到广告`);
+$done({});
 
 
 
