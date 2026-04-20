@@ -15,8 +15,7 @@ function matchAt(buf, i) {
 for (let i = 0; i < body.length; i++) {
     if (matchAt(body,i)) {
 
-        body[i] = 0xF7;
-        body[i + 1] = 0x07;
+        for(n=0; n<targetBytes.length+1; n++) body[i+n]=0x00;
         console.log(`改变 ${i} 处值`);
     }
 }
