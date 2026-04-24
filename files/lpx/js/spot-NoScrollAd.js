@@ -1,7 +1,7 @@
 // 获取二进制响应体
 let body = $response.body;
 
-let MAX=300;
+let MAX=400;
 let flag=0;
 
 for (let i = 0; i < MAX; i++) {
