@@ -42,7 +42,7 @@ function parseField6(buffer) {
       if(value>12000) {
 
         buffer[i] = 0x7A;
-        console.log(" recovered tag");
+        console.log("重置tag值以去除广告");
         return {
         offset: i,
         dataLength: value,
