@@ -3,7 +3,7 @@ let body = $response.body;
 
 let MAX=666;
 let flag=0;
-
+console.log(`ScrollNoAd`);
 for (let i = 0; i < MAX; i++) {
     if (body[i] === 0xF2 && body[i + 1] === 0x01) {
 
