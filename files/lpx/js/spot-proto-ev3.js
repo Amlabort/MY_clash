@@ -6372,20 +6372,20 @@ const OVERRIDE_ASSIGNED_VALUES = [
         "value": true
       }
     },
-    {
-      "propertyId": {
-        "scope": "ios-system-nowplayingviewmerch",
-        "name": "npv_card_enabled_on_ipad"
-      },
-      "metadata": {
-        "policyId": "201591",
-        "externalRealm": "exp-planner",
-        "externalRealmId": "1182044"
-      },
-      "boolValue": {
-        "value": true
-      }
-    },
+    // {
+    //   "propertyId": {
+    //     "scope": "ios-system-nowplayingviewmerch",
+    //     "name": "npv_card_enabled_on_ipad"
+    //   },
+    //   "metadata": {
+    //     "policyId": "201591",
+    //     "externalRealm": "exp-planner",
+    //     "externalRealmId": "1182044"
+    //   },
+    //   "boolValue": {
+    //     "value": true
+    //   }
+    // },
     {
       "propertyId": {
         "scope": "ios-feature-readalong",
@@ -6414,20 +6414,20 @@ const OVERRIDE_ASSIGNED_VALUES = [
         "value": true
       }
     },
-    {
-      "propertyId": {
-        "scope": "ios-artistabout-artistaboutcard-impl",
-        "name": "is_ipad_redesign_enabled"
-      },
-      "metadata": {
-        "policyId": "201591",
-        "externalRealm": "exp-planner",
-        "externalRealmId": "1182044"
-      },
-      "boolValue": {
-        "value": true
-      }
-    },
+    // {
+    //   "propertyId": {
+    //     "scope": "ios-artistabout-artistaboutcard-impl",
+    //     "name": "is_ipad_redesign_enabled"
+    //   },
+    //   "metadata": {
+    //     "policyId": "201591",
+    //     "externalRealm": "exp-planner",
+    //     "externalRealmId": "1182044"
+    //   },
+    //   "boolValue": {
+    //     "value": true
+    //   }
+    // },
     {
       "propertyId": {
         "scope": "ios-share-podcast-sharing",
@@ -7818,20 +7818,20 @@ const OVERRIDE_ASSIGNED_VALUES = [
         "value": true
       }
     },
-    {
-      "propertyId": {
-        "scope": "ios-smartshuffle-npvscrollrecscard-impl",
-        "name": "npv_scroll_card_enabled_on_ipad"
-      },
-      "metadata": {
-        "policyId": "336547",
-        "externalRealm": "exp-planner",
-        "externalRealmId": "1226008"
-      },
-      "boolValue": {
-        "value": true
-      }
-    },
+    // {
+    //   "propertyId": {
+    //     "scope": "ios-smartshuffle-npvscrollrecscard-impl",
+    //     "name": "npv_scroll_card_enabled_on_ipad"
+    //   },
+    //   "metadata": {
+    //     "policyId": "336547",
+    //     "externalRealm": "exp-planner",
+    //     "externalRealmId": "1226008"
+    //   },
+    //   "boolValue": {
+    //     "value": true
+    //   }
+    // },
     {
       "propertyId": {
         "scope": "ios-smartshuffle-npvscrollrecscard-impl",
@@ -9510,20 +9510,20 @@ const OVERRIDE_ASSIGNED_VALUES = [
         "value": true
       }
     },
-    {
-      "propertyId": {
-        "scope": "ios-prerelease-nowplayingviewprovider-impl",
-        "name": "is_enabled_on_ipad"
-      },
-      "metadata": {
-        "policyId": "410149",
-        "externalRealm": "exp-planner",
-        "externalRealmId": "1249243"
-      },
-      "boolValue": {
-        "value": true
-      }
-    },
+    // {
+    //   "propertyId": {
+    //     "scope": "ios-prerelease-nowplayingviewprovider-impl",
+    //     "name": "is_enabled_on_ipad"
+    //   },
+    //   "metadata": {
+    //     "policyId": "410149",
+    //     "externalRealm": "exp-planner",
+    //     "externalRealmId": "1249243"
+    //   },
+    //   "boolValue": {
+    //     "value": true
+    //   }
+    // },
     {
       "propertyId": {
         "scope": "core-bitrate",
