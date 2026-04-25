@@ -116,6 +116,76 @@ const OVERRIDE_ASSIGNED_VALUES = [
               "value": true
             }
           },
+    {
+            "propertyId": {
+              "scope": "ios-home-evopage-impl",
+              "name": "metadata_position_in_main_feed"
+            },
+            "metadata": {
+              "policyId": "564217",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "10041141"
+            },
+            "enumValue": {
+              "value": "bottom"
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "ios-adaptivelayout-experimentationmanager",
+              "name": "is_adaptive_layout_enabled"
+            },
+            "metadata": {
+              "policyId": "529814",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1285545"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "ios-adaptivelayout-experimentationmanager",
+              "name": "now_playing_view_initial_mode"
+            },
+            "metadata": {
+              "policyId": "529814",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1285545"
+            },
+            "enumValue": {
+              "value": "Collapsed"
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "ios-home-evopage-impl",
+              "name": "additional_section_spacing_on_main_feed"
+            },
+            "metadata": {
+              "policyId": "564217",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "10041141"
+            },
+            "intValue": {
+              "value": 4
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "ios-home-evopage-impl",
+              "name": "enable_edge_to_edge_video_mdc_in_main_feed"
+            },
+            "metadata": {
+              "policyId": "569989",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1293737"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
 
     ////---------
     {
@@ -10278,20 +10348,20 @@ const OVERRIDE_ASSIGNED_VALUES = [
         "value": true
       }
     },
-    {
-      "propertyId": {
-        "scope": "ios-feature-navigation",
-        "name": "tab_configuration"
-      },
-      "metadata": {
-        "policyId": "430387",
-        "externalRealm": "exp-planner",
-        "externalRealmId": "1255537"
-      },
-      "enumValue": {
-        "value": "CreateRight"
-      }
-    },
+    // {
+    //   "propertyId": {
+    //     "scope": "ios-feature-navigation",
+    //     "name": "tab_configuration"
+    //   },
+    //   "metadata": {
+    //     "policyId": "430387",
+    //     "externalRealm": "exp-planner",
+    //     "externalRealmId": "1255537"
+    //   },
+    //   "enumValue": {
+    //     "value": "CreateRight"
+    //   }
+    // },
     {
       "propertyId": {
         "scope": "ios-endless-aidjinteractivity-impl",
