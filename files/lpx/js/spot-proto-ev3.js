@@ -16,6 +16,8 @@ const OVERRIDE_ASSIGNED_VALUES = [
         "value": true
       }
     },
+
+    ////---------
     {
             "propertyId": {
               "scope": "ios-feature-settings-platform",
@@ -25,6 +27,62 @@ const OVERRIDE_ASSIGNED_VALUES = [
               "policyId": "519343",
               "externalRealm": "exp-planner",
               "externalRealmId": "10000765"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "ios-feature-canvas",
+              "name": "canvas_enabled_ipad"
+            },
+            "metadata": {
+              "policyId": "529814",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1285545"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "ios-feature-ontour",
+              "name": "enable_nowplaying_scroll_events_card_on_ipad"
+            },
+            "metadata": {
+              "policyId": "201591",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1182044"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "ios-feature-podcastpolls",
+              "name": "is_enabled_for_npv_on_ipad"
+            },
+            "metadata": {
+              "policyId": "201591",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1182044"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "ios-watchfeed-npvprovider",
+              "name": "watch_feed_in_npv_enabled_on_ipad"
+            },
+            "metadata": {
+              "policyId": "350275",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1230437"
             },
             "boolValue": {
               "value": true
