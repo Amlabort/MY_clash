@@ -88,6 +88,34 @@ const OVERRIDE_ASSIGNED_VALUES = [
               "value": true
             }
           },
+    {
+            "propertyId": {
+              "scope": "ios-home-evopage-impl",
+              "name": "send_is_tablet_header"
+            },
+            "metadata": {
+              "policyId": "529814",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1285545"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
+    {
+            "propertyId": {
+              "scope": "ios-browse-browsepage-impl",
+              "name": "send_is_tablet_header"
+            },
+            "metadata": {
+              "policyId": "529814",
+              "externalRealm": "exp-planner",
+              "externalRealmId": "1285545"
+            },
+            "boolValue": {
+              "value": true
+            }
+          },
 
     ////---------
     {
