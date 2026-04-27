@@ -1,5 +1,7 @@
 //const body = $response.body;
 const body = $response.body || $response.bodyBytes || LOONResponseBody;
+const headers = $response.headers;
+const contentLength = headers["Content-Length"] || headers["content-length"];
 
 if (!body || body.length === 0) {
   console.log("body 为空或不存在");
@@ -7,7 +9,7 @@ if (!body || body.length === 0) {
   return;
 }
 
-if (body.length > 1000 && body.length < 1250) {
+if (contentLength > 1000 && contentLength < 1250) {
   console.log("钱包标签页");
   $done({body: ""});
   return;
