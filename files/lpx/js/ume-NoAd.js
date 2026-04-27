@@ -7,11 +7,15 @@ if (!body || body.length === 0) {
   return;
 }
 
-for(let i=0;i<666;i++)
+for(let i=0;i<300;i++)
 {
-  if(body[i]===0xE9 && body[i+1]===0x92 && body[i+2]===0xB1 && body[i+3]===0xE5 && body[i+4]===0x8C && body[i+5]===0x85){
+  if(body[i]===0xAA && body[i+1]===0x01){
     console.log("去除钱包标签");
-    $done({ body: new Uint8Array([0x00]) });
+    body[i] = 0x7A;
+    body[i+1] = 0x00;
+    body[i+2] = 0x00;
+    console.log("修改完毕");
+    $done({ body });
     return true;
   }
 }
