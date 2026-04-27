@@ -5,6 +5,11 @@ payload:
 #  - DOMAIN-SUFFIX,steamcommunity.com  社区
 #  - DOMAIN-SUFFIX,api.steampowered.com  部分页面
 #  - DOMAIN,store.steampowered.com  商店主页
+  - DOMAIN,yif.gdtstream.com
+  - DOMAIN,gstore.val.smogfly.com
+
+
+
   - DOMAIN,steamcdn-a.akamaihd.net
   - DOMAIN-SUFFIX,steamserver.net
   - DOMAIN-SUFFIX,steamstat.com
