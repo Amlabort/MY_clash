@@ -22,7 +22,7 @@ function readVarint(buffer, offset) {
   };
 }
 
-for (let i = 0; i < buffer.length; i++) {
+for (let i = 0; i < body.length; i++) {
     if (body[i] === 0x52) {
       const { value, length } = readVarint(buffer, i + 1);
 
