@@ -1,4 +1,5 @@
-const body = $response.body;
+//const body = $response.body;
+const body = $response.body || $response.bodyBytes || LOONResponseBody;
 
 if (!body || body.length === 0) {
   console.log("body 为空或不存在");
