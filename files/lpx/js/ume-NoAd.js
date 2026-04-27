@@ -1,5 +1,11 @@
 const body = $response.body;
 
+if (!body || body.length === 0) {
+  console.log("body 为空或不存在");
+  $done({});
+  return;
+}
+
 function readVarint(buffer, offset) {
   let result = 0;
   let shift = 0;
@@ -9,11 +15,12 @@ function readVarint(buffer, offset) {
     const byte = buffer[pos];
 
     result |= (byte & 0x7F) << shift;
+    pos++;
 
     if ((byte & 0x80) === 0) break;
 
     shift += 7;
-    pos++;
+
   }
 
   return {
