@@ -38,5 +38,5 @@ for (let i = 0; i < body.length; i++) {
     }
 }
 
-console("未找到广告字段");
+console.log("未找到广告字段");
 $done({body});
