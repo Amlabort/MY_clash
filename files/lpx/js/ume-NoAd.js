@@ -11,7 +11,7 @@ for(let i=0;i<666;i++)
 {
   if(body[i]===0xE9 && body[i+1]===0x92 && body[i+2]===0xB1 && body[i+3]===0xE5 && body[i+4]===0x8C && body[i+5]===0x85){
     console.log("去除钱包标签");
-    $done({ body: "" });
+    $done({ body: new Uint8Array([0x00]) });
     return true;
   }
 }
