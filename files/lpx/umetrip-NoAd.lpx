@@ -4,26 +4,10 @@
 #!icon=https://res.cloudinary.com/daznljces/image/upload/v1772763559/gvpcw9kldmhas2rsx5it.png
 
 [rule]
-DOMAIN-SUFFIX,cdfsunrise.com,REJECT
-
 
 [rewrite]
-^https:\/\/oss\.umetrip\.com\/fs\/advert\/polite reject   #去开屏广告
-^https:\/\/oss\.umetrip\.com\/fs\/pos reject
-^https:\/\/oss\.umetrip\.com\/fs\/mall reject
-^https:\/\/oss\.umetrip\.com\/fs\/activity\/makeup reject
-^https:\/\/oss\.umetrip\.com\/fs\/(activity|equityCenter)\/static reject
-^https:\/\/oss\.umetrip\.com\/fs\/operation\/activity reject
-^https:\/\/(startup|discardrp)\.umetrip\.com\/gateway reject-dict
-^https?:\/\/ossgw\.alicdn\.com\/.*\/fs\/advert\/polite.* reject-dict
-^https?:\/\/ossgw\.alicdn\.com\/.*\/fs\/advert\/.* reject-dict
+^https:\/\/oss\.umetrip\.com\/fs\/advert\/polite\/4451 reject   #去开屏广告
 
-# ---- mPaaS (Ali) possible splash delivery paths (conservative) ----
-^https?:\/\/(?:[a-z0-9.-]+\.)?aliyuncs\.com\/.*/advert\/.* reject-dict
-^https?:\/\/(?:[a-z0-9.-]+\.)?aliyuncs\.com\/.*/ads?\/.* reject-dict
-
-# ---- Legacy API ad endpoints ----
-^https?:\/\/api\.umetrip\.com\/api\/(ad|advert)\/.* reject-dict
 
 [mitm]
 hostname= *.umetrip.com
