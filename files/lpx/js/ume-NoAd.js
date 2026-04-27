@@ -24,7 +24,7 @@ function readVarint(buffer, offset) {
 
 for (let i = 0; i < body.length; i++) {
     if (body[i] === 0x52) {
-      const { value, length } = readVarint(buffer, i + 1);
+      const { value, length } = readVarint(body, i + 1);
 
       console.log(`找到 0x52 在偏移 ${i}`);
       console.log(`length = ${value}`);
