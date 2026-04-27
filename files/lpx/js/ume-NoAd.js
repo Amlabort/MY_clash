@@ -7,18 +7,23 @@ if (!body || body.length === 0) {
   return;
 }
 
-for(let i=0;i<300;i++)
-{
-  if(body[i]===0xAA && body[i+1]===0x01){
-    console.log("去除钱包标签");
-    body[i] = 0x7A;
-    body[i+1] = 0x00;
-    body[i+2] = 0x00;
-    console.log("修改完毕");
-    $done({ body });
-    return true;
-  }
+if (body.length > 1000 && body.length < 1250) {
+  console.log("钱包标签页");
+  $done({body: ""});
+  return;
 }
+// for(let i=0;i<300;i++)
+// {
+//   if(body[i]===0xAA && body[i+1]===0x01){
+//     console.log("去除钱包标签");
+//     body[i] = 0x7A;
+//     body[i+1] = 0x00;
+//     body[i+2] = 0x00;
+//     console.log("修改完毕");
+//     $done({ body });
+//     return true;
+//   }
+// }
 
 function readVarint(buffer, offset) {
   let result = 0;
