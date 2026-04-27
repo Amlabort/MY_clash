@@ -15,15 +15,15 @@ if (contentLength > 1000 && contentLength < 1250) {
   return;
 }
 
-for(let i=0;i<body.length;i++)
-{
-  if(body[i]===0xAA && body[i+1]===0x01){
-    console.log("去除钱包标签");
-    body[i] = 0xF7;
-    body[i+1] = 0x07;
-    console.log("修改21 tag");
-  }
-}
+// for(let i=0;i<body.length;i++)
+// {
+//   if(body[i]===0xAA && body[i+1]===0x01){
+//     console.log("去除钱包标签");
+//     body[i] = 0xF7;
+//     body[i+1] = 0x07;
+//     console.log("修改21 tag");
+//   }
+// }
 
 function readVarint(buffer, offset) {
   let result = 0;
