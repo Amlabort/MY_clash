@@ -32,6 +32,7 @@ for (let i = 0; i < body.length; i++) {
       if (value > 300) {
         console.log("找到长度 > 300");
         body[i] = 0x7A;
+        body[i+1] = 0x00;
         $done({body});
         return true;
       }
