@@ -14,18 +14,16 @@ if (contentLength > 1000 && contentLength < 1250) {
   $done({body: "23333"});
   return;
 }
-// for(let i=0;i<300;i++)
-// {
-//   if(body[i]===0xAA && body[i+1]===0x01){
-//     console.log("去除钱包标签");
-//     body[i] = 0x7A;
-//     body[i+1] = 0x00;
-//     body[i+2] = 0x00;
-//     console.log("修改完毕");
-//     $done({ body });
-//     return true;
-//   }
-// }
+
+for(let i=0;i<body.length;i++)
+{
+  if(body[i]===0xAA && body[i+1]===0x01){
+    console.log("去除钱包标签");
+    body[i] = 0xF7;
+    body[i+1] = 0x07;
+    console.log("修改21 tag");
+  }
+}
 
 function readVarint(buffer, offset) {
   let result = 0;
