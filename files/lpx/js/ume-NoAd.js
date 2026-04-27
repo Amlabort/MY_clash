@@ -11,7 +11,7 @@ if (!body || body.length === 0) {
 
 if (contentLength > 1000 && contentLength < 1250) {
   console.log("钱包标签页");
-  $done({body: ""});
+  $done({body: "23333"});
   return;
 }
 // for(let i=0;i<300;i++)
