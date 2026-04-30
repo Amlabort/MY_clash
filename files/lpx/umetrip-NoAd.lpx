@@ -6,7 +6,7 @@
 [rule]
 
 [rewrite]
-^https:\/\/oss\.umetrip\.com\/fs\/advert\/polite\/4451 reject   #去开屏广告
+^https:\/\/oss\.umetrip\.com\/fs\/advert\/polite\/4 reject   #去开屏广告
 
 
 [mitm]
