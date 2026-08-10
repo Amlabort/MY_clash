@@ -9,7 +9,7 @@
 
 
 [Rewrite]
-^https?:\/\/api\.zhihu\.com\/next-render\?id=\d+ reject-dict
+# ^https?:\/\/api\.zhihu\.com\/next-render\?id=\d+ reject-dict
 
 
 [MITM]
@@ -17,4 +17,7 @@
 hostname =api.zhihu.com,
 
 [Script]
+
+http-response ^https?:\/\/api\.zhihu\.com\/next-render\? script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/zhihu-NoAd.js, requires-body=true, binary-body-mode=true, timeout=10, tag=知乎_noAd
+
 
