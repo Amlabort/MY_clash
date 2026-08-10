@@ -9,9 +9,12 @@
 
 
 [Rewrite]
-^https?:\/\/api\.zhihu\.com\/next-render\?context_expand reject-dict
+^https?:\/\/api\.zhihu\.com\/next-render\?id=\d+ reject-dict
 
 
 [MITM]
 
 hostname =api.zhihu.com,
+
+[Script]
+
