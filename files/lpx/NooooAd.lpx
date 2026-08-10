@@ -18,6 +18,6 @@ hostname =api.zhihu.com,
 
 [Script]
 
-http-response ^https?:\/\/api\.zhihu\.com\/next-render\? script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/zhihu-NoAd.js, requires-body=true, binary-body-mode=true, timeout=10, tag=知乎_noAd
+http-response ^https?:\/\/api\.zhihu\.com\/next-render\? script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/zhihu-NoAd.js, requires-body=true, binary-body-mode=false, timeout=10, tag=知乎_noAd
 
 
