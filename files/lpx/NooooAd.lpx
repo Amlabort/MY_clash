@@ -1,0 +1,17 @@
+#!name=杂项去广告
+#!desc=自己研究的七杂八杂的去广告
+#!icon=https://img.icons8.com/?size=100&id=61970&format=png&color=000000
+#!date=260810
+
+
+[Rule]
+# 
+
+
+[Rewrite]
+^https?:\/\/api\.zhihu\.com\/next-render\?context_expand reject-dict
+
+
+[MITM]
+
+hostname =api.zhihu.com,
