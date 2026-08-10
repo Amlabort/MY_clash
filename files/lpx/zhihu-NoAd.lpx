@@ -1,0 +1,74 @@
+#!name=知乎
+#!desc=知乎去广告
+#!icon=https://img.icons8.com/?size=100&id=61970&format=png&color=000000
+#!date=260810
+
+[URL Rewrite]
+^https?:\/\/api\.zhihu\.com\/commercial_api\/answer reject-dict
+
+
+^https?:\/\/118\.89\.204\.198 reject-dict
+^https?:\/\/103\.41\.167\.237 reject-dict
+^https?:\/\/2402:4e00:1200:ed00:0:9089:6dac:96b6 reject-200
+^https?:\/\/api\.zhihu\.com\/ab\/api\/v1\/products\/zhihu\/platforms\/ios\/config reject
+^https?:\/\/api\.zhihu\.com\/commercial_api\/launch_v2\? reject-dict
+^https?:\/\/api\.zhihu\.com\/commercial_api\/real_time_launch_v2\? reject-dict
+^https?:\/\/api\.zhihu\.com\/brand\/question\/\d+/card\? reject-dict
+^https?:\/\/www\.zhihu\.com\/api\/v\d+\/brand\/question/\d+/card\? reject-dict
+^https?:\/\/api\.zhihu\.com\/moments\/tab_v2 reject-dict
+^https?:\/\/api\.zhihu\.com\/(notifications\/v\d\/count) reject-dict
+^https?:\/\/www\.zhihu\.com\/api\/v\d\/answers\/\d+\/recommendations reject-dict
+^https?:\/\/api\.zhihu\.com\/me\/guides reject-dict
+^https?:\/\/api\.zhihu\.com\/moments\/recent reject-dict
+^https?:\/\/api\.zhihu\.com\/api\/v4\/ecom_data\/config reject-dict
+^https?:\/\/api\.zhihu\.com\/content-distribution-core\/bubble\/common\/settings reject-dict
+^https?:\/\/api\.zhihu\.com\/feed\/render\/revisit\/current_reading reject-dict
+^https?:\/\/api\.zhihu\.com\/feed\/render\/revisit\/tag_config reject-dict
+^https?:\/\/www\.zhihu\.com\/api\/v\d+\/search\/related_queries\/answer reject-dict
+^https?:\/\/api\.zhihu\.com\/commercial_api\/banners_v3\/app_topstory_banner reject-dict
+^https?:\/\/api\.zhihu\.com\/ad-style-service\/request reject
+[Script]
+
+http-response ^https?:\/\/api\.zhihu\.com\/next-render\? script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/zhihu-NoAd.js, requires-body=true, binary-body-mode=false, timeout=10, tag=知乎_noAd
+
+
+http-response ^https?:\/\/api\.zhihu\.com\/people\/ requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https?:\/\/api\.zhihu\.com\/feed-root\/block requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https?:\/\/m-cloud\.zhihu\.com\/api\/cloud\/config\/all\? requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https?:\/\/appcloud2\.zhihu\.com\/v\d+\/config requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https?:\/\/api\.zhihu\.com\/user-credit\/basis requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https?:\/\/api\.zhihu\.com\/moments_v3\? requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https:\/\/api\.zhihu\.com\/topstory\/recommend requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https?:\/\/api\.zhihu\.com\/settings\/blocked_users requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https?:\/\/api\.zhihu\.com\/(v4\/)?questions\/\d+ requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https?:\/\/api\.zhihu\.com\/next-data requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https?:\/\/www\.zhihu\.com\/api\/v4\/comment_v5\/answers\/\d+\/abstract_comment\? requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https?:\/\/api\.zhihu\.com\/(comment_v5\/)?(answers|comments?|articles|pins)\/\d+\/(root_|child_)?comments? requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https?:\/\/api\.zhihu\.com\/notifications\/v3\/(message|timeline\/entry\/system_message) requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https?:\/\/www\.zhihu\.com\/appview\/v2\/answer\/.*(entry=(?!(preload-topstory|preload-search|preload-subscription)))? requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https?:\/\/api\.zhihu\.com\/next\? requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https?:\/\/www\.zhihu\.com\/api\/v\d\/articles\/\d+\/recommendation\? requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https?:\/\/api\.zhihu\.com\/topstory\/hot-lists?(\?|\/) requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+http-response ^https?:\/\/api\.zhihu\.com\/search\/preset_words\? requires-body=1,script-path=https://gist.githubusercontent.com/blackmatrix7/f5f780d0f56b319b6ad9848fd080bb18/raw/zheye.min.js
+
+
+
+[MITM]
+hostname = 118.89.204.198,103.41.167.237,2402:4e00:1200:ed00:0:9089:6dac:96b6,www.zhihu.com,api.zhihu.com,zhuanlan.zhihu.com,appcloud2.zhihu.com,m-cloud.zhihu.com,103.41.167.236,103.41.167.234,103.41.167.235,103.41.167.226
