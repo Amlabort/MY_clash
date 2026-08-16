@@ -3,6 +3,7 @@ payload:
 - DOMAIN-KEYWORD,touchgal
 - DOMAIN-SUFFIX,download.nvidia.com
 - DOMAIN-SUFFIX,nullbr.online
+- DOMAIN-SUFFIX,steampy.com
 
 # spotify登录
 - DOMAIN-REGEX,ap-\w+\.spotify\.com
