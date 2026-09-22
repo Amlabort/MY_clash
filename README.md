@@ -19,6 +19,11 @@ mac os spotify去广告: 终端输入
 ```
 bash <(curl -sSL https://raw.githubusercontent.com/SpotX-Official/SpotX-Bash/main/spotx.sh) -B
 ```
+测速url
+
+```
+http://cp.cloudflare.com/generate_204
+```
 
 ## 使用方法(需要挂代理)
 
