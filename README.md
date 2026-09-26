@@ -25,6 +25,12 @@ bash <(curl -sSL https://raw.githubusercontent.com/SpotX-Official/SpotX-Bash/mai
 http://cp.cloudflare.com/generate_204
 ```
 
+windows激活
+```
+irm https://get.activated.win | iex
+```
+
+
 ## 使用方法(需要挂代理)
 
 ### clash party
