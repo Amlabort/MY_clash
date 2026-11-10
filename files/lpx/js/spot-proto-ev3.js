@@ -12485,6 +12485,7 @@ if (resStatus !== 200) {
   const url = $request.url;
   const method = $request.method;
   const postMethod = "POST";
+    const getMethod = "GET";
   const isQuanX = typeof $task !== "undefined";
   const binaryBody = isQuanX ? new Uint8Array($response.bodyBytes) : $response.body;
   let accountAttributesMapObj;
@@ -12510,6 +12511,14 @@ if (resStatus !== 200) {
     processMapObj(accountAttributesMapObj, assignedValuesMapObj);
     body = ucsResponseWrapperType.encode(ucsResponseWrapperMessage).finish();
     console.log('customize');
+  } else if (url.includes("nebula/v1/configuration/attributes") && method === getMethod) {
+    let ucsResponseWrapperType = protobuf.Root.fromJSON(spotifyJson).lookupType("UcsResponseWrapper");
+    let ucsResponseWrapperMessage = ucsResponseWrapperType.decode(binaryBody);
+    accountAttributesMapObj = ucsResponseWrapperMessage.success.accountAttributesSuccess.accountAttributes;
+    assignedValuesMapObj = ucsResponseWrapperMessage.success.resolveSuccess.configuration.assignedValues;
+    processMapObj(accountAttributesMapObj, assignedValuesMapObj);
+    body = ucsResponseWrapperType.encode(ucsResponseWrapperMessage).finish();
+    console.log('nebula');
   } else {
     $notification.post('spotify解锁premium', "路径/请求方法匹配错误:", method + "," + url);
   }
