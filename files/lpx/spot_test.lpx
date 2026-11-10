@@ -4,7 +4,8 @@
 #!date=260416
 
 [Argument]
-
+spot-ev3-enable = switch,true,false,tag= 本地配置覆盖
+spot-ev1-enable = switch,false,true,tag= 远程配置修改
 
 [Rule]
 AND,((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)),REJECT
@@ -28,4 +29,11 @@ DOMAIN,aet.spotify.com,REJECT
 hostname = spclient.wg.spotify.com, *spclient.spotify.com
 
 [Script]
-http-response ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/ script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/spot-test.js, requires-body=true, binary-body-mode=true, timeout=10, tag=spot-test
+http-request ^https:\/\/(.*-spclient\.spotify\.com(:443)?|spclient\.wg\.spotify\.com)\/gabo-receiver-service script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/spot-gabo.js, timeout=10, tag=spotify-gabo
+
+http-response ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/browsita\/v.\/browse script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/spot-NoSearchAd.js, requires-body=true, binary-body-mode=true, timeout=10, tag=search_noAd
+# http-response ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/casita\/v.\/home\/default script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/spot-NoHomeAd.js, requires-body=true, binary-body-mode=true, timeout=10, tag=home_noAd
+http-response ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/scrollsita\/v.\/scroll\/spotify script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/spot-NoScrollAd.js, requires-body=true, binary-body-mode=true, timeout=10, tag=scroll_noAd
+http-response ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$ script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/spot-proto-eevee.js, requires-body=true, binary-body-mode=true, timeout=10, tag=Ev_spotifyProto,enable={spot-ev1-enable}
+http-response ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$ script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/spot-proto-ev3.js, requires-body=true, binary-body-mode=true, timeout=10, tag=Ev3_spotifyProto,enable={spot-ev3-enable}
+http-response ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(nebula\/v1\/configuration\/attributes|user-customization-service\/v1\/customize)(\?.*)?$ script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/spot-proto-ev3.js, requires-body=true, binary-body-mode=true, timeout=10, tag=1110_spotifyProto
