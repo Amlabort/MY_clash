@@ -1,0 +1,31 @@
+#!name=Spotify去广告
+#!desc=Spotify去广告加部分解锁会员功能,音质不能设置为超高,【下面的脚本二选一打开一个，不建议两个都打开】。开启插件后重新登录以应用全部配置。
+#!icon=https://img.icons8.com/?size=100&id=ZuQiaFCa1vXe&format=png&color=000000
+#!date=260416
+
+[Argument]
+
+
+[Rule]
+AND,((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)),REJECT
+
+DOMAIN,aet.spotify.com,REJECT
+
+[Rewrite]
+^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del if-none-match
+^https:\/\/(spclient\.wg|.*-spclient)\.spotify\.com(:443)?\/pendragon reject-dict
+
+#屏蔽播放界面的探索内容显示，凭个人喜好开关
+^https:\/\/(spclient\.wg|.*-spclient)\.spotify\.com(:443)?\/watch-feed-entrypoints\/v.\/discovery-from-seed reject-dict
+
+#屏蔽设置界面会员信息，仅改变显示，可以删去
+^https:\/\/.*-spclient\.spotify\.com(:443)?\/pam-view-service\/ reject-dict
+
+#屏蔽AI DJ的url
+37i9dQZF1EYkqdzj48dyYq reject-dict
+
+[Mitm]
+hostname = spclient.wg.spotify.com, *spclient.spotify.com
+
+[Script]
+http-response ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/ script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/spot-test.js, requires-body=true, binary-body-mode=true, timeout=10, tag=spot-test
