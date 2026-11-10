@@ -9,7 +9,7 @@
  *       string stringValue = 4;
  *   } }
  *
- * 不依赖 protobufjs：直接按 wire format 读写，Spotify 改 schema 也不会崩。
+ * 不依赖 protobufjs：直接按 wire format 读写。
  * ============================================================ */
 
 const CFG = {
@@ -59,7 +59,7 @@ else {
   }
 }
 
-/* ================= 属性改写（照 app2smile 的表 + 你原来的几项） ================= */
+/* ================= 属性改写 ================= */
 function rewrite(map) {
   const d = new Date();
   d.setMonth(d.getMonth() + CFG.expiryMonths);
@@ -120,7 +120,7 @@ function rewrite(map) {
   /* --- 关掉会员广告 tab --- */
   S("nft-disabled", "1");
 
-  /* --- 关键：让 customize 的改写生效（有些账号没有这两个属性） --- */
+  /* --- 让 customize 的改写生效（有些账号没有这两个属性） --- */
   B("com.spotify.madprops.use.ucs.product.state", true);
   B("com.spotify.madprops.delivered.by.ucs", true);
 
