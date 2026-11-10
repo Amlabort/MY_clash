@@ -6,6 +6,8 @@ LOON模块地址：https://github.com/luestr/ProxyResource
 
 Spotify Loon插件：https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/spot-NoAd.lpx
 
+Spotify 版本9.1.98及以后使用新版插件：https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/spot-new.lpx
+
 steam控制台:
 ```
 Steam://nav/console
