@@ -14,6 +14,7 @@ DOMAIN,aet.spotify.com,REJECT
 
 [Rewrite]
 ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del if-none-match
+^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/nebula\/v1\/configuration\/attributes header-del if-none-match
 ^https:\/\/(spclient\.wg|.*-spclient)\.spotify\.com(:443)?\/pendragon reject-dict
 
 #屏蔽播放界面的探索内容显示，凭个人喜好开关
