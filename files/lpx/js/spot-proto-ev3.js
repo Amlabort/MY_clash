@@ -12576,7 +12576,7 @@ function modifyAttributes(attributes) {
   oneYearFromNow.setUTCFullYear(oneYearFromNow.getUTCFullYear() + 1);
 
   // ISO8601 UTC string (equivalent to ISO8601DateFormatter + UTC)
-  const isoDate = oneYearFromNow.toISOString();
+  const isoDate = oneYearFromNow.toISOString().replace(/\.\d+Z$/, "Z");
 
   attributes["ads"] = { boolValue: false };
   attributes["ab-ad-player-targeting"] = { stringValue: "0" };
@@ -12588,19 +12588,32 @@ function modifyAttributes(attributes) {
   attributes["is-eligible-premium-unboxing"] = { boolValue: true };
   attributes["name"] = { stringValue: "Spotify Premium" };
   attributes["nft-disabled"] = { stringValue: "1" };
-  attributes["offline"] = { boolValue: true }; // allow downloading
+  //attributes["offline"] = { boolValue: true }; // allow downloading
   attributes["on-demand"] = { boolValue: true };
   attributes["payments-initial-campaign"] = { stringValue: "default" };
   attributes["player-license"] = { stringValue: "premium" };
   attributes["player-license-v2"] = { stringValue: "premium" };
   attributes["product-expiry"] = { stringValue: isoDate };
   attributes["shuffle-eligible"] = { boolValue: true };
-  attributes["social-session"] = { boolValue: true };
-  attributes["social-session-free-tier"] = { boolValue: false };
+  //attributes["social-session"] = { boolValue: true };
+  //attributes["social-session-free-tier"] = { boolValue: false };
   attributes["streaming-rules"] = { stringValue: "" };
   attributes["subscription-enddate"] = { stringValue: isoDate };
   attributes["type"] = { stringValue: "premium" };
   attributes["unrestricted"] = { boolValue: true };
+    //new update
+    attributes["enable-crossfade-product-state"] = { stringValue: "1" };
+    attributes["enable-gapless-product-state"] = { stringValue: "1" };
+    attributes["high-bitrate"] = { boolValue: true };
+    attributes["loudness-levels"] = { stringValue: "1:-5.0,0.0,3.0:-2.0" };
+    attributes["pick-and-shuffle"] = { boolValue: false };
+    attributes["mixing-tools"] = { stringValue: "EDIT" };
+    attributes["your-library-tags"] = { boolValue: true };
+    attributes["libspotify"] = { boolValue: true };
+    attributes["mobile"] = { boolValue: true };
+    
+    
+    
 
 
   delete attributes['ad-use-adlogic'];
