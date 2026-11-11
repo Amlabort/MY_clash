@@ -12946,9 +12946,8 @@ function patchResponse(bodyBytes) {
 
     if (
       !request ||
-      request.method !== "POST" ||
-      request.url.indexOf("https://" + TARGET_HOST + TARGET_PATH) !== 0
-    ) {
+      request.method !== "POST") {
+      console.log("[spotify-config] request not found");
       $done({});
       return;
     }
