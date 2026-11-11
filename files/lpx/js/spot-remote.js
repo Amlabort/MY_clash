@@ -13025,8 +13025,16 @@ function responseBytes(response) {
 }
 
 // Uint8Array -> Latin1 字符串，用于QX返回
-function bytesToQxBody(buf) {
-  return String.fromCharCode(...buf);
+// function bytesToQxBody(buf) {
+//   return String.fromCharCode(...buf);
+// }
+function bytesToQxBody(buffer) {
+  let text = "";
+  const CHUNK = 0x2000;
+  for (let i = 0; i < buffer.length; i += CHUNK) {
+    text += String.fromCharCode.apply(null, buffer.subarray(i, i + CHUNK));
+  }
+  return text;
 }
 
 (async () => {
