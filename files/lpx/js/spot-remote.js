@@ -12943,6 +12943,7 @@ function patchResponse(bodyBytes) {
 (async () => {
   try {
     const request = $request;
+    const response = $response;
 
     if (
       !request ||
