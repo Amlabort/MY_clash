@@ -102,7 +102,7 @@ function rewrite(map) {
   S("streaming-rules", "");
   S("mixing-tools", "EDIT");
   S("audio-quality", "1");
-  S("shuffle-algorithm", "RANDOM");
+  //S("shuffle-algorithm", "RANDOM");
   B("pick-and-shuffle", false);
   B("shuffle", false);
   S("smart-shuffle", "AVAILABLE");
