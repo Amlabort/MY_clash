@@ -12940,39 +12940,57 @@ function patchResponse(bodyBytes) {
 
 // ---------- Loon entry ----------
 
+function responseBytes(response) {
+  if (!response) return null;
+
+  const body = response.body;
+  if (body === undefined || body === null) return null;
+
+  // binary-body-mode=true 时 Loon 直接给 Uint8Array
+  if (body instanceof Uint8Array) return body;
+  if (ArrayBuffer.isView(body)) {
+    return new Uint8Array(body.buffer, body.byteOffset, body.byteLength);
+  }
+  if (body instanceof ArrayBuffer) return new Uint8Array(body);
+
+  // 退路：没拿到二进制模式，body 是 String，protobuf 可能已被解码破坏
+  if (typeof body === "string") {
+    console.log("[spotify-config] body is String, binary-body-mode may be off");
+    return new TextEncoder().encode(body);
+  }
+
+  return null;
+}
+
 (async () => {
   try {
     const request = $request;
     const response = $response;
 
-    if (
-      !request ||
-      request.method !== "POST") {
-      console.log("[spotify-config] request not found");
+    if (!request || request.method !== "POST") {
+      console.log("[spotify-config] skip method: " + (request ? request.method : "no request"));
       $done({});
       return;
     }
 
-    if (!$response || !$response.bodyBytes) {
-      console.log("[spotify-config] response bodyBytes unavailable");
+    const original = responseBytes(response);
+
+    if (!original || original.length === 0) {
+      console.log(
+        "[spotify-config] no body; status=" + (response ? response.status : "?") +
+        " bodyType=" + (response ? typeof response.body : "?")
+      );
       $done({});
       return;
     }
 
-    const original = new Uint8Array($response.bodyBytes);
     const patched = patchResponse(original);
 
     console.log(
-      "[spotify-config] patched " +
-      original.length +
-      " -> " +
-      patched.length +
-      " bytes"
+      "[spotify-config] patched " + original.length + " -> " + patched.length + " bytes"
     );
 
-    $done({
-      bodyBytes: patched
-    });
+    $done({ body: patched });
   } catch (error) {
     console.log("[spotify-config] " + String(error));
     $done({});
