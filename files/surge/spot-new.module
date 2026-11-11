@@ -9,7 +9,8 @@ AND,((DOMAIN-SUFFIX, spotify.com),(PROTOCOL, QUIC)),REJECT
 DOMAIN,aet.spotify.com,REJECT
 
 [Header Rewrite]
-http-request ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/nebula\/v1\/configuration\/attributes header-del if-none-match
+http-request ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/nebula\/v.\/configuration\/attributes header-del if-none-match
+http-request ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/remote-config-resolver\/v.\/configuration header-del if-none-match
 
 [URL Rewrite]
 
@@ -28,6 +29,7 @@ hostname = %APPEND% spclient.wg.spotify.com, *spclient.spotify.com
 [Script]
 # spotify-gabo = type=http-request,pattern=^https:\/\/(.*-spclient\.spotify\.com(:443)?|spclient\.wg\.spotify\.com)\/gabo-receiver-service,requires-body=0,script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/spot-gabo.js
 spotify-proto-new = type=http-response,pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|nebula\/v1\/configuration\/attributes),requires-body=1,binary-body-mode=1,max-size=0,script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/261110-spot.js,script-update-interval=0
+spotify-remote = type=http-response,pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/remote-config-resolver\/v.\/configuration,requires-body=1,binary-body-mode=1,max-size=0,script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/spot-remote.js,script-update-interval=0
 
 #去广告
 NoSearchAd = type=http-response,pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/browsita\/v.\/browse,requires-body=1,binary-body-mode=1,max-size=0,script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/spot-NoSearchAd.js
