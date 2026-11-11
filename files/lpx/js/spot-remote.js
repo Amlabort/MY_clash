@@ -12939,7 +12939,7 @@ function patchResponse(bodyBytes) {
 
 
 // ---------- Loon entry ----------
-
+/*
 function responseBytes(response) {
   if (!response) return null;
 
@@ -12996,3 +12996,77 @@ function responseBytes(response) {
     $done({});
   }
 })();
+
+*/
+function responseBytes(response) {
+  if (!response) return null;
+
+  const body = response.body;
+  if (body === undefined || body === null) return null;
+
+  // Loon / Surge binary-body-mode 原生二进制分支
+  if (body instanceof Uint8Array) return body;
+  if (ArrayBuffer.isView(body)) {
+    return new Uint8Array(body.buffer, body.byteOffset, body.byteLength);
+  }
+  if (body instanceof ArrayBuffer) return new Uint8Array(body);
+
+  // QX 分支：字符串用 Latin1 无损还原字节（重点改动）
+  if (typeof body === "string") {
+    console.log("[spotify-config] QX latin1 fallback, body is String");
+    const arr = new Uint8Array(body.length);
+    for (let i = 0; i < body.length; i++) {
+      arr[i] = body.charCodeAt(i) & 0xff;
+    }
+    return arr;
+  }
+
+  return null;
+}
+
+// Uint8Array -> Latin1 字符串，用于QX返回
+function bytesToQxBody(buf) {
+  return String.fromCharCode(...buf);
+}
+
+(async () => {
+  try {
+    const request = $request;
+    const response = $response;
+
+    if (!request || request.method !== "POST") {
+      console.log("[spotify-config] skip method: " + (request ? request.method : "no request"));
+      $done({});
+      return;
+    }
+
+    const original = responseBytes(response);
+
+    if (!original || original.length === 0) {
+      console.log(
+        "[spotify-config] no body; status=" + (response ? response.status : "?") +
+        " bodyType=" + (response ? typeof response.body : "?")
+      );
+      $done({});
+      return;
+    }
+
+    const patched = patchResponse(original);
+
+    console.log(
+      "[spotify-config] patched " + original.length + " -> " + patched.length + " bytes"
+    );
+
+    // 判断平台：如果是字符串类型body，说明是QX，需要转latin1字符串返回
+    if (typeof $response.body === "string") {
+      $done({ body: bytesToQxBody(patched) });
+    } else {
+      // Loon/Surge 原生二进制模式直接返回 Uint8Array
+      $done({ body: patched });
+    }
+  } catch (error) {
+    console.log("[spotify-config] " + String(error));
+    $done({});
+  }
+})();
+
