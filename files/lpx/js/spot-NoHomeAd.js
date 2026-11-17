@@ -1,6 +1,18 @@
-// 移除 Spotify Home feed 里的 brand-ad section
+/*
+ * Spotify HomeNoAd
+ * Loon 专用 · 最小修改版
+ * 移除 Spotify Home feed 里的 brand-ad section
+ *
+ * 已测试环境：Loon / Spotify 9.2.0.2054
+ *
+ * 只删除 brand-ad section
+ * 保留其他首页推荐内容
+ *
+ * requires-body=true
+ * binary-body-mode=true
+ */
 
-
+// 读取 Protobuf varint
 function readVarint(u8, o, end) {
   let v = 0, shift = 0;
   for (let n = 0; n < 10; n++) {
@@ -13,7 +25,7 @@ function readVarint(u8, o, end) {
   return null;
 }
 
-// 段内是否含 ASCII 子串（大小写不敏感），和 Feeds.m 的 contains() 一样
+// ASCII 子串匹配（忽略大小写）
 function hasAscii(u8, from, to, needle) {
   outer: for (let i = from; i + needle.length <= to; i++) {
     for (let k = 0; k < needle.length; k++) {
@@ -26,17 +38,27 @@ function hasAscii(u8, from, to, needle) {
   return false;
 }
 
-// 遍历一条 message，返回字段列表 {field, wire, start, end, payload}
+// 遍历 Protobuf message 字段
 function collectFields(u8, start, end) {
   const fields = [];
   let o = start;
+
   while (o < end) {
     const tagStart = o;
     const t = readVarint(u8, o, end);
     if (!t) return null;
+
     o = t.off;
     const field = t.value >>> 3, wire = t.value & 7;
-    const f = { field, wire, start: tagStart, end: o, payload: null };
+    if (field === 0) return null;
+
+    const f = {
+      field, wire,
+      start: tagStart,
+      end: o,
+      payload: null
+    };
+
     if (wire === 0) {
       const v = readVarint(u8, o, end);
       if (!v) return null;
@@ -51,65 +73,155 @@ function collectFields(u8, start, end) {
     } else if (wire === 5) {
       o += 4;
     } else {
-      return null; // wire 3/4/6/7：无法安全解析，整条放行
+      return null;
     }
+
     if (o > end) return null;
     f.end = o;
     fields.push(f);
   }
+
   return fields;
 }
 
-// 返回去掉广告后的字节；没有广告或解析失败返回 null（原样放行）
-function stripHomeAds(u8) {
-  const fields = collectFields(u8, 0, u8.length);
-  if (!fields) return null;
-  const kept = [];
-  let dropped = 0;
-  for (const f of fields) {
-    if (f.field === 1 && f.wire === 2 && f.payload &&
-        hasAscii(f.payload, 0, f.payload.length, 'brand-ad')) {
-      dropped++;
-      continue;
-    }
-    kept.push(u8.subarray(f.start, f.end));
+// 新增：编码 Protobuf varint
+function writeVarint(v) {
+  const a = [];
+  v >>>= 0;
+  while (v >= 128) {
+    a.push((v & 127) | 128);
+    v >>>= 7;
   }
-  if (!dropped) return null;
-  console.log(`HomeNoAd: 移除 ${dropped} 个 brand-ad section`);
-  const out = new Uint8Array(kept.reduce((n, s) => n + s.length, 0));
-  let p = 0;
-  for (const s of kept) { out.set(s, p); p += s.length; }
+  a.push(v);
+  return Uint8Array.from(a);
+}
+
+// 新增：拼接二进制数组
+function concat(parts) {
+  const out = new Uint8Array(
+    parts.reduce((n, p) => n + p.length, 0)
+  );
+  let o = 0;
+  for (const p of parts) {
+    out.set(p, o);
+    o += p.length;
+  }
   return out;
 }
 
-// ---- 输入/输出适配：$response.body 可能是 base64 字符串或原始字节 ----
-function bodyToBytes(body) {
-  if (typeof body !== 'string') return { bytes: new Uint8Array(body), wasBase64: false };
-  if (/^[A-Za-z0-9+/]*={0,2}$/.test(body) && body.length % 4 === 0) {
-    try {
-      const bin = atob(body);
-      const u8 = new Uint8Array(bin.length);
-      for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
-      return { bytes: u8, wasBase64: true };
-    } catch (e) { /* 当作原始字节处理 */ }
+// 精确删除 brand-ad section
+function stripHomeAds(u8) {
+  const fields = collectFields(u8, 0, u8.length);
+  if (!fields) return null;
+
+  let dropped = 0;
+  const kept = [];
+
+  for (const f of fields) {
+    // 只检查顶层字段 1
+    if (f.field !== 1 || f.wire !== 2) {
+      kept.push(u8.subarray(f.start, f.end));
+      continue;
+    }
+
+    // 解析内部 section 列表
+    const sections = collectFields(
+      f.payload, 0, f.payload.length
+    );
+    if (!sections) return null;
+
+    const remain = [];
+
+    for (const s of sections) {
+      let isAd = false;
+
+      // 只检查 section 字段 1
+      if (s.field === 1 && s.wire === 2 && s.payload) {
+        const inner = collectFields(
+          s.payload, 0, s.payload.length
+        );
+
+        // 检查 section 第一个标识字段
+        if (inner && inner.length &&
+            inner[0].field === 1 &&
+            inner[0].wire === 2 &&
+            inner[0].payload) {
+          isAd = hasAscii(
+            inner[0].payload,
+            0,
+            inner[0].payload.length,
+            '|brand-ad'
+          );
+        }
+      }
+
+      if (isAd) {
+        dropped++;
+      } else {
+        remain.push(
+          f.payload.subarray(s.start, s.end)
+        );
+      }
+    }
+
+    // 没有广告，保留原字段
+    if (remain.length === sections.length) {
+      kept.push(u8.subarray(f.start, f.end));
+      continue;
+    }
+
+    // 防止删除全部 section
+    if (!remain.length) return null;
+
+    // 重建父字段及长度
+    const payload = concat(remain);
+
+    kept.push(concat([
+      writeVarint((f.field << 3) | 2),
+      writeVarint(payload.length),
+      payload
+    ]));
   }
-  const u8 = new Uint8Array(body.length);
-  for (let i = 0; i < body.length; i++) u8[i] = body.charCodeAt(i) & 0xff;
-  return { bytes: u8, wasBase64: false };
+
+  if (!dropped) return null;
+
+  const result = concat(kept);
+
+  // 验证重建后的顶层 Protobuf
+  if (!collectFields(result, 0, result.length)) {
+    return null;
+  }
+
+  console.log(
+    `HomeNoAd: 移除 ${dropped} 个 brand-ad section，` +
+    `${u8.length} → ${result.length} bytes`
+  );
+
+  return result;
 }
 
-function bytesToBody(bytes, wasBase64) {
-  let s = '';
-  for (let i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]);
-  return wasBase64 ? btoa(s) : s;
-}
+// Loon 二进制响应入口
+try {
+  const raw = $response.body;
 
-// ---- 入口 ----
-const { bytes, wasBase64 } = bodyToBytes($response.body);
-const stripped = stripHomeAds(bytes);
-if (stripped) {
-  $done({ body: bytesToBody(stripped, wasBase64) });
-} else {
-  console.log('HomeNoAd: 未检测到 brand-ad section');
+  if (raw == null ||
+      !(raw instanceof ArrayBuffer ||
+        ArrayBuffer.isView(raw))) {
+    console.log("HomeNoAd: 无二进制响应，原样放行");
+    $done({});
+  } else {
+    const bytes = raw instanceof ArrayBuffer
+      ? new Uint8Array(raw)
+      : new Uint8Array(
+          raw.buffer,
+          raw.byteOffset,
+          raw.byteLength
+        );
+
+    const result = stripHomeAds(bytes);
+    $done(result ? { body: result } : {});
+  }
+} catch (e) {
+  console.log("HomeNoAd: " + e);
   $done({});
 }
