@@ -88,10 +88,17 @@ function captureHeaders() {
       keep[k] = headers[k];
     }
   }
-  if (!keep["t-access-token"] && !keep["T-ACCESS-TOKEN"]) return false;
-  $persistentStore.write(JSON.stringify(keep), STORE_KEY);
-  $notification.post("心悦凭证已保存", "", "已抓取登录信息，之后可自动领取");
-  return true;
+  // 大小写不敏感地检查登录令牌是否存在
+  const hasToken = Object.keys(keep).some((k) => k.toLowerCase() === "t-access-token");
+  if (!hasToken) {
+    console.log("[心悦] 抓取到的请求头中没有 t-access-token，未保存。收到的头: " + Object.keys(headers).join(","));
+    return false;
+  }
+  const saved = $persistentStore.write(JSON.stringify(keep), STORE_KEY);
+  // 写入后立即读回校验，确认确实持久化
+  const check = $persistentStore.read(STORE_KEY);
+  console.log("[心悦] 凭证写入: " + saved + "，读回校验: " + (check ? "成功" : "失败"));
+  return !!check;
 }
 
 function handleCapture() {
@@ -140,7 +147,7 @@ async function runCron() {
     " | batch=" + (ARG.batch ? "有" : "无") + " | tasks=" + (ARG.tasks || "无") +
     " | batchHex长度=" + (ARG.batchHex ? ARG.batchHex.length : 0) + " | headers=" + (headers ? "有" : "无"));
   if (!headers) {
-    $notification.post("心悦领取失败", "", "未找到登录凭证，请先打开一次心悦 App 的礼包页面");
+    console.log("[心悦] 领取失败：未找到登录凭证，请先打开一次心悦 App 的礼包页面");
     $done();
     return;
   }
@@ -158,10 +165,7 @@ async function runCron() {
   const batchBody = hexToBodyString(ARG.batchHex || "");
   results.push(await postAndCheck("一键领取(batch)", ARG.batch, batchBody, headers));
 
-  const subtitle = results.map((r) => r.name + "：" + (r.ok ? "成功" : "失败")).join("；");
-  const detail = results.map((r) => r.name + " -> " + r.msg).join("\n");
-  console.log("[心悦] 结果:\n" + detail);
-  $notification.post("心悦每日领取结果", subtitle, detail);
+  console.log("[心悦] 每日领取结果:\n" + results.map((r) => r.name + " -> " + (r.ok ? "成功" : "失败") + "，" + r.msg).join("\n"));
   $done();
 }
 
