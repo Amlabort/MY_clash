@@ -136,6 +136,9 @@ function postAndCheck(name, url, body, headers) {
 
 async function runCron() {
   const headers = loadHeaders();
+  console.log("[心悦] argument keys: " + Object.keys(ARG).join(",") + " | receive=" + (ARG.receive ? "有" : "无") +
+    " | batch=" + (ARG.batch ? "有" : "无") + " | tasks=" + (ARG.tasks || "无") +
+    " | batchHex长度=" + (ARG.batchHex ? ARG.batchHex.length : 0) + " | headers=" + (headers ? "有" : "无"));
   if (!headers) {
     $notification.post("心悦领取失败", "", "未找到登录凭证，请先打开一次心悦 App 的礼包页面");
     $done();
@@ -157,6 +160,7 @@ async function runCron() {
 
   const subtitle = results.map((r) => r.name + "：" + (r.ok ? "成功" : "失败")).join("；");
   const detail = results.map((r) => r.name + " -> " + r.msg).join("\n");
+  console.log("[心悦] 结果:\n" + detail);
   $notification.post("心悦每日领取结果", subtitle, detail);
   $done();
 }
