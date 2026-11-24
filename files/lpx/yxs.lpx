@@ -10,7 +10,7 @@ xy-tasks = input,"381|4156",tag=任务ID列表（用|分隔）
 xy-batch-hex = input,"12210A0C436F6E74656E742D5479706512116170706C69636174696F6E2F70726F746F1898752251099A9999999999F13F1204504F53541A1F2F78796170702E476966745372762F5265636569766547616D65734769667422150A0B742D676966742D7479706512067369676E696E32080A067369676E696E223B099A9999999999F13F1204504F53541A1A2F78796170702E476966745372762F5265636569766547696674320E080212047461736B1A0439373333",tag=一键领取请求体（十六进制，无空格）
 
 [Script]
-http-request ^https:\/\/bgw\.xinyue\.qq\.com\/(xyapp\.GiftSrv\/|apisix\/xinyue\/batch) script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/yxs_qiandao.js, requires-body=true, timeout=10, tag=抓取xy凭证
+http-request ^https:\/\/bgw\.xinyue\.qq\.com\/(xyapp\.GiftSrv\/|apisix\/xinyue\/batch) script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/yxs_qiandao.js, requires-body=false, binary-body-mode=true, timeout=10, tag=抓取xy凭证
 
 cron "5 8 * * *" script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/yxs_qiandao.js, argument=receive={xy-receive}&batch={xy-batch}&tasks={xy-tasks}&batchHex={xy-batch-hex}, timeout=60, tag=每日自动领取
 
