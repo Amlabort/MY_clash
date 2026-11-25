@@ -1,42 +1,49 @@
 /*
  * 心悦俱乐部 每日自动领取 (Loon 脚本)
  *
- * 用法：
- *  1. http-request 模式：插件规则匹配到心悦请求时，保存登录头（t-*、x-xy-* 等）到持久化存储。
- *  2. cron 模式：读取已保存的登录头，依次领取各任务，最后执行一次 batch 一键领取。
+ * 工作原理：
+ *  1. http-request 模式：插件规则匹配到心悦礼包接口时，保存登录头（t-*、x-xy-* 等）到持久化存储。
+ *  2. cron 模式：读取已保存的登录头，依次领取各游戏任务礼包。
  *
- * 配置方式：直接改下面的 DEFAULTS。
- *  （本版 Loon 脚本引擎不注入 $argument，插件 [Argument] 的配置无法传入脚本，
- *    因此接口地址、任务 ID、batch 请求体都写在这里。若 $argument 可用仍会优先使用。）
- *
- * 更换任务 / batch 请求体时：改 DEFAULTS.tasks 与 DEFAULTS.batchHex 即可。
+ * 重要经验（已用真实接口实测验证）：
+ *  - 请求体必须保持「原始字节」。Loon 的 body 按 UTF-8 编码字符串发送，
+ *    一旦出现 >127 的字节（如 0xA3），会被撑成 C2 A3，服务器解析出错并返回"请绑定游戏角色"。
+ *    因此礼包类型必须用 giftId=2（编码为 08 02），任务ID 是数字，整体保持纯 ASCII。
+ *  - 服务器返回文案的含义：
+ *      领取成功                    -> 本次领取成功
+ *      很抱歉领取超出账号日限量     -> 今天已经领过（不是错误）
+ *      请绑定游戏角色              -> 请求体字节被破坏（或该游戏未绑定）
+ *      网络繁忙请稍后再试           -> 触发频率限制，需要间隔后重试
  */
 
 /* ---------------- 可配置项 ---------------- */
 const DEFAULTS = {
   // 单任务领取接口
   receive: "https://bgw.xinyue.qq.com/xyapp.GiftSrv/ReceiveGift",
-  // 一键领取（批量）接口
-  batch: "https://bgw.xinyue.qq.com/apisix/xinyue/batch",
-  // 要逐个领取的任务，用 | 分隔。写法：
-  //   "381"           任务 381（礼包ID 默认 1187）
-  //   "381@2"         任务 381，礼包ID 2（批量响应里那个"type 2"的任务用这个）
-  //   "hex:08A309..." 直接给请求体十六进制
-  tasks: "381|4156",
-  // 一键领取的请求体（protobuf 的十六进制，无空格）
-  batchHex:
-    "12210A0C436F6E74656E742D5479706512116170706C69636174696F6E2F70726F746F1898752251099A9999999999F13F1204504F53541A1F2F78796170702E476966745372762F5265636569766547616D65734769667422150A0B742D676966742D7479706512067369676E696E32080A067369676E696E223B099A9999999999F13F1204504F53541A1A2F78796170702E476966745372762F5265636569766547696674320E080212047461736B1A0439373333",
+  // 游戏签到礼包接口（可选，当前返回"网络繁忙"，保留以便后续启用）
+  receiveGames: "https://bgw.xinyue.qq.com/xyapp.GiftSrv/ReceiveGamesGift",
+  receiveGamesHex: "0A067369676E696E",
+  // 礼包类型 ID。2 = 任务礼包（编码 08 02，纯 ASCII，推荐）
+  giftId: 2,
+  // 要领取的任务，用 | 分隔。写法：
+  //   "381"     任务 381（使用上面的 giftId）
+  //   "381@2"   任务 381，礼包ID 2
+  //   "hex:08..." 直接指定请求体十六进制（必须全为 ASCII 字节，即每字节 < 80）
+  // 注意：@1187 会产生 0xA3（>127），Loon 会按 UTF-8 撑大导致失败，脚本会主动拦截并告警
+  tasks: "381|4156|9733",
+  // 每个请求之间的间隔（毫秒），避免触发"网络繁忙"频率限制
+  interval: 1200,
+  // 是否启用 ReceiveGamesGift（当前实测返回"网络繁忙"，默认关闭）
+  enableGamesGift: false,
 };
 
 const STORE_KEY = "gift_headers";
-const GIFT_ID = 1187;
-const GIFT_TYPE = "task";
-
 const isRequest = typeof $request !== "undefined";
 
-const ARG = buildArg();
+/* ---------------- 参数与配置 ---------------- */
+const C = buildConfig();
 
-function buildArg() {
+function buildConfig() {
   const raw = typeof $argument !== "undefined" ? $argument : null;
   let parsed = {};
   if (raw && typeof raw === "object") {
@@ -47,19 +54,79 @@ function buildArg() {
       if (i > 0) parsed[pair.slice(0, i)] = pair.slice(i + 1);
     });
   }
-  // 兼容 xy-receive / receive 两种键名
   const pick = (name) => {
     const v = parsed["xy-" + name] || parsed[name];
-    return v && String(v).length > 0 ? String(v) : DEFAULTS[name];
+    return v !== undefined && v !== null && String(v).length > 0 ? String(v) : DEFAULTS[name];
   };
   return {
     receive: pick("receive"),
-    batch: pick("batch"),
+    receiveGames: pick("receiveGames"),
+    receiveGamesHex: pick("receiveGamesHex"),
+    giftId: parseInt(pick("giftId"), 10) || DEFAULTS.giftId,
     tasks: pick("tasks"),
-    batchHex: pick("batchHex"),
-    _empty: Object.keys(parsed).length === 0,
-    _rawType: typeof raw,
+    interval: parseInt(pick("interval"), 10) || DEFAULTS.interval,
+    enableGamesGift: DEFAULTS.enableGamesGift,
   };
+}
+
+/* ---------------- 工具 ---------------- */
+function bytesToHex(bytes) {
+  return bytes
+    .map((b) => (b < 16 ? "0" : "") + b.toString(16).toUpperCase())
+    .join("");
+}
+
+function bytesToString(bytes) {
+  return bytes.map((b) => String.fromCharCode(b)).join("");
+}
+
+function hexToBytes(hex) {
+  const clean = String(hex).replace(/\s+/g, "");
+  const out = [];
+  for (let i = 0; i + 1 < clean.length; i += 2) {
+    out.push(parseInt(clean.substr(i, 2), 16));
+  }
+  return out;
+}
+
+/** 校验请求体是否全为 ASCII（每字节 < 128），否则 Loon 会改写字节 */
+function isAsciiSafe(bytes) {
+  return bytes.every((b) => b >= 0 && b < 128);
+}
+
+/**
+ * Loon 把响应体按「每字符一字节」返回，中文会变成 latin1 乱码。
+ * 这里按 UTF-8 还原，用于读取"领取成功"等文案。
+ */
+function utf8Decode(s) {
+  if (!s) return "";
+  const bytes = [];
+  for (let i = 0; i < s.length; i++) bytes.push(s.charCodeAt(i) & 0xff);
+  let out = "";
+  for (let i = 0; i < bytes.length; ) {
+    const b = bytes[i];
+    if (b < 0x80) {
+      out += String.fromCharCode(b);
+      i += 1;
+    } else if (b >= 0xc0 && b < 0xe0) {
+      out += String.fromCharCode(((b & 0x1f) << 6) | (bytes[i + 1] & 0x3f));
+      i += 2;
+    } else if (b >= 0xe0 && b < 0xf0) {
+      out += String.fromCharCode(
+        ((b & 0x0f) << 12) | ((bytes[i + 1] & 0x3f) << 6) | (bytes[i + 2] & 0x3f)
+      );
+      i += 3;
+    } else if (b >= 0xf0) {
+      i += 4;
+    } else {
+      i += 1;
+    }
+  }
+  return out;
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /* ---------------- protobuf 编码 ---------------- */
@@ -79,65 +146,43 @@ function asciiBytes(s) {
   return out;
 }
 
-/** 按抓包结构拼出单任务领取的请求体字节 */
-function buildTaskBytes(taskId, giftId) {
-  const id = typeof giftId === "number" && !isNaN(giftId) ? giftId : GIFT_ID;
-  const f1 = [0x08].concat(encodeVarint(id));
-  const typeBytes = asciiBytes(GIFT_TYPE);
+/**
+ * 构造 ReceiveGift 请求体：
+ *   field1 varint  giftId
+ *   field2 string  "task"
+ *   field3 string  任务ID
+ * 例：giftId=2、任务381 -> 08 02 12 04 task 1A 03 381（13 字节，纯 ASCII）
+ */
+function buildTaskBody(taskId, giftId) {
+  const f1 = [0x08].concat(encodeVarint(giftId));
+  const typeBytes = asciiBytes("task");
   const f2 = [0x12, typeBytes.length].concat(typeBytes);
   const idBytes = asciiBytes(taskId);
   const f3 = [0x1a, idBytes.length].concat(idBytes);
   return f1.concat(f2, f3);
 }
 
-function bytesToHex(bytes) {
-  return bytes.map((b) => (b < 16 ? "0" : "") + b.toString(16).toUpperCase()).join("");
-}
-
-/**
- * 解析一个任务配置项，支持三种写法：
- *   "381"            -> 任务ID 381，礼包ID 用 GIFT_ID(1187)
- *   "381@2"          -> 任务ID 381，礼包ID 2
- *   "hex:08A309..."  -> 直接使用原始请求体十六进制
- */
+/** 解析任务配置项，返回 { label, bytes } */
 function parseTaskEntry(entry) {
   const e = String(entry).trim();
   if (/^hex:/i.test(e)) {
-    return { label: "自定义请求体", hex: e.slice(4) };
+    return { label: "自定义请求体", bytes: hexToBytes(e.slice(4)) };
   }
   const parts = e.split("@");
   const taskId = parts[0];
-  const giftId = parts.length > 1 ? parseInt(parts[1], 10) : GIFT_ID;
-  return { label: "任务 " + taskId, hex: bytesToHex(buildTaskBytes(taskId, giftId)) };
-}
-
-function bytesToString(bytes) {
-  return bytes.map((b) => String.fromCharCode(b)).join("");
-}
-
-/*
- * 把十六进制字符串还原成 body 字符串。
- * 注意：Loon 若按 UTF-8 编码字符串 body，>127 的字节会被改写，batch 与部分任务可能失败，需实测。
- */
-function hexToBodyString(hex) {
-  const clean = String(hex).replace(/\s+/g, "");
-  let out = "";
-  for (let i = 0; i + 1 < clean.length; i += 2) {
-    out += String.fromCharCode(parseInt(clean.substr(i, 2), 16));
-  }
-  return out;
+  const giftId = parts.length > 1 ? parseInt(parts[1], 10) : C.giftId;
+  return { label: "任务 " + taskId, bytes: buildTaskBody(taskId, giftId) };
 }
 
 /* ---------------- 1. 抓取登录头 ---------------- */
 function captureHeaders() {
   const headers = $request.headers || {};
-  // 跳过脚本自己发出的请求，避免抓取规则拦截本脚本的 httpClient 请求造成循环/卡住
+  // 跳过脚本自己发出的请求，避免抓取规则拦截本脚本请求
   const isSelf = Object.keys(headers).some(
-    (k) => k.toLowerCase() === "x-qiandao-script" && String(headers[k]) === "1"
+    (k) => k.toLowerCase() === "x-qiandao-script"
   );
-  if (isSelf) {
-    return false;
-  }
+  if (isSelf) return false;
+
   const keep = {};
   for (const k in headers) {
     const lk = k.toLowerCase();
@@ -151,16 +196,14 @@ function captureHeaders() {
       keep[k] = headers[k];
     }
   }
-  // 大小写不敏感地检查登录令牌是否存在
   const hasToken = Object.keys(keep).some((k) => k.toLowerCase() === "t-access-token");
   if (!hasToken) {
-    console.log("[心悦] 抓取到的请求头中没有 t-access-token，未保存。收到的头: " + Object.keys(headers).join(","));
+    console.log("[心悦] 未找到 t-access-token，跳过保存。收到的头: " + Object.keys(headers).join(","));
     return false;
   }
-  const saved = $persistentStore.write(JSON.stringify(keep), STORE_KEY);
-  // 写入后立即读回校验，确认确实持久化
+  $persistentStore.write(JSON.stringify(keep), STORE_KEY);
   const check = $persistentStore.read(STORE_KEY);
-  console.log("[心悦] 凭证写入: " + saved + "，读回校验: " + (check ? "成功" : "失败"));
+  console.log("[心悦] 凭证已保存，读回校验: " + (check ? "成功" : "失败"));
   return !!check;
 }
 
@@ -180,90 +223,107 @@ function loadHeaders() {
   }
 }
 
-function postAndCheck(name, url, body, headers) {
+/** 根据响应文案判断结果类型 */
+function classify(status, text) {
+  if (status !== 200) {
+    if (text.indexOf("网络繁忙") !== -1) return { type: "busy", ok: false, msg: "网关繁忙（HTTP " + status + "）" };
+    return { type: "error", ok: false, msg: "HTTP " + status + "，" + (text.slice(0, 60) || "无内容") };
+  }
+  if (text.indexOf("领取成功") !== -1) return { type: "success", ok: true, msg: "领取成功" };
+  if (text.indexOf("超出账号日限量") !== -1) return { type: "already", ok: true, msg: "今日已领过" };
+  if (text.indexOf("已领取") !== -1 || text.indexOf("已经领取") !== -1) {
+    return { type: "already", ok: true, msg: "今日已领过" };
+  }
+  if (text.indexOf("请绑定游戏角色") !== -1) {
+    return { type: "unbound", ok: false, msg: "提示未绑定角色（通常是请求体字节被改写或该游戏未绑定）" };
+  }
+  if (text.indexOf("网络繁忙") !== -1) return { type: "busy", ok: false, msg: "网络繁忙，需稍后重试" };
+  const readable = text.replace(/[^\u4e00-\u9fffA-Za-z0-9]/g, "");
+  return { type: "unknown", ok: false, msg: readable ? readable.slice(0, 80) : "无法识别的响应" };
+}
+
+function postOnce(url, bodyStr, headers) {
   return new Promise((resolve) => {
-    if (!url || !body) {
-      resolve({ name: name, ok: false, msg: "缺少参数（url 或 body）" });
-      return;
-    }
-    console.log("[心悦] 发起请求 " + name + " -> " + url + "，body长度=" + body.length);
-    // 打上自定义头，让抓取规则识别并跳过本脚本自己的请求；不传 timeout 用默认值
     const h = Object.assign({}, headers, { "X-Qiandao-Script": "1" });
-    $httpClient.post({ url: url, headers: h, body: body }, (error, response, data) => {
+    $httpClient.post({ url: url, headers: h, body: bodyStr }, (error, response, data) => {
       if (error) {
-        resolve({ name: name, ok: false, msg: "请求失败：" + error });
+        resolve({ error: String(error) });
         return;
       }
-      const status = response && response.status;
-      const text = data || "";
-      // 成功响应的 protobuf 中包含 UTF-8 文本 "领取成功"
-      const ok = status === 200 && text.indexOf("领取成功") !== -1;
       resolve({
-        name: name,
-        ok: ok,
-        msg: "HTTP " + status + "，" + (ok ? "领取成功" : "未识别的响应: " + text.slice(0, 60)),
+        status: response && response.status,
+        text: utf8Decode(data || ""),
+        hex: bytesToHex([].slice.call((data || "").slice(0, 32)).map((c) => c.charCodeAt(0) & 0xff)),
       });
     });
   });
 }
 
-/* 连通性诊断：逐层验证 GET、域名、POST、二进制 body 四个环节 */
-function diagGet(label, url) {
-  return new Promise((resolve) => {
-    $httpClient.get(url, (error, response) => {
-      console.log("[心悦][诊断] GET " + label + " -> " + (error ? "错误: " + error : "HTTP " + (response && response.status)));
-      resolve();
-    });
-  });
-}
+async function claimTask(name, bytes, headers) {
+  // 前置校验：含高位字节时明确告警，避免发出被破坏的请求
+  if (!isAsciiSafe(bytes)) {
+    const bad = bytes.filter((b) => b >= 128).map((b) => "0x" + b.toString(16).toUpperCase());
+    return {
+      name: name,
+      ok: false,
+      msg: "请求体含高位字节(" + bad.join(",") + ")，Loon 会按 UTF-8 改写导致失败，已跳过",
+    };
+  }
+  const bodyStr = bytesToString(bytes);
+  const hex = bytesToHex(bytes);
+  console.log("[心悦] " + name + " 发送 " + bytes.length + " 字节: " + hex);
 
-function diagPost(label, url, body, headers) {
-  return new Promise((resolve) => {
-    const h = Object.assign({}, headers, { "X-Qiandao-Script": "1" });
-    $httpClient.post({ url: url, headers: h, body: body }, (error, response) => {
-      console.log("[心悦][诊断] POST " + label + "(body长度=" + body.length + ") -> " +
-        (error ? "错误: " + error : "HTTP " + (response && response.status)));
-      resolve();
-    });
-  });
-}
-
-async function diagnose(headers) {
-  await diagGet("baidu", "https://www.baidu.com");
-  await diagGet("xinyue根路径", "https://bgw.xinyue.qq.com/");
-  // 纯 ASCII 的 body，只验证 POST 通道本身是否通
-  await diagPost("ASCII 测试体", ARG.receive || DEFAULTS.receive, "08", headers);
+  let result = null;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    const r = await postOnce(C.receive, bodyStr, headers);
+    if (r.error) {
+      result = { name: name, ok: false, msg: "请求失败: " + r.error };
+      break;
+    }
+    const c = classify(r.status, r.text);
+    result = { name: name, ok: c.ok, msg: c.msg };
+    if (c.type !== "busy") break;
+    if (attempt < 3) {
+      console.log("[心悦] " + name + " 第 " + attempt + " 次返回繁忙，等待重试");
+      await sleep(C.interval * attempt);
+    }
+  }
+  console.log("[心悦] " + name + " 结果: " + (result.ok ? "成功" : "失败") + "，" + result.msg);
+  return result;
 }
 
 async function runCron() {
   const headers = loadHeaders();
-  console.log("[心悦] $argument 类型=" + ARG._rawType + "，是否为空=" + ARG._empty +
-    " | receive=" + ARG.receive + " | batch=" + ARG.batch + " | tasks=" + ARG.tasks +
-    " | batchHex长度=" + ARG.batchHex.length + " | headers=" + (headers ? "有" : "无"));
+  console.log(
+    "[心悦] 启动: receive=" + C.receive + " | giftId=" + C.giftId +
+    " | tasks=" + C.tasks + " | 凭证=" + (headers ? "有" : "无")
+  );
   if (!headers) {
-    console.log("[心悦] 领取失败：未找到登录凭证，请先打开一次心悦 App 的礼包页面");
+    console.log("[心悦] 未找到登录凭证，请先打开一次心悦 App 的礼包页面");
     $done();
     return;
   }
 
   const results = [];
+  const tasks = (C.tasks || "").split("|").filter((t) => t.trim().length > 0);
 
-  // 先做连通性诊断
-  await diagnose(headers);
-
-  // 逐个领取任务
-  const tasks = (ARG.tasks || "").split("|").filter((t) => t.trim().length > 0);
-  for (const entry of tasks) {
-    const spec = parseTaskEntry(entry);
-    const body = hexToBodyString(spec.hex);
-    results.push(await postAndCheck(spec.label, ARG.receive, body, headers));
+  for (let i = 0; i < tasks.length; i++) {
+    const spec = parseTaskEntry(tasks[i]);
+    results.push(await claimTask(spec.label, spec.bytes, headers));
+    if (i < tasks.length - 1) await sleep(C.interval);
   }
 
-  // 最后执行一次 batch（一键领取）
-  const batchBody = hexToBodyString(ARG.batchHex || "");
-  results.push(await postAndCheck("一键领取(batch)", ARG.batch, batchBody, headers));
+  // 可选：游戏签到礼包
+  if (C.enableGamesGift) {
+    await sleep(C.interval);
+    results.push(await claimTask("游戏签到礼包", hexToBytes(C.receiveGamesHex), headers));
+  }
 
-  console.log("[心悦] 每日领取结果:\n" + results.map((r) => r.name + " -> " + (r.ok ? "成功" : "失败") + "，" + r.msg).join("\n"));
+  const success = results.filter((r) => r.ok).length;
+  console.log(
+    "[心悦] 完成，共 " + results.length + " 项，成功 " + success + " 项:\n" +
+    results.map((r) => "  " + r.name + " -> " + (r.ok ? "成功" : "失败") + "，" + r.msg).join("\n")
+  );
   $done();
 }
 
