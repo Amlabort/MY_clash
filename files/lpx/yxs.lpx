@@ -1,6 +1,6 @@
-#!name=心悦俱乐部 & QQ游戏中心 每日自动领取
+#!name=英雄杀签到礼包
 #!desc=饱和式每日领取：①心悦俱乐部（英雄杀等）先查礼包列表动态取任务ID，再 batch 一键领取；②QQ游戏中心英雄杀礼包一键领取（自动计算 g_tk）。需先打开一次对应 App 的礼包页面以抓取凭证。
-#!icon= 
+#!icon=https://storage.moegirl.org.cn/moegirl/commons/e/e0/%E8%8B%B1%E9%9B%84%E6%9D%80.jpg
 #!date=261125
 
 [Script]
@@ -8,15 +8,15 @@
 # 抓取登录凭证：匹配到心悦礼包接口时保存登录头（不读二进制请求体，避免解码报错）
 request if ${url} ~= /^https:\/\/bgw\.xinyue\.qq\.com\/(xyapp\.GiftSrv\/(ReceiveGift|ReceiveGamesGift|GetGamesGifts)|apisix\/xinyue\/batch)/i then script("https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/qiandao.js") with tag="抓取xy凭证", requires_body=false, timeout=10
 
-# 心悦每日领取：每天 08:05
-cron "5 8 * * *" then script("https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/qiandao.js") with tag="心悦每日领取", timeout=120
+# 心悦每日领取
+cron "1 0 * * *" then script("https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/qiandao.js") with tag="心悦每日领取", timeout=120
 
 # ========== QQ游戏中心 ==========
 # 抓取 Cookie（含 p_skey，用于计算 g_tk）：匹配到一键领取接口时保存
 request if ${url} ~= /^https:\/\/ssr\.gamecenter\.qq\.com\/kuikly-msr\/v1\/cgi-bin\/welfare-new\//i then script("https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/qqgame.js") with tag="抓取QQ凭证", requires_body=false, timeout=10
 
-# QQ游戏中心领取：每天 08:10（错开心悦，避免同时请求）
-cron "6 8 * * *" then script("https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/qqgame.js") with tag="QQ游戏中心领取", timeout=120
+# QQ游戏中心领取
+cron "2 0 * * *" then script("https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/qqgame.js") with tag="QQ游戏中心领取", timeout=120
 
 [Mitm]
 hostname = bgw.xinyue.qq.com, ssr.gamecenter.qq.com
