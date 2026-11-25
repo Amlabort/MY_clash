@@ -1,6 +1,6 @@
 #!name=心悦俱乐部 & QQ游戏中心 每日自动领取
 #!desc=饱和式每日领取：①心悦俱乐部（英雄杀等）先查礼包列表动态取任务ID，再 batch 一键领取；②QQ游戏中心英雄杀礼包一键领取（自动计算 g_tk）。需先打开一次对应 App 的礼包页面以抓取凭证。
-#!icon=https://img.icons8.com/?size=100&id=ZuQiaFCa1vXe&format=png&color=000000
+#!icon= 
 #!date=261125
 
 [Script]
