@@ -1,18 +1,14 @@
-#!name=英雄杀自动签到
-#!desc=每日定时领取心悦俱乐部礼包：依次领取任务（默认 381、4156），最后执行一次 batch 一键领取。需先打开一次心悦 App 的礼包页面以抓取登录凭证。修改接口或任务后需重新导入插件。
-#!icon=
-#!date=261125
-
-[Argument]
-xy-receive = input,"https://bgw.xinyue.qq.com/xyapp.GiftSrv/ReceiveGift",tag=领取接口地址
-xy-batch = input,"https://bgw.xinyue.qq.com/apisix/xinyue/batch",tag=一键领取接口地址
-xy-tasks = input,"381|4156",tag=任务ID列表（用|分隔）
-xy-batch-hex = input,"12210A0C436F6E74656E742D5479706512116170706C69636174696F6E2F70726F746F1898752251099A9999999999F13F1204504F53541A1F2F78796170702E476966745372762F5265636569766547616D65734769667422150A0B742D676966742D7479706512067369676E696E32080A067369676E696E223B099A9999999999F13F1204504F53541A1A2F78796170702E476966745372762F5265636569766547696674320E080212047461736B1A0439373333",tag=一键领取请求体（十六进制，无空格）
+#!name=心悦俱乐部每日自动领取
+#!desc=每日定时领取心悦俱乐部礼包：依次领取任务 381、4156，最后执行一次 batch 一键领取。需先打开一次心悦 App 的礼包页面以抓取登录凭证。接口与任务ID在脚本内的 DEFAULTS 中修改。
+#!icon=https://img.icons8.com/?size=100&id=ZuQiaFCa1vXe&format=png&color=000000
+#!date=261126
 
 [Script]
+# 抓取登录凭证：打开心悦 App 时匹配到礼包接口即保存登录头（只读请求头，不解码二进制请求体）
 http-request ^https:\/\/bgw\.xinyue\.qq\.com\/(xyapp\.GiftSrv\/|apisix\/xinyue\/batch) script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/yxs_qiandao.js, requires-body=false, binary-body-mode=true, timeout=10, tag=抓取xy凭证
 
-cron "5 8 * * *" script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/yxs_qiandao.js, argument=receive={xy-receive}&batch={xy-batch}&tasks={xy-tasks}&batchHex={xy-batch-hex}, timeout=60, tag=每日自动领取
+# 每日定时领取：默认每天 08:05 执行，可自行修改 cron 表达式
+cron "5 8 * * *" script-path=https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/yxs_qiandao.js, timeout=60, tag=每日自动领取
 
 [Mitm]
 hostname = bgw.xinyue.qq.com
