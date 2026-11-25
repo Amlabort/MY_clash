@@ -131,6 +131,13 @@ function hexToBodyString(hex) {
 /* ---------------- 1. 抓取登录头 ---------------- */
 function captureHeaders() {
   const headers = $request.headers || {};
+  // 跳过脚本自己发出的请求，避免抓取规则拦截本脚本的 httpClient 请求造成循环/卡住
+  const isSelf = Object.keys(headers).some(
+    (k) => k.toLowerCase() === "x-qiandao-script" && String(headers[k]) === "1"
+  );
+  if (isSelf) {
+    return false;
+  }
   const keep = {};
   for (const k in headers) {
     const lk = k.toLowerCase();
@@ -179,7 +186,10 @@ function postAndCheck(name, url, body, headers) {
       resolve({ name: name, ok: false, msg: "缺少参数（url 或 body）" });
       return;
     }
-    $httpClient.post({ url: url, headers: headers, body: body, timeout: 15 }, (error, response, data) => {
+    console.log("[心悦] 发起请求 " + name + " -> " + url + "，body长度=" + body.length);
+    // 打上自定义头，让抓取规则识别并跳过本脚本自己的请求；不传 timeout 用默认值
+    const h = Object.assign({}, headers, { "X-Qiandao-Script": "1" });
+    $httpClient.post({ url: url, headers: h, body: body }, (error, response, data) => {
       if (error) {
         resolve({ name: name, ok: false, msg: "请求失败：" + error });
         return;
@@ -197,6 +207,34 @@ function postAndCheck(name, url, body, headers) {
   });
 }
 
+/* 连通性诊断：逐层验证 GET、域名、POST、二进制 body 四个环节 */
+function diagGet(label, url) {
+  return new Promise((resolve) => {
+    $httpClient.get(url, (error, response) => {
+      console.log("[心悦][诊断] GET " + label + " -> " + (error ? "错误: " + error : "HTTP " + (response && response.status)));
+      resolve();
+    });
+  });
+}
+
+function diagPost(label, url, body, headers) {
+  return new Promise((resolve) => {
+    const h = Object.assign({}, headers, { "X-Qiandao-Script": "1" });
+    $httpClient.post({ url: url, headers: h, body: body }, (error, response) => {
+      console.log("[心悦][诊断] POST " + label + "(body长度=" + body.length + ") -> " +
+        (error ? "错误: " + error : "HTTP " + (response && response.status)));
+      resolve();
+    });
+  });
+}
+
+async function diagnose(headers) {
+  await diagGet("baidu", "https://www.baidu.com");
+  await diagGet("xinyue根路径", "https://bgw.xinyue.qq.com/");
+  // 纯 ASCII 的 body，只验证 POST 通道本身是否通
+  await diagPost("ASCII 测试体", ARG.receive || DEFAULTS.receive, "08", headers);
+}
+
 async function runCron() {
   const headers = loadHeaders();
   console.log("[心悦] $argument 类型=" + ARG._rawType + "，是否为空=" + ARG._empty +
@@ -209,6 +247,9 @@ async function runCron() {
   }
 
   const results = [];
+
+  // 先做连通性诊断
+  await diagnose(headers);
 
   // 逐个领取任务
   const tasks = (ARG.tasks || "").split("|").filter((t) => t.trim().length > 0);
