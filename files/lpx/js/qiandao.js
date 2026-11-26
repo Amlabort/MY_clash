@@ -21,10 +21,14 @@ const DEFAULTS = {
   receive: "https://bgw.xinyue.qq.com/xyapp.GiftSrv/ReceiveGift",
   // 一键领取（批量）接口
   batch: "https://bgw.xinyue.qq.com/apisix/xinyue/batch",
-  // 礼包列表接口（用于动态获取当天的任务ID）
+  // 礼包列表接口（用于动态获取当天的活动/游戏信息）
   getGames: "https://bgw.xinyue.qq.com/xyapp.GiftSrv/GetGamesGifts",
   // 查询礼包列表的请求体：0A 06 "signin" + 10 02 + 10 A3 09 + 10 D6 0B
   getGamesHex: "0A067369676E696E100210A30910D60B",
+  // 游戏签到礼包接口（独立接口，每天限1次，需 t-gift-type: signin 头）
+  receiveGames: "https://bgw.xinyue.qq.com/xyapp.GiftSrv/ReceiveGamesGift",
+  // 签到礼包请求体：0A 06 "signin"（8 字节，纯 ASCII）
+  receiveGamesHex: "0A067369676E696E",
   // 默认礼包/活动 ID。1187 = 英雄杀（由 GetGamesGifts 列表确认）
   giftId: 1187,
   // 固定任务列表（饱和式：这些永远尝试）
@@ -32,7 +36,7 @@ const DEFAULTS = {
   //        "381@2"     -> 指定 gid
   //        "hex:08.."  -> 直接给请求体
   tasks: "381|4156|9733",
-  // 动态获取：从 GetGamesGifts 拉取当天所有游戏的任务ID，自动参与领取
+  // 动态获取：从 GetGamesGifts 拉取游戏信息，确认已绑定的 gid
   dynamicTasks: true,
   // 交叉组合用的 gid 白名单。
   // 已实测：1187=英雄杀、2=穿越火线（本账号已绑定，返回业务提示）；
@@ -40,7 +44,7 @@ const DEFAULTS = {
   crossGiftIds: "1187|2",
   // 用 batch 打包领取（一次请求）；false 则逐个请求
   useBatch: true,
-  // 是否附加游戏签到礼包子请求
+  // 是否领取游戏签到礼包（ReceiveGamesGift，每天限1次额度）
   enableGamesGift: true,
   // 请求间隔（毫秒）
   interval: 1200,
@@ -71,6 +75,8 @@ function buildConfig() {
     batch: ["xy-batch", "batch", "batchUrl"],
     getGames: ["xy-get-games", "getGames"],
     getGamesHex: ["xy-get-games-hex", "getGamesHex"],
+    receiveGames: ["xy-receive-games", "receiveGames"],
+    receiveGamesHex: ["xy-receive-games-hex", "receiveGamesHex"],
     giftId: ["xy-gift-id", "xy-giftId", "giftId"],
     tasks: ["xy-tasks", "tasks"],
     interval: ["xy-interval", "interval"],
@@ -96,6 +102,8 @@ function buildConfig() {
     batch: pick("batch"),
     getGames: pick("getGames"),
     getGamesHex: pick("getGamesHex"),
+    receiveGames: pick("receiveGames"),
+    receiveGamesHex: pick("receiveGamesHex"),
     giftId: isNaN(gid) ? DEFAULTS.giftId : gid,
     tasks: pick("tasks"),
     interval: isNaN(itv) ? DEFAULTS.interval : itv,
@@ -103,6 +111,8 @@ function buildConfig() {
     useBatch: ub === true || String(ub).toLowerCase() === "true",
     dynamicTasks: dt === true || String(dt).toLowerCase() === "true",
     crossGiftIds: pick("crossGiftIds"),
+    // 签到礼包开关：C 里必须显式带上，否则 undefined 会导致整段被跳过
+    enableGamesGift: DEFAULTS.enableGamesGift,
     _argType: typeof raw,
     _argKeys: Object.keys(parsed).join(",") || "(空)",
   };
@@ -532,10 +542,11 @@ function classify(status, text) {
 
 /**
  * 发送一次 POST。关键：body 用 Uint8Array，保证二进制字节原样发送。
+ * extraHeaders：可选，额外请求头（如签到礼包需要的 t-gift-type）
  */
-function postOnce(url, bytes, headers) {
+function postOnce(url, bytes, headers, extraHeaders) {
   return new Promise((resolve) => {
-    const h = Object.assign({}, headers, { "X-Qiandao-Script": "1" });
+    const h = Object.assign({}, headers, extraHeaders || {}, { "X-Qiandao-Script": "1" });
     // Uint8Array 是 Loon 官方要求的二进制 body 类型
     const body = new Uint8Array(bytes);
     $httpClient.post({ url: url, headers: h, body: body }, (error, response, data) => {
@@ -597,13 +608,6 @@ async function claimByBatch(specs, headers) {
     const subs = chunk.map((s) =>
       buildBatchSubRequest("/xyapp.GiftSrv/ReceiveGift", s.bytes, [])
     );
-    // 饱和式：顺带带上游戏签到礼包子请求
-    if (C.enableGamesGift && start === 0) {
-      subs.push(
-        buildBatchSubRequest("/xyapp.GiftSrv/ReceiveGamesGift",
-          hexToBytes("0A067369676E696E"), [["t-gift-type", "signin"]])
-      );
-    }
     const body = buildBatchBody(subs);
     console.log("[心悦] batch 第 " + (Math.floor(start / BATCH_CHUNK) + 1) + " 批: " +
       chunk.length + " 个子请求，" + body.length + " 字节");
@@ -632,6 +636,72 @@ async function claimByBatch(specs, headers) {
     if (start + BATCH_CHUNK < specs.length) await sleep(C.interval);
   }
   return results;
+}
+
+/**
+ * 领取游戏签到礼包（ReceiveGamesGift）。
+ * 特点：
+ *  - 必须带请求头 t-gift-type: signin
+ *  - 请求体固定 8 字节：0A 06 "signin"
+ *  - 服务端限流每天 1 次（响应头 X-RateLimit-Limit: 1）
+ *  - 成功时返回礼包列表（f3.f8 = 当天可领道具），失败常返回"网络繁忙10014"
+ * 返回 {name, ok, msg, rewards}
+ */
+async function claimGamesGift(headers) {
+  const name = "游戏签到礼包";
+  const bytes = hexToBytes(C.receiveGamesHex || DEFAULTS.receiveGamesHex);
+  console.log("[心悦] " + name + " 发送 " + bytes.length + " 字节: " + bytesToHex(bytes));
+  const r = await postOnce(C.receiveGames, bytes, headers, { "t-gift-type": "signin" });
+  if (r.error) {
+    console.log("[心悦] " + name + " -> 失败，" + String(r.error));
+    return { name: name, ok: false, msg: "请求失败: " + r.error, rewards: [] };
+  }
+
+  const c = classify(r.status, r.text);
+  console.log("[心悦] " + name + " HTTP " + r.status + "，响应 " + (r.bytes ? r.bytes.length : 0) + " 字节");
+
+  // 成功时从响应里提取当天礼包
+  let rewards = [];
+  if (c.ok) {
+    rewards = parseGamesGiftItems(r.bytes || []);
+  }
+  const msg = c.ok
+    ? "领取成功" + (rewards.length ? "，获得: " + formatRewards(rewards) : "")
+    : c.msg;
+  console.log("[心悦] " + name + " -> " + (c.ok ? "成功" : "失败") + "，" + msg);
+  return { name: name, ok: c.ok, msg: msg, rewards: rewards };
+}
+
+/**
+ * 解析 ReceiveGamesGift 响应里的当天礼包。
+ * 结构：顶层 f3 → 内部若干 f8 项，每项 { f2: 道具名, f3: "第N天", f4: 数量 }
+ */
+function parseGamesGiftItems(bytes) {
+  const items = [];
+  try {
+    const top = pbParse(bytes);
+    const f3 = top.filter((x) => x.field === 3 && x.wire === 2)[0];
+    if (!f3 || !f3.bytes) return items;
+    const inner = pbParse(f3.bytes);
+    inner.forEach((x) => {
+      if (x.field !== 8 || x.wire !== 2 || !x.bytes) return;
+      const p = pbParse(x.bytes);
+      const nameF = p.filter((y) => y.field === 2 && y.wire === 2)[0];
+      const cntF = p.filter((y) => y.field === 4 && y.wire === 0)[0];
+      const dayF = p.filter((y) => y.field === 3 && y.wire === 2)[0];
+      if (!nameF || !nameF.bytes) return;
+      const nm = utf8Decode(Array.prototype.slice.call(nameF.bytes)).trim();
+      if (!nm || nm.length > 40) return;
+      items.push({
+        name: nm,
+        count: cntF ? cntF.value : 1,
+        day: dayF ? utf8Decode(Array.prototype.slice.call(dayF.bytes)) : "",
+      });
+    });
+  } catch (e) {
+    // 忽略解析失败
+  }
+  return items;
 }
 
 /** 先查礼包列表，动态获取当天各游戏的任务ID */
@@ -766,6 +836,12 @@ async function runCron() {
       results.push(await claimTask(specs[i].label, specs[i].bytes, headers));
       if (i < specs.length - 1) await sleep(C.interval);
     }
+  }
+
+  // 3.5 游戏签到礼包（独立接口，每天限 1 次，必须带 t-gift-type: signin）
+  if (C.enableGamesGift) {
+    await sleep(C.interval);
+    results.push(await claimGamesGift(headers));
   }
 
   // 4. 汇总
