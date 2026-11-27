@@ -29,18 +29,22 @@ const DEFAULTS = {
   receiveGames: "https://bgw.xinyue.qq.com/xyapp.GiftSrv/ReceiveGamesGift",
   // 签到礼包请求体：0A 06 "signin"（8 字节，纯 ASCII）
   receiveGamesHex: "0A067369676E696E",
-  // 默认礼包/活动 ID。1187 = 英雄杀（由 GetGamesGifts 列表确认）
+  // 默认礼包/活动 ID（即“游戏 ID”）。
+  // 1187=英雄杀、2=穿越火线、1=?, 5=? —— 这些是《心悦》平台对所有用户通用的游戏编号，
+  // 不是某个人的账号数据，可以安全地作为默认值。
+  // 若你的目标游戏不同，请改这里，或让脚本从 GetGamesGifts 列表自动发现（见 dynamicTasks）。
   giftId: 1187,
-  // 固定任务列表（饱和式：这些永远尝试）
+  // 固定任务ID列表（每个用户相同，属于活动配置，不含个人信息）
   //   写法 "381"       -> gid 用上面的 giftId
   //        "381@2"     -> 指定 gid
   //        "hex:08.."  -> 直接给请求体
   tasks: "381|4156|9733",
   // 动态获取：从 GetGamesGifts 拉取游戏信息，确认已绑定的 gid
   dynamicTasks: true,
-  // 交叉组合用的 gid 白名单。
-  // 已实测：1187=英雄杀、2=穿越火线（本账号已绑定，返回业务提示）；
-  // 1/5/0 实测返回"请绑定游戏角色"（未绑定），已剔除，避免无效请求触发风控。
+  // 游戏(gid)列表。全部为平台通用的游戏编号，不含任何个人信息。
+  // 1187=英雄杀、2=穿越火线。
+  // 多人使用时不必改这里：脚本会优先用 GetGamesGifts 返回的 gid（各账号已绑定的游戏），
+  // 这里的列表只作为“查不到时”的兜底。
   crossGiftIds: "1187|2",
   // 用 batch 打包领取（一次请求）；false 则逐个请求
   useBatch: true,
@@ -50,9 +54,26 @@ const DEFAULTS = {
   interval: 1200,
   // 单个任务重试次数（遇到"网络繁忙"时）
   retries: 2,
+  // ===== 角色绑定（解决"每天需重新绑定"问题）=====
+  // 角色列表接口：返回最近绑定的角色
+  roleList: "https://bgw.xinyue.qq.com/amp2.RoleSrv/GetRecentRoleList",
+  // 绑定接口
+  bindRole: "https://bgw.xinyue.qq.com/amp2.RoleSrv/BindRole",
+  // 是否在领取前自动绑定角色
+  enableBind: true,
+  // 角色列表请求体中的渠道标识
+  bindChannel: "xinyue",
+  // 请求体固定尾字段（实测值）
+  bindSuffix: 1,
 };
 
-const STORE_KEY = "gift_headers";
+/*
+ * 持久化存储键名。
+ * Loon 的持久化存储按设备隔离，多人使用互不影响，因此用一个固定键即可。
+ * 每个设备上只保存该设备登录账号的凭证。
+ */
+const STORE_KEY = "xinyue_creds_v2";
+const STORE_KEY_LEGACY = "gift_headers"; // 兼容旧版本已保存的数据
 const isRequest = typeof $request !== "undefined";
 
 /* ---------------- 参数与配置 ---------------- */
@@ -84,6 +105,10 @@ function buildConfig() {
     crossGiftIds: ["xy-cross-gift-ids", "crossGiftIds"],
     dynamicTasks: ["xy-dynamic", "dynamicTasks"],
     retries: ["xy-retries", "retries"],
+    roleList: ["xy-role-list", "roleList"],
+    bindRole: ["xy-bind-role", "bindRole"],
+    enableBind: ["xy-enable-bind", "enableBind"],
+    bindChannel: ["xy-bind-channel", "bindChannel"],
   };
   const pick = (name) => {
     for (const k of aliases[name] || [name]) {
@@ -113,6 +138,11 @@ function buildConfig() {
     crossGiftIds: pick("crossGiftIds"),
     // 签到礼包开关：C 里必须显式带上，否则 undefined 会导致整段被跳过
     enableGamesGift: DEFAULTS.enableGamesGift,
+    // 角色绑定
+    roleList: pick("roleList"),
+    bindRole: pick("bindRole"),
+    enableBind: DEFAULTS.enableBind,
+    bindChannel: pick("bindChannel"),
     _argType: typeof raw,
     _argKeys: Object.keys(parsed).join(",") || "(空)",
   };
@@ -325,8 +355,10 @@ function readVarint(bytes, pos) {
 }
 
 /**
- * 解析 GetGamesGifts 响应，提取当天所有游戏的任务ID。
- * 结构：顶层 f3 → f2（游戏列表）→ 每项 { f3=gid, f7=礼包信息{f1=任务ID, f4=礼包名} }
+ * 解析 GetGamesGifts 响应，提取本账号当天有礼包的游戏。
+ * 结构：顶层 f3 → f2（游戏列表）→ 每项 { f3=gid, f7=礼包信息{f1=活动ID, f4=礼包名} }
+ * 注意：这里只用来确认“该账号有哪些 gid”，f1 里的数字是活动ID，不是领取任务ID。
+ * 只有带 f7（活动信息）的才算真正参与活动的游戏；没有 f7 的通常是未绑定的游戏，跳过。
  * 返回 [{gid, taskId, name}]
  */
 function parseGameList(bytes) {
@@ -343,19 +375,19 @@ function parseGameList(bytes) {
       if (g.wire !== 2 || !g.bytes) return;
       const gf = pbParse(g.bytes);
       const gidF = gf.filter((x) => x.field === 3 && x.wire === 0)[0];
+      const gid = gidF ? gidF.value : 0;
+      if (!gid) return;
+
+      // 必须有活动信息(f7)才算有效游戏；否则多半是“未绑定/无活动”，跳过
       const f7 = gf.filter((x) => x.field === 7 && x.wire === 2)[0];
       if (!f7 || !f7.bytes) return;
+
       const f7f = pbParse(f7.bytes);
       const taskF = f7f.filter((x) => x.field === 1 && x.wire === 2)[0];
       const nameF = f7f.filter((x) => x.field === 4 && x.wire === 2)[0];
-      if (!taskF || !taskF.bytes) return;
-      const taskId = asciiOf(taskF.bytes).replace(/[^0-9]/g, "");
-      if (!taskId) return;
-      result.push({
-        gid: gidF ? gidF.value : 0,
-        taskId: taskId,
-        name: nameF ? utf8Decode(Array.prototype.slice.call(nameF.bytes)) : "",
-      });
+      const taskId = taskF && taskF.bytes ? asciiOf(taskF.bytes).replace(/[^0-9]/g, "") : "";
+      const name = nameF && nameF.bytes ? utf8Decode(Array.prototype.slice.call(nameF.bytes)) : "";
+      result.push({ gid: gid, taskId: taskId, name: name });
     });
   } catch (e) {
     console.log("[心悦] 解析游戏列表出错: " + e);
@@ -429,6 +461,16 @@ function parseBatchResponse(bytes) {
 }
 
 /* ---------------- 1. 抓取登录头 ---------------- */
+/** 从请求头里取某个头（名称大小写不敏感） */
+function pickHeaderCI(headers, name) {
+  const target = name.toLowerCase();
+  const keys = Object.keys(headers || {});
+  for (let i = 0; i < keys.length; i++) {
+    if (keys[i].toLowerCase() === target) return headers[keys[i]];
+  }
+  return "";
+}
+
 function captureHeaders() {
   const headers = $request.headers || {};
   // 跳过脚本自己发出的请求
@@ -442,14 +484,15 @@ function captureHeaders() {
       lk === "user-agent" ||
       lk === "content-type" ||
       lk === "accept" ||
+      lk === "cookie" ||
       lk.indexOf("t-") === 0 ||
       lk.indexOf("x-xy") === 0
     ) {
       keep[k] = headers[k];
     }
   }
-  const hasToken = Object.keys(keep).some((k) => k.toLowerCase() === "t-access-token");
-  if (!hasToken) {
+  const token = pickHeaderCI(keep, "t-access-token");
+  if (!token) {
     console.log("[心悦] 未发现 t-access-token，跳过保存。头: " + Object.keys(headers).join(","));
     return false;
   }
@@ -465,8 +508,13 @@ function handleCapture() {
 }
 
 /* ---------------- 2. 定时领取 ---------------- */
+/** 读取已保存的凭证（优先新键，兼容旧键） */
 function loadHeaders() {
-  const raw = $persistentStore.read(STORE_KEY);
+  return readStore(STORE_KEY) || readStore(STORE_KEY_LEGACY);
+}
+
+function readStore(key) {
+  const raw = $persistentStore.read(key);
   if (!raw) return null;
   try {
     return JSON.parse(raw);
@@ -530,9 +578,9 @@ function classify(status, text) {
   if (text.indexOf("已领取") !== -1 || text.indexOf("已参与") !== -1) {
     return { type: "already", ok: true, msg: "今日已领过" };
   }
-  if (text.indexOf("请绑定游戏角色") !== -1) return { type: "unbound", ok: false, msg: "提示未绑定角色" };
+  if (text.indexOf("请绑定游戏角色") !== -1) return { type: "unbound", ok: false, msg: "该游戏未绑定角色" };
   if (text.indexOf("绑定上限") !== -1) {
-    return { type: "limit", ok: false, msg: "已达到游戏绑定上限（账号受限，需在App解除或等待）" };
+    return { type: "limit", ok: false, msg: "该账号的游戏绑定名额已满（需在App解绑不玩的游戏）" };
   }
   if (text.indexOf("页面失效") !== -1) return { type: "invalid", ok: false, msg: "任务ID失效/不存在" };
   if (text.indexOf("网络繁忙") !== -1) return { type: "busy", ok: false, msg: "网络繁忙或任务ID非法" };
@@ -704,6 +752,152 @@ function parseGamesGiftItems(bytes) {
   return items;
 }
 
+/* ---------------- 角色绑定 ---------------- */
+
+/**
+ * 构造 GetRecentRoleList 请求体（实测 20 字节）：
+ *   f2 = "ios"      设备类型
+ *   f4 = "xinyue"   渠道标识
+ *   f5 = gid        1187=英雄杀
+ *   f7 = 1
+ *   f8 = 1
+ */
+function buildRoleListBody(gid) {
+  let b = [];
+  b = b.concat(pbString(2, "ios"));
+  b = b.concat(pbString(4, C.bindChannel || "xinyue"));
+  b = b.concat(pbTag(5, 0), encodeVarint(gid));
+  b = b.concat(pbTag(7, 0), encodeVarint(1));
+  b = b.concat(pbTag(8, 0), encodeVarint(1));
+  return b;
+}
+
+/**
+ * 构造 BindRole 请求体（实测 136 字节）：
+ *   f1 = "xinyue"   渠道
+ *   f3 = "ios"      设备
+ *   f4 = {角色对象}  从 GetRecentRoleList 响应的 f3 原样取
+ *   f5 = gid
+ *   f6 = 1
+ */
+function buildBindBody(gid, roleBytes) {
+  let b = [];
+  b = b.concat(pbString(1, C.bindChannel || "xinyue"));
+  b = b.concat(pbString(3, "ios"));
+  b = b.concat(pbMessage(4, roleBytes));
+  b = b.concat(pbTag(5, 0), encodeVarint(gid));
+  b = b.concat(pbTag(6, 0), encodeVarint(DEFAULTS.bindSuffix));
+  return b;
+}
+
+/**
+ * 自动绑定角色：先查最近角色，再用它绑定。
+ * 成功时 BindRole 返回空响应体（实测）。
+ * 返回 true 表示绑定请求已发出（无论服务端是否已绑定过）。
+ */
+async function autoBindRole(gid, headers) {
+  const name = "角色绑定(gid=" + gid + ")";
+  try {
+    // 1. 查最近角色
+    const listBody = buildRoleListBody(gid);
+    console.log("[心悦] " + name + " 查询最近角色...");
+    const lr = await postOnce(C.roleList, listBody, headers);
+    if (lr.error) {
+      console.log("[心悦] " + name + " 查询失败: " + lr.error);
+      return { name: name, ok: false, msg: "查询角色失败: " + lr.error, rewards: [] };
+    }
+
+    // 解析响应，取第一个含角色对象的字段（实测是 f3）
+    const top = pbParse(lr.bytes || []);
+    let roleBytes = null;
+    const cand = top.filter((x) => x.field === 3 && x.wire === 2)[0];
+    if (cand && cand.bytes) {
+      roleBytes = Array.prototype.slice.call(cand.bytes);
+    }
+      if (!roleBytes) {
+        // 可能是错误码：300015=无绑定区服，400000=需要用户在App里授权
+        const codeF = top.filter((x) => x.field === 1 && x.wire === 0)[0];
+        const msgF = top.filter((x) => x.field === 2 && x.wire === 2)[0];
+        const errMsg = msgF ? utf8Decode(Array.prototype.slice.call(msgF.bytes)) : "";
+        const code = codeF ? codeF.value : 0;
+        let friendly = errMsg;
+        if (code === 400000) {
+          friendly = "该游戏未绑定（需在App内授权/绑定一次）";
+        } else if (code === 300015) {
+          friendly = "无绑定区服（需在App内绑定角色）";
+        }
+        console.log("[心悦] " + name + " 跳过: code=" + code + " " + friendly);
+        return { name: name, ok: false, msg: friendly, rewards: [] };
+      }
+
+    // 从角色对象里读出可读信息，便于日志确认
+    const rf = pbParse(roleBytes);
+    const pickStr = (n) => {
+      const x = rf.filter((y) => y.field === n && y.wire === 2)[0];
+      return x && x.bytes ? utf8Decode(Array.prototype.slice.call(x.bytes)) : "";
+    };
+    const zoneB64 = pickStr(6);
+    const nameB64 = pickStr(8);
+    let zone = zoneB64;
+    let roleName = nameB64;
+    try {
+      zone = base64Decode(zoneB64) || zoneB64;
+      roleName = base64Decode(nameB64) || nameB64;
+    } catch (e) {
+      // 保留原文
+    }
+    console.log("[心悦] " + name + " 找到角色: " + roleName + "（" + zone + "）");
+
+    // 2. 绑定
+    const bindBody = buildBindBody(gid, roleBytes);
+    const br = await postOnce(C.bindRole, bindBody, headers);
+    if (br.error) {
+      console.log("[心悦] " + name + " 绑定请求失败: " + br.error);
+      return { name: name, ok: false, msg: "绑定请求失败: " + br.error, rewards: [] };
+    }
+    // 实测成功时响应体为空
+    const bodyLen = br.bytes ? br.bytes.length : 0;
+    if (bodyLen === 0) {
+      console.log("[心悦] " + name + " 绑定成功（空响应）");
+      return { name: name, ok: true, msg: "已绑定 " + roleName, rewards: [] };
+    }
+    const c = classify(br.status, br.text);
+    console.log("[心悦] " + name + " 绑定额外响应: " + c.msg);
+    return { name: name, ok: true, msg: "绑定返回: " + c.msg + "（角色 " + roleName + "）", rewards: [] };
+  } catch (e) {
+    console.log("[心悦] " + name + " 异常: " + e);
+    return { name: name, ok: false, msg: "绑定异常: " + e, rewards: [] };
+  }
+}
+
+/** base64 解码（用于还原区服/角色名） */
+function base64Decode(str) {
+  if (!str) return "";
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+  const clean = String(str).replace(/[^A-Za-z0-9+/]/g, "");
+  const bytes = [];
+  for (let i = 0; i + 3 < clean.length; i += 4) {
+    const n =
+      (chars.indexOf(clean[i]) << 18) |
+      (chars.indexOf(clean[i + 1]) << 12) |
+      (chars.indexOf(clean[i + 2]) << 6) |
+      chars.indexOf(clean[i + 3]);
+    bytes.push((n >> 16) & 0xff, (n >> 8) & 0xff, n & 0xff);
+  }
+  const rest = clean.length % 4;
+  if (rest === 2) {
+    const n = (chars.indexOf(clean[clean.length - 2]) << 18) | (chars.indexOf(clean[clean.length - 1]) << 12);
+    bytes.push((n >> 16) & 0xff);
+  } else if (rest === 3) {
+    const n =
+      (chars.indexOf(clean[clean.length - 3]) << 18) |
+      (chars.indexOf(clean[clean.length - 2]) << 12) |
+      (chars.indexOf(clean[clean.length - 1]) << 6);
+    bytes.push((n >> 16) & 0xff, (n >> 8) & 0xff);
+  }
+  return utf8Decode(bytes);
+}
+
 /** 先查礼包列表，动态获取当天各游戏的任务ID */
 async function fetchDynamicTaskIds(headers) {
   const bytes = hexToBytes(C.getGamesHex || DEFAULTS.getGamesHex);
@@ -724,13 +918,14 @@ async function fetchDynamicTaskIds(headers) {
 }
 
 /**
- * 组装饱和式任务清单：
+ * 组装任务清单：
  *  1) 固定任务（C.tasks）
- *  2) 列表动态任务（dynamicTasks）
- *  3) 每个任务ID 与 crossGiftIds 各 gid 交叉组合（仅当未被显式指定 gid 时）
+ *  2) 列表动态任务（dynamicTasks）—— 带该账号自己的 gid
+ *  3) 固定任务里未指定 gid 的，与传入的 gidList 交叉组合
+ * gidList 由调用方根据该账号实际情况给出，避免试探其他账号才绑的游戏。
  * 去重后返回 [{label, bytes}]
  */
-function buildSaturationSpecs(dynamicList) {
+function buildSaturationSpecs(dynamicList, gidList) {
   const seen = {};
   const specs = [];
 
@@ -740,10 +935,12 @@ function buildSaturationSpecs(dynamicList) {
     specs.push({ label: label, bytes: bytes });
   };
 
-  const gids = (C.crossGiftIds || "")
-    .split("|")
-    .map((s) => parseInt(s, 10))
-    .filter((n) => !isNaN(n) && n >= 0);
+  const gids = Array.isArray(gidList) && gidList.length
+    ? gidList
+    : (C.crossGiftIds || "")
+        .split("|")
+        .map((s) => parseInt(s, 10))
+        .filter((n) => !isNaN(n) && n >= 0);
 
   // 收集所有任务ID：固定任务里没指定 gid 的 + 动态任务
   const plainIds = [];
@@ -801,16 +998,43 @@ async function runCron() {
     return;
   }
 
-  // 1. 动态获取当天任务ID
+  // ========== 1. 先查礼包列表：拿到本账号实际可领的游戏(gid)与任务 ==========
   let dynamicList = [];
   if (C.dynamicTasks) {
     dynamicList = await fetchDynamicTaskIds(headers);
     await sleep(C.interval);
   }
 
-  // 2. 组装饱和式任务清单
-  const specs = buildSaturationSpecs(dynamicList);
-  console.log("[心悦] 本轮共 " + specs.length + " 个领取请求（饱和式）");
+  // ========== 2. 确定要处理的 gid ==========
+  // 优先级：列表里该账号真实存在的 gid > 配置的兜底列表
+  // 这样多人使用时每个人只会处理自己账号绑定过的游戏，不会去试探别人的。
+  const fallbackGids = (C.crossGiftIds || "")
+    .split("|")
+    .map((s) => parseInt(s, 10))
+    .filter((n) => !isNaN(n) && n >= 0);
+  const dynamicGids = [];
+  dynamicList.forEach((x) => {
+    if (x.gid && dynamicGids.indexOf(x.gid) === -1) dynamicGids.push(x.gid);
+  });
+  const gidList = dynamicGids.length > 0 ? dynamicGids : fallbackGids;
+  console.log(
+    "[心悦] 本账号游戏 gid: " + gidList.join(",") +
+    (dynamicGids.length ? "（来自礼包列表）" : "（来自默认配置）")
+  );
+
+  // ========== 3. 自动绑定这些游戏的角色 ==========
+  const preResults = [];
+  if (C.enableBind) {
+    for (let i = 0; i < gidList.length; i++) {
+      preResults.push(await autoBindRole(gidList[i], headers));
+      if (i < gidList.length - 1) await sleep(C.interval);
+    }
+    await sleep(C.interval);
+  }
+
+  // ========== 4. 组装任务并领取 ==========
+  const specs = buildSaturationSpecs(dynamicList, gidList);
+  console.log("[心悦] 本轮共 " + specs.length + " 个领取请求");
 
   if (specs.length === 0) {
     console.log("[心悦] 没有可领取的任务");
@@ -844,13 +1068,18 @@ async function runCron() {
     results.push(await claimGamesGift(headers));
   }
 
-  // 4. 汇总
-  const success = results.filter((r) => r.ok && r.msg.indexOf("领取成功") !== -1);
-  const already = results.filter((r) => r.ok && r.msg.indexOf("领取成功") === -1);
-  const failed = results.filter((r) => !r.ok);
+  // 4. 汇总（把绑定结果也并入统计）
+  const all = preResults.concat(results);
+  const success = all.filter((r) => r.ok && r.msg.indexOf("领取成功") !== -1);
+  const already = all.filter((r) => r.ok && r.msg.indexOf("领取成功") === -1);
+  const failed = all.filter((r) => !r.ok);
+
+  if (preResults.length) {
+    console.log("[心悦] 角色绑定结果:\n" + preResults.map((r) => "  " + r.name + " -> " + (r.ok ? "成功" : "失败") + "，" + r.msg).join("\n"));
+  }
 
   console.log(
-    "[心悦] 完成：共 " + results.length + " 项 | 新领到 " + success.length +
+    "[心悦] 完成：共 " + all.length + " 项 | 新领到 " + success.length +
     " 项 | 已领过 " + already.length + " 项 | 失败 " + failed.length + " 项"
   );
 
@@ -866,7 +1095,7 @@ async function runCron() {
 
   // 汇总所有道具，便于一眼看清拿到了什么
   const allRewards = [];
-  results.forEach((r) => {
+  all.forEach((r) => {
     if (r.rewards && r.rewards.length) {
       r.rewards.forEach((x) => {
         const idx = allRewards.findIndex((y) => y.name === x.name);
