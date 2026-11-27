@@ -55,19 +55,23 @@ const DEFAULTS = {
   // 单个任务重试次数（遇到"网络繁忙"时）
   retries: 2,
   // ===== 角色绑定 =====
-  // 说明：BindRole 虽然调用成功（空响应），但实测会导致 App 侧出现
-  //      “您的绑定信息已过期，请重新绑定角色”，因此默认关闭。
-  //      如需启用，把 enableBind 改成 true，并自行承担风险。
-  // 角色列表接口：返回最近绑定的角色
+  // 实测结论（重要）：
+  //   1. RoleSrv/BindRole 只登记角色，不建立礼包绑定，
+  //      单独调用会导致 App 显示“绑定信息已过期”，已弃用。
+  //   2. 正确流程是 GiftSrv 的两个接口：
+  //        PassCardBindGameRoleV2（绑定）→ GetPassCardV2（校验）
+  //      实测能把“请绑定游戏角色”修复为正常状态。
   roleList: "https://bgw.xinyue.qq.com/amp2.RoleSrv/GetRecentRoleList",
-  // 绑定接口
+  passCardBind: "https://bgw.xinyue.qq.com/xyapp.GiftSrv/PassCardBindGameRoleV2",
+  passCardQuery: "https://bgw.xinyue.qq.com/xyapp.GiftSrv/GetPassCardV2",
+  // 旧的底层绑定接口（仅保留，不调用）
   bindRole: "https://bgw.xinyue.qq.com/amp2.RoleSrv/BindRole",
-  // 是否在领取前自动绑定角色（默认关闭）
-  enableBind: false,
+  // 是否在领取前自动绑定角色
+  enableBind: true,
   // 角色列表请求体中的渠道标识
   bindChannel: "xinyue",
-  // 请求体固定尾字段（实测值）
-  bindSuffix: 1,
+  // 角色对象里需要补的字段值（PassCard 绑定比 BindRole 多一个 f4=0）
+  bindRoleExtraField4: 0,
 };
 
 /*
@@ -109,6 +113,8 @@ function buildConfig() {
     dynamicTasks: ["xy-dynamic", "dynamicTasks"],
     retries: ["xy-retries", "retries"],
     roleList: ["xy-role-list", "roleList"],
+    passCardBind: ["xy-passcard-bind", "passCardBind"],
+    passCardQuery: ["xy-passcard-query", "passCardQuery"],
     bindRole: ["xy-bind-role", "bindRole"],
     enableBind: ["xy-enable-bind", "enableBind"],
     bindChannel: ["xy-bind-channel", "bindChannel"],
@@ -143,9 +149,12 @@ function buildConfig() {
     enableGamesGift: DEFAULTS.enableGamesGift,
     // 角色绑定
     roleList: pick("roleList"),
+    passCardBind: pick("passCardBind"),
+    passCardQuery: pick("passCardQuery"),
     bindRole: pick("bindRole"),
     enableBind: DEFAULTS.enableBind,
     bindChannel: pick("bindChannel"),
+    bindRoleExtraField4: DEFAULTS.bindRoleExtraField4,
     _argType: typeof raw,
     _argKeys: Object.keys(parsed).join(",") || "(空)",
   };
@@ -776,27 +785,48 @@ function buildRoleListBody(gid) {
 }
 
 /**
- * 构造 BindRole 请求体（实测 136 字节）：
- *   f1 = "xinyue"   渠道
- *   f3 = "ios"      设备
- *   f4 = {角色对象}  从 GetRecentRoleList 响应的 f3 原样取
- *   f5 = gid
- *   f6 = 1
+ * 构造 PassCardBindGameRoleV2 请求体（实测 123 字节）。
+ * 与 RoleSrv/BindRole 的关键差异：角色对象里要多一个 f4=0。
+ *   f1 = gid
+ *   f2 = { 角色对象 }  角色字段: f1 openid, f2 appid, f3=2, f4=0, f5=1,
+ *                      f6 区服(base64), f7 openid, f8 角色名(base64), f9 plat
  */
-function buildBindBody(gid, roleBytes) {
+function buildPassCardBindBody(gid, roleBytes) {
+  // 在角色对象里补上 f4=0（抓包中 PassCard 版本比 BindRole 多这个字段）
+  const rf = pbParse(roleBytes);
+  let roleWithF4 = [];
+  let inserted = false;
+  rf.forEach((x) => {
+    // 在 f3 之后插入 f4=0
+    if (!inserted && x.field === 3 && x.wire === 0) {
+      roleWithF4 = roleWithF4.concat(pbTag(3, 0), encodeVarint(x.value));
+      roleWithF4 = roleWithF4.concat(pbTag(4, 0), encodeVarint(C.bindRoleExtraField4 || 0));
+      inserted = true;
+      return;
+    }
+    if (x.wire === 0) {
+      roleWithF4 = roleWithF4.concat(pbTag(x.field, 0), encodeVarint(x.value));
+    } else if (x.wire === 2 && x.bytes) {
+      roleWithF4 = roleWithF4.concat(pbString(x.field, asciiOf(x.bytes)));
+    }
+  });
+  if (!inserted) {
+    // 兜底：直接在末尾补
+    roleWithF4 = roleWithF4.concat(pbTag(4, 0), encodeVarint(C.bindRoleExtraField4 || 0));
+  }
+
   let b = [];
-  b = b.concat(pbString(1, C.bindChannel || "xinyue"));
-  b = b.concat(pbString(3, "ios"));
-  b = b.concat(pbMessage(4, roleBytes));
-  b = b.concat(pbTag(5, 0), encodeVarint(gid));
-  b = b.concat(pbTag(6, 0), encodeVarint(DEFAULTS.bindSuffix));
+  b = b.concat(pbTag(1, 0), encodeVarint(gid));
+  b = b.concat(pbMessage(2, roleWithF4));
   return b;
 }
 
 /**
- * 自动绑定角色：先查最近角色，再用它绑定。
- * 成功时 BindRole 返回空响应体（实测）。
- * 返回 true 表示绑定请求已发出（无论服务端是否已绑定过）。
+ * 自动绑定角色（正确流程，实测有效）：
+ *   1. GetRecentRoleList  → 取该账号的角色对象
+ *   2. PassCardBindGameRoleV2 → 绑定到礼包活动
+ *   3. GetPassCardV2 → 校验
+ * 实测能把“请绑定游戏角色”修复为正常可领取状态。
  */
 async function autoBindRole(gid, headers) {
   const name = "角色绑定(gid=" + gid + ")";
@@ -810,63 +840,55 @@ async function autoBindRole(gid, headers) {
       return { name: name, ok: false, msg: "查询角色失败: " + lr.error, rewards: [] };
     }
 
-    // 解析响应，取第一个含角色对象的字段（实测是 f3）
     const top = pbParse(lr.bytes || []);
-    let roleBytes = null;
     const cand = top.filter((x) => x.field === 3 && x.wire === 2)[0];
-    if (cand && cand.bytes) {
-      roleBytes = Array.prototype.slice.call(cand.bytes);
-    }
-      if (!roleBytes) {
-        // 可能是错误码：300015=无绑定区服，400000=需要用户在App里授权
-        const codeF = top.filter((x) => x.field === 1 && x.wire === 0)[0];
-        const msgF = top.filter((x) => x.field === 2 && x.wire === 2)[0];
-        const errMsg = msgF ? utf8Decode(Array.prototype.slice.call(msgF.bytes)) : "";
-        const code = codeF ? codeF.value : 0;
-        let friendly = errMsg;
-        if (code === 400000) {
-          friendly = "该游戏未绑定（需在App内授权/绑定一次）";
-        } else if (code === 300015) {
-          friendly = "无绑定区服（需在App内绑定角色）";
-        }
-        console.log("[心悦] " + name + " 跳过: code=" + code + " " + friendly);
-        return { name: name, ok: false, msg: friendly, rewards: [] };
-      }
+    const roleBytes = cand && cand.bytes ? Array.prototype.slice.call(cand.bytes) : null;
 
-    // 从角色对象里读出可读信息，便于日志确认
+    if (!roleBytes) {
+      const codeF = top.filter((x) => x.field === 1 && x.wire === 0)[0];
+      const msgF = top.filter((x) => x.field === 2 && x.wire === 2)[0];
+      const code = codeF ? codeF.value : 0;
+      const errMsg = msgF ? utf8Decode(Array.prototype.slice.call(msgF.bytes)) : "";
+      let friendly = errMsg;
+      if (code === 400000) friendly = "该游戏未绑定（需在App内授权一次）";
+      else if (code === 300015) friendly = "无绑定区服（需在App内绑定角色）";
+      console.log("[心悦] " + name + " 跳过: code=" + code + " " + friendly);
+      return { name: name, ok: false, msg: friendly, rewards: [] };
+    }
+
+    // 读出角色信息用于日志
     const rf = pbParse(roleBytes);
     const pickStr = (n) => {
       const x = rf.filter((y) => y.field === n && y.wire === 2)[0];
       return x && x.bytes ? utf8Decode(Array.prototype.slice.call(x.bytes)) : "";
     };
-    const zoneB64 = pickStr(6);
-    const nameB64 = pickStr(8);
-    let zone = zoneB64;
-    let roleName = nameB64;
+    let zone = pickStr(6);
+    let roleName = pickStr(8);
     try {
-      zone = base64Decode(zoneB64) || zoneB64;
-      roleName = base64Decode(nameB64) || nameB64;
+      zone = base64Decode(zone) || zone;
+      roleName = base64Decode(roleName) || roleName;
     } catch (e) {
-      // 保留原文
+      // 保留原值
     }
     console.log("[心悦] " + name + " 找到角色: " + roleName + "（" + zone + "）");
 
-    // 2. 绑定
-    const bindBody = buildBindBody(gid, roleBytes);
-    const br = await postOnce(C.bindRole, bindBody, headers);
+    // 2. PassCard 绑定（真正建立礼包侧绑定）
+    const bindBody = buildPassCardBindBody(gid, roleBytes);
+    console.log("[心悦] " + name + " 调用 PassCardBindGameRoleV2，请求体 " + bindBody.length + " 字节");
+    const br = await postOnce(C.passCardBind, bindBody, headers);
     if (br.error) {
       console.log("[心悦] " + name + " 绑定请求失败: " + br.error);
       return { name: name, ok: false, msg: "绑定请求失败: " + br.error, rewards: [] };
     }
-    // 实测成功时响应体为空
-    const bodyLen = br.bytes ? br.bytes.length : 0;
-    if (bodyLen === 0) {
-      console.log("[心悦] " + name + " 绑定成功（空响应）");
-      return { name: name, ok: true, msg: "已绑定 " + roleName, rewards: [] };
+    console.log("[心悦] " + name + " 绑定响应 HTTP " + br.status + "，" + (br.bytes ? br.bytes.length : 0) + " 字节");
+
+    // 3. GetPassCardV2 校验
+    const qr = await postOnce(C.passCardQuery, [], headers);
+    if (!qr.error) {
+      console.log("[心悦] " + name + " 通行证校验 HTTP " + qr.status + "，" + (qr.bytes ? qr.bytes.length : 0) + " 字节");
     }
-    const c = classify(br.status, br.text);
-    console.log("[心悦] " + name + " 绑定额外响应: " + c.msg);
-    return { name: name, ok: true, msg: "绑定返回: " + c.msg + "（角色 " + roleName + "）", rewards: [] };
+
+    return { name: name, ok: true, msg: "已绑定 " + roleName + "（" + zone + "）", rewards: [] };
   } catch (e) {
     console.log("[心悦] " + name + " 异常: " + e);
     return { name: name, ok: false, msg: "绑定异常: " + e, rewards: [] };
