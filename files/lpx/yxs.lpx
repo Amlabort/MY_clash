@@ -17,6 +17,7 @@ request if ${url} ~= /^https:\/\/ssr\.gamecenter\.qq\.com\/kuikly-msr\/v1\/cgi-b
 
 # QQ游戏中心领取
 cron "2 0 * * *" then script("https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/qqgame.js") with tag="QQ游戏中心领取", timeout=120
+cron "0 12 * * *" then script("https://raw.githubusercontent.com/Amlabort/MY_clash/refs/heads/main/files/lpx/js/qqgame.js") with tag="QQ游戏中心领取(中午)", timeout=120
 
 [Mitm]
 hostname = bgw.xinyue.qq.com, ssr.gamecenter.qq.com
