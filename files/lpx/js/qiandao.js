@@ -54,13 +54,16 @@ const DEFAULTS = {
   interval: 1200,
   // 单个任务重试次数（遇到"网络繁忙"时）
   retries: 2,
-  // ===== 角色绑定（解决"每天需重新绑定"问题）=====
+  // ===== 角色绑定 =====
+  // 说明：BindRole 虽然调用成功（空响应），但实测会导致 App 侧出现
+  //      “您的绑定信息已过期，请重新绑定角色”，因此默认关闭。
+  //      如需启用，把 enableBind 改成 true，并自行承担风险。
   // 角色列表接口：返回最近绑定的角色
   roleList: "https://bgw.xinyue.qq.com/amp2.RoleSrv/GetRecentRoleList",
   // 绑定接口
   bindRole: "https://bgw.xinyue.qq.com/amp2.RoleSrv/BindRole",
-  // 是否在领取前自动绑定角色
-  enableBind: true,
+  // 是否在领取前自动绑定角色（默认关闭）
+  enableBind: false,
   // 角色列表请求体中的渠道标识
   bindChannel: "xinyue",
   // 请求体固定尾字段（实测值）
